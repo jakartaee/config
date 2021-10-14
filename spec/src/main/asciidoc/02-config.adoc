@@ -1,0 +1,16 @@
+= Jakarta Config Specification
+
+== Introduction
+
+=== Status
+
+=== Goals
+
+=== Non-Goals
+
+=== Conventions
+
+=== Terminology
+
+=== Acknowledgements
+

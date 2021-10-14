@@ -1,0 +1,50 @@
+name: Jakarta Config Build
+
+on:
+    push:
+        paths-ignore:
+            - 'editorconfig'
+            - '.gitattributes'
+            - '.gitignore'
+            - 'CONTRIBUTING*'
+            - 'CODEOWNERS'
+            - 'KEYS'
+            - 'LICENSE'
+            - 'NOTICE'
+            - 'README*'
+            - 'site.yaml'
+    pull_request:
+        paths-ignore:
+            - 'editorconfig'
+            - '.gitattributes'
+            - '.gitignore'
+            - 'CONTRIBUTING*'
+            - 'CODEOWNERS'
+            - 'KEYS'
+            - 'LICENSE'
+            - 'NOTICE'
+            - 'README*'
+            - 'site.yaml'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                java: [ 11, 17 ]
+        name: build with jdk ${{matrix.java}}
+
+        steps:
+            -   uses: actions/checkout@v2.3.4
+                name: checkout
+                with:
+                    ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+            -   uses: actions/setup-java@v2
+                name: set up jdk ${{matrix.java}}
+                with:
+                    distribution: adopt
+                    java-version: ${{matrix.java}}
+
+            -   name: build with maven
+                run: mvn -ntp install
