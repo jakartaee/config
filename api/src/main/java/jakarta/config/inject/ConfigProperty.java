@@ -44,7 +44,7 @@ import static java.lang.annotation.ElementType.TYPE;
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 @Documented
 public @interface ConfigProperty {
-    String UNCONFIGURED_VALUE = "jakarta.config.configproperty.unconfigureddvalue";
+    String UNCONFIGURED_VALUE = "jakarta.config.configproperty.unconfiguredvalue";
 
     /**
      * The key of the config property used to look up the configuration value.
