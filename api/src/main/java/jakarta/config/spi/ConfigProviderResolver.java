@@ -118,9 +118,9 @@ public abstract class ConfigProviderResolver {
         return instance;
     }
 
-    private static ConfigProviderResolver loadSpi(ClassLoader cl) {
+    private static ConfigProviderResolver loadSpi(ClassLoader classLoader) {
         ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(
-            ConfigProviderResolver.class, cl);
+            ConfigProviderResolver.class, classLoader);
         final Iterator<ConfigProviderResolver> iterator = sl.iterator();
         if (iterator.hasNext()) {
             return iterator.next();
