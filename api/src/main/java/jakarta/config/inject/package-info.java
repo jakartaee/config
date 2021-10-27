@@ -19,5 +19,7 @@
 
 /**
  * Jakarta Config annotations to be used with a dependency injection engine, such as CDI.
+ *
+ * TODO: This javadoc must be expanded to show usage, what can be injected etc.
  */
 package jakarta.config.inject;

@@ -38,6 +38,7 @@ import static java.lang.annotation.ElementType.TYPE;
  *     <li>Field - injects the field, if a converter exists for {@code String -> field type}, default value can be defined</li>
  *     <li>Parameter - same as injection to a field</li>
  * </ul>
+ * TODO: This javadoc must be expanded to show usage, what can be injected etc.
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)

@@ -19,5 +19,7 @@
 
 /**
  * Jakarta Config.
+ *
+ * TODO: We should add intro how config is created once API is clarified
  */
 package jakarta.config;

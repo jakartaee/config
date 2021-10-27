@@ -29,7 +29,7 @@ import jakarta.config.spi.ConfigProviderResolver;
  * The default usage is to use {@link #getConfig()} to automatically pick up the <em>configuration</em> for the current
  * thread's {@linkplain Thread#getContextClassLoader() context class loader}.
  * <p>
- *
+ * TODO: We should add intro how config is created once API is clarified
  * <p>
  * For more advanced use cases (e.g. registering a manually created {@link Config} instance), please see
  * {@link ConfigProviderResolver#registerConfig(Config, ClassLoader)} and {@link ConfigProviderResolver#getBuilder()}.

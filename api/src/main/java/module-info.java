@@ -19,6 +19,8 @@
 
 /**
  * Jakarta Config.
+ *
+ * TODO: We should add intro how config is created once API is clarified
  */
 module jakarta.config.api {
     requires jakarta.annotation;

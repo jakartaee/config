@@ -20,6 +20,8 @@ package jakarta.config.spi;
 
 /**
  * A <em>configuration source</em> which provides configuration values from a specific place.
+ *
+ * TODO: This javadoc must be expanded once the API is clarified
  */
 public interface ConfigSource {
     /**

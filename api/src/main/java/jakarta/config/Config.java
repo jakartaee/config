@@ -25,6 +25,8 @@ import jakarta.config.spi.Converter;
 
 /**
  * Access to configuration values.
+ *
+ * TODO: This javadoc must be expanded once the API is clarified
  */
 public interface Config {
     /**
@@ -51,22 +53,4 @@ public interface Config {
      *         type
      */
     <T> Optional<Converter<T>> getConverter(Class<T> forType);
-
-    /**
-     * Returns an instance of the specific class, to allow access to the provider specific API.
-     * <p>
-     * If the MP Config provider implementation does not support the specified class, a {@link IllegalArgumentException}
-     * is thrown.
-     * <p>
-     * Unwrapping to the provider specific API may lead to non-portable behaviour.
-     *
-     * @param type
-     *            Class representing the type to unwrap to
-     * @param <T>
-     *            The type to unwrap to
-     * @return An instance of the given type
-     * @throws IllegalArgumentException
-     *             If the current provider does not support unwrapping to the given type
-     */
-    <T> T unwrap(Class<T> type);
 }
