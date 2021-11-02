@@ -71,6 +71,6 @@ public final class ConfigProvider {
      * @return the configuration instance for the given class loader
      */
     public static Config getConfig(ClassLoader loader) {
-        return ConfigProviderResolver.instance().getConfig(cl);
+        return ConfigProviderResolver.instance().getConfig(loader);
     }
 }
