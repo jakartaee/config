@@ -70,7 +70,7 @@ public final class ConfigProvider {
      *            the Classloader used to register the configuration instance
      * @return the configuration instance for the given class loader
      */
-    public static Config getConfig(ClassLoader cl) {
+    public static Config getConfig(ClassLoader loader) {
         return ConfigProviderResolver.instance().getConfig(cl);
     }
 }
