@@ -18,6 +18,8 @@
  */
 package jakarta.config.spi;
 
+import jakarta.config.Config;
+
 /**
  * A mechanism for converting configured values from {@link String} to any Java type.
  *
@@ -129,16 +131,16 @@ package jakarta.config.spi;
  */
 public interface Converter<T> {
     /**
-     * Convert the given string value to a specified type. Callers <em>must not</em> pass in {@code null} for
+     * Convert the given config node to a specified type. Callers <em>must not</em> pass in {@code null} for
      * {@code value}; doing so may result in a {@code NullPointerException} being thrown.
      *
-     * @param value
-     *            the string representation of a property value (must not be {@code null})
-     * @return the converted value, or {@code null} if the value is empty
+     * @param node
+     *            the config node to convert (must not be {@code null})
+     * @return the converted value, may be {@code null} to represent a missing value
      * @throws IllegalArgumentException
      *             if the value cannot be converted to the specified type
      * @throws NullPointerException
      *             if the given value was {@code null}
      */
-    T convert(String value) throws IllegalArgumentException, NullPointerException;
+    T convert(Config node) throws IllegalArgumentException, NullPointerException;
 }
