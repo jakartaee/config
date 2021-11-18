@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import jakarta.config.Config;
-import jakarta.config.ConfigValue;
 import jakarta.config.spi.ConfigProviderResolver;
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.StringConverter;
@@ -13,7 +12,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -48,16 +46,6 @@ public class ConfigResolverTest {
         Config portNode = serverNode.get("port");
         assertThat(portNode.asString(), is(Optional.of("7001")));
         assertThat(portNode.asInt(), is(Optional.of(7001)));
-
-        Optional<ConfigValue> configValueOpt = serverNode.get("name").getConfigValue();
-        assertThat(configValueOpt, not(Optional.empty()));
-
-        ConfigValue configValue = configValueOpt.get();
-
-        assertThat(configValue.getKey(), is("server.name"));
-        assertThat(configValue.getRawValue(), is("${name}"));
-        assertThat(configValue.getValue(), is("TckTest"));
-        assertThat(configValue.getSourceName(), is("TCK"));
     }
 
     private static class TestConfigSource implements ConfigSource {

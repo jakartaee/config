@@ -91,14 +91,6 @@ public interface Config {
      */
     Optional<String> asString();
 
-    /**
-     * Config value associated with this tree node (if any).
-     * If this node represents a value obtained from a config source, this method must return a non-empty value.
-     *
-     * @return config value of this node, or empty if this node does not represent a direct value
-     */
-    Optional<ConfigValue> getConfigValue();
-
     /*
      * Shortcut helper methods
      */
