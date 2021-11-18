@@ -6,7 +6,6 @@ import java.util.Set;
 
 import jakarta.config.Config;
 import jakarta.config.ConfigValue;
-import jakarta.config.ReservedKeys;
 import jakarta.config.spi.ConfigProviderResolver;
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.StringConverter;
@@ -59,12 +58,10 @@ public class ConfigResolverTest {
         assertThat(configValue.getRawValue(), is("${name}"));
         assertThat(configValue.getValue(), is("TckTest"));
         assertThat(configValue.getSourceName(), is("TCK"));
-        assertThat(configValue.getSourcePriority(), is(542));
     }
 
     private static class TestConfigSource implements ConfigSource {
-        private final Map<String, String> values = Map.of(ReservedKeys.SOURCE_PRIORITY, "542",
-                                                          "name", "TckTest",
+        private final Map<String, String> values = Map.of("name", "TckTest",
                                                           "server", "value",
                                                           "server.host", "localhost",
                                                           "server.port", "7001",
@@ -108,6 +105,5 @@ public class ConfigResolverTest {
             this.value = value;
         }
     }
-
 
 }
