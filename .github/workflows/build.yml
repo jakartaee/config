@@ -3,7 +3,6 @@ name: Jakarta Config Build
 on:
     push:
         paths-ignore:
-            - 'editorconfig'
             - '.gitattributes'
             - '.gitignore'
             - 'CONTRIBUTING*'
@@ -13,7 +12,6 @@ on:
             - 'README*'
     pull_request:
         paths-ignore:
-            - 'editorconfig'
             - '.gitattributes'
             - '.gitignore'
             - 'CONTRIBUTING*'
