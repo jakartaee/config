@@ -7,24 +7,20 @@ on:
             - '.gitattributes'
             - '.gitignore'
             - 'CONTRIBUTING*'
-            - 'CODEOWNERS'
             - 'KEYS'
             - 'LICENSE'
             - 'NOTICE'
             - 'README*'
-            - 'site.yaml'
     pull_request:
         paths-ignore:
             - 'editorconfig'
             - '.gitattributes'
             - '.gitignore'
             - 'CONTRIBUTING*'
-            - 'CODEOWNERS'
             - 'KEYS'
             - 'LICENSE'
             - 'NOTICE'
             - 'README*'
-            - 'site.yaml'
 
 jobs:
     build:
@@ -40,11 +36,12 @@ jobs:
                 with:
                     ref: ${{ github.event.pull_request.merge_commit_sha }}
 
-            -   uses: actions/setup-java@v2
+            -   uses: actions/setup-java@v2.3.1
                 name: set up jdk ${{matrix.java}}
                 with:
-                    distribution: adopt
+                    distribution: 'temurin'
                     java-version: ${{matrix.java}}
+                    cache: 'maven'
 
-            -   name: build with maven
-                run: mvn -ntp install
+            - name: build with maven
+              run: mvn --batch-mode --no-transfer-progress --show-version --errors install
