@@ -18,8 +18,11 @@
  */
 package jakarta.config;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+
+import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.Converter;
 
 /**
  * Access to configuration values.
@@ -27,6 +30,20 @@ import java.util.function.Function;
  * TODO: This javadoc must be expanded once the API is clarified
  */
 public interface Config {
+    /**
+     * A convenience method to get any typed (sub) key of this configuration node.
+     *
+     * @param key key relative to current node
+     * @param type class of the configuration option
+     * @param <T> type of the configuration option
+     * @return typed configuration option if defined, empty {@link java.util.Optional} otherwise
+     *
+     * @see #get(String)
+     * @see #as(Class)
+     */
+    default <T> Optional<T> getValue(String key, Class<T> type) {
+        return get(key).as(type);
+    }
     /**
      * Context related to the root configuration instance.
      *
@@ -49,7 +66,7 @@ public interface Config {
      *
      * @return name of this node
      */
-    String getName();
+    String getNodeName();
 
     /**
      * Single sub-node for the specified sub-key.
@@ -72,7 +89,7 @@ public interface Config {
      * @return converted value of this node, or an empty optional if this node does not exist
      * @throws java.lang.IllegalArgumentException if this config node cannot be converted to the desired type
      */
-    <T> Optional<T> as(Function<Config, T> converter);
+    <T> Optional<T> as(Converter<T> converter);
 
     /**
      * Typed value created using a discovered/built-in converter.
@@ -91,10 +108,45 @@ public interface Config {
      */
     Optional<String> asString();
 
-    /*
-     * Shortcut helper methods
+    /**
+     * Get a list of sub-nodes of this configuration node correctly typed.
+     *
+     * @param type type to convert nodes to, {@link jakarta.config.Config} is a possible type to use
+     * @param <T> type of the list elements
+     * @return typed list of configuration options, or empty {@link java.util.Optional} if there are no children
+     *          or if this node does not have value
      */
-    default Optional<Integer> asInt() {
-        return as(Integer.class);
+    <T> Optional<List<T>> asList(Class<T> type);
+
+    /**
+     * Metadata related to a config instance.
+     *
+     * @author <a href="mailto:tomas.langer@oracle.com">Tomáš Langer</a>
+     */
+    interface ConfigContext {
+        /**
+         * Return all the currently registered {@link jakarta.config.spi.ConfigSource sources} for this configuration.
+         * <p>
+         * The returned sources will be sorted by priority and name, which can be iterated in a thread-safe
+         * manner. The {@link Iterable Iterable} contains a fixed number of {@link jakarta.config.spi.ConfigSource
+         * configuration
+         * sources}, determined at application start time, and the config sources themselves may be static or dynamic.
+         *
+         * @return the configuration sources
+         */
+        Iterable<ConfigSource> getConfigSources();
+
+        /**
+         * Return the {@link jakarta.config.spi.Converter} used by this instance to produce instances of the specified type from
+         * string values.
+         *
+         * @param <T>
+         *            the conversion type
+         * @param forType
+         *            the type to be produced by the converter
+         * @return an {@link java.util.Optional} containing the converter, or empty if no converter is available for the specified
+         *         type
+         */
+        <T> Optional<Converter<T>> getConverter(Class<T> forType);
     }
 }

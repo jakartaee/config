@@ -7,7 +7,6 @@ import java.util.Set;
 import jakarta.config.Config;
 import jakarta.config.spi.ConfigProviderResolver;
 import jakarta.config.spi.ConfigSource;
-import jakarta.config.spi.StringConverter;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,12 +39,11 @@ public class ConfigResolverTest {
         assertThat(hostNode.asString(), is(Optional.of("localhost")));
         hostNode = config.get("server.host");
         assertThat(hostNode.asString(), is(Optional.of("localhost")));
-        assertThat(hostNode.getName(), is("host"));
+        assertThat(hostNode.getNodeName(), is("host"));
         assertThat(hostNode.getKey(), is("server.host"));
 
         Config portNode = serverNode.get("port");
         assertThat(portNode.asString(), is(Optional.of("7001")));
-        assertThat(portNode.asInt(), is(Optional.of(7001)));
     }
 
     private static class TestConfigSource implements ConfigSource {

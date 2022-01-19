@@ -16,9 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jakarta.config.spi;
+package jakarta.config.tck.programmatic;
 
 import jakarta.config.Config;
+import jakarta.config.spi.Converter;
 
 /**
  * A mechanism for converting configured values from {@link String} to any Java type.
