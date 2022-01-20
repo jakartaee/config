@@ -66,7 +66,7 @@ public final class ConfigProvider {
      * <p>
      * Each class loader corresponds to exactly one configuration.
      *
-     * @param cl
+     * @param loader
      *            the Classloader used to register the configuration instance
      * @return the configuration instance for the given class loader
      */
