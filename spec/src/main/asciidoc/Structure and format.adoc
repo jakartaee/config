@@ -1,0 +1,81 @@
+== Structure and format
+
+=== Terms
+
+.Terms and definitions
+Configuration:: An optional _top-level value_, with a collection of zero or more nested _configuration entries_ (organized by _configuration key_).
+  Also informally known as a "configuration tree node" or "configuration node".
+  A configuration with no value and no nested entries is considered to be an _empty configuration_.
+
+Configuration entry:: An _configuration key_ and _configuration value_ combination.
+
+Configuration key:: A non-empty string which uniquely identifies a configuration entry within a single nesting level of a configuration.
+  A configuration key *must not* contain embedded newlines or other control characters.
+  A configuration key string *must* be normalized using https://www.unicode.org/reports/tr15/#Norm_Forms)[Unicode Normalization Form C (NFC)].
+
+Configuration path:: A sequence of _configuration keys_ which uniquely identify a descendant _configuration entry_ within a configuration, at an arbitrary level of nesting.
+  Each configuration key within the sequence identifies one level of nested configuration.
+
+Configuration source:: A provider of configuration data in _raw value_ form. [TODO: high level structure of config sources, ordering etc]
+
+Configuration value:: An object which is stored within a _configuration_ and is accessible at the _configuration path_ which corresponds to that _configuration_.
+
+Empty configuration:: A configuration which has no _top-level value_ and zero nested _configuration entries_.
+
+Raw value:: A _configuration value_ in its uncoverted (string) form.
+
+Root:: The _configuration_ which is identified by a empty (zero-length) _configuration path_.
+  Every _configuration_ is its own _root_ when considered in isolation.
+
+Top-level value:: A _configuration value_ which resides at the _root_ of a _configuration_.
+
+== Standard mapping formats
+
+
+
+=== Mapping to `properties` format
+
+The `properties` file format corresponds to a text file in a format that is loadable by `java.util.Properties`.
+Note that `properties` files recognized by this specification *must* be encoded using the UTF-8 character encoding.
+Each key in the `properties` file is treated as a _configuration path_, with dot (`.`) characters acting as separators between the individual component _configuration keys_.
+
+==== Property key encoding
+
+Since an individual _configuration key_ may contain a dot (`.`) character, using a `.` character to separate `property` keys into a _configuration path_ poses a problem.
+Because of this, an encoding scheme should be used when dealing with keys that contain `.` characters.
+
+When properties are loaded from a `properties` file or from the system `properties` map, each encountered key is transformed into a _configuration path_ as follows:
+
+* Any backslash (`\`) character found in the `property` key is considered to be an _escape_ for the next character
+* Any character which is immediately preceded by an _escape_ is added to the configuration key verbatim
+* Any dot (`.`) character which is _not_ immediately preceded by an _escape_ marks a separate _configuration key_ in the _configuration path_
+
+The implementation *must* reject `properties` files or sets which contain a key that ends with an _escape_ backslash (`\`).
+
+*Note:* The `properties` format also escapes backslashes, so when looking inside a `properties` file, a dot (`.`) which is embedded within a configuration key will appear to be encoded as `\\.`, and a backslash (`\`) which is embedded within a configuration key will appear to be encoded as `\\\\`.
+
+The encoded property name is then looked up in the corresponding `properties` file, and the corresponding value (if any) is used as the _raw value_ for that configuration key.
+
+==== TODO: List key encoding per previous discussions
+
+==== TODO: Value encoding (esp. lists, complex types, cross-references, etc.)
+
+The `properties` value string is used as the _raw_ value of the corresponding configuration.
+[...etc...]
+
+=== Mapping to YAML format
+
+The YAML file format is defined by https://yaml.org/spec/1.2.2/[a specification].
+A YAML file is recognized as a configuration source by this specification, according to the following rules:
+
+* A _configuration entry_ corresponds to a YAML https://yaml.org/spec/1.2.2/#mapping[mapping], with the _mapping key_ being used as the _configuration key_ and the _mapping value_ as the nested _configuration_.
+* TODO: YAML sequences are lists...
+* The _raw value_ for a given _configuration_ is produced by creating a _canonical representation_ of the scalar value of the property, mapped according to the YAML _tag_ of the value:
+    * TODO: lists again...?
+    * A value which has a YAML _tag_ of `tag:yaml.org,2002:null` corresponds to a `null` (missing) _raw value_.
+    * A value which has a YAML _tag_ of `tag:yaml.org,2002:str` is directly used as a _raw value_.
+    * A value which has a YAML _tag_ of `tag:yaml.org,2002:bool` is parsed according to the YAML parsing rules for that type; `true` values are then represented as the string `"true"`, and `false` values are represented as the string `"false"`.
+    * TODO: FP types canonical form
+    * TODO: Integer canonical form
+    * TODO: Custom tags for conversion types...?
+    * ...etc...
