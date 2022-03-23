@@ -20,6 +20,7 @@ package jakarta.config;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.Converter;
@@ -117,6 +118,21 @@ public interface Config {
      *          or if this node does not have value
      */
     <T> Optional<List<T>> asList(Class<T> type);
+
+    /**
+     * Register a change consumer for this config node. The consumer would only be called if a change in configuration impacts
+     * the current node or its sub-nodes.
+     * <p>
+     * Example 1: If this node is {@code server.host} and {@code server.host} is modified, the consumer would be triggered,
+     *  in case {@code server.port} is modified, the consumer would not be triggered.
+     * <p>
+     * Example 2: If this node is {@code server} and either {@code server.host} or {@code server.port} is modified, the
+     * consumer would be triggered.
+     *
+     * @param changeConsumer consumer of changes, the config provided to the consumer is the same node as the current node,
+     *                          but with values from the changed config source
+     */
+    void onChange(Consumer<Config> changeConsumer);
 
     /**
      * Metadata related to a config instance.
