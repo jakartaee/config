@@ -56,10 +56,10 @@
         <version.jakarta.annotation>2.0.0</version.jakarta.annotation>
         <version.jakarta.inject>2.0.0</version.jakarta.inject>
         <version.jruby>9.3.4.0</version.jruby>
-        <version.junit>5.8.1</version.junit>
+        <version.junit>5.8.2</version.junit>
         <version.testng>7.4.0</version.testng>
 
-        <version.plugin.compiler>3.8.1</version.plugin.compiler>
+        <version.plugin.compiler>3.10.1</version.plugin.compiler>
         <version.plugin.enforcer>3.0.0</version.plugin.enforcer>
         <version.plugin.asciidoctor>2.2.1</version.plugin.asciidoctor>
     </properties>
