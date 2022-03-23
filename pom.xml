@@ -61,7 +61,7 @@
 
         <version.plugin.compiler>3.10.1</version.plugin.compiler>
         <version.plugin.enforcer>3.0.0</version.plugin.enforcer>
-        <version.plugin.asciidoctor>2.2.1</version.plugin.asciidoctor>
+        <version.plugin.asciidoctor>2.2.2</version.plugin.asciidoctor>
     </properties>
 
     <issueManagement>
