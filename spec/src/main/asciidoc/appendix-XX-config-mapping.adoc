@@ -1,0 +1,51 @@
+= Appendix Config Mapping
+
+The current appendix aims to detail and document the decision-making of the Config Mapping design.
+
+== State of the Art
+
+Some of the most popular frameworks already provide such capability in one way or another:
+
+- https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.external-config.typesafe-configuration-properties[Spring Type Safe Configuration]
+- https://www.dropwizard.io/en/latest/manual/core.html#configuration[Dropwizard POJO]
+- https://guides.micronaut.io/latest/micronaut-configuration-maven-java.html#team-configuration-with-configurationproperties[Micronaut Configuration Bean]
+- https://deltaspike.apache.org/documentation/configuration.html#Interfacebasedconfiguration[DeltaSpike Interface Based Configuration]
+- https://github.com/lightbend/config#configbeanfactory[LightBend Config Bean]
+
+The observed trends were the following:
+
+- Most seem to favour a `class` based approach.
+- Most seem to favour a `prefix` or `namespace` to define the starting configuration path
+- Most seem to favour a convention to construct the remaining configuration path based on the complex type member name
+(with a way to override it)
+- Automatically convert the configuration entry value to fit the complex type member
+- Support container types (`Collections`, `Maps`)
+- Support nested complex types
+
+== Class vs Interface
+
+How to represent a complex object type: a `class` or an `interface`? Or maybe both?
+
+Using a `class` has some downsides:
+
+- Requires an all args constructor or setters to populate fields (or Java Beans property descriptors)
+- Possible `IllegalAccess` errors if `private` fields are supported (without setters)
+- Heavy use of reflection to build the instance
+- Additional rules to handle initialized fields
+- Additional rules to handle primitive types (they already have a default value)
+
+Using an `interface` removes most of these downsides, adding some of their own:
+
+- Needs to backed by a Proxy or some other means to provide an implementation
+- Harder to use standalone
+
+Some Jakarta EE specifications (JPA, JSONB) use POJOs to bind data. While similar, it is not intended for the
+end-user to make modifications directly on the configuration representation. The Config instance will handle any change
+(even with mutability support), so a POJO is not required to support the configuration needs fully.
+
+An `interface` to represent configuration complex types seems to be a better option in this case.
+
+== Records
+
+The specification targets Java 11 language level. For this reason, Java 14 Records do not belong to the specification.
+Implementations are free to support Java Records at their consideration.
