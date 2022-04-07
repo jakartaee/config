@@ -20,7 +20,7 @@ package jakarta.config.spi;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * A <em>configuration source</em> which provides configuration values from a specific place.
@@ -78,22 +78,14 @@ public interface ConfigSource {
     Set<String> getKeys();
 
     /**
-     * Return {@code true} if this config source supports mutability (change of values in time).
-     * This method returns {@code false} by default.
-     *
-     * @return {@code true} for mutable config sources, {@code false} for immutable config sources
-     */
-    default boolean isMutable() {
-        return false;
-    }
-
-    /**
      * Config implementation calls this method to register a consumer of mutated nodes in this source in case of change.
      * The map provided to the consumer must only contain changed keys.
      *
-     * @param changedNodesConsumer consumer of changed nodes (key/value pairs)
+     * @param changedNodesFunction function for changed nodes (key/value pairs), returns whether we are interested in further
+     *                             events ({@code true} to continue receiving change events)
+     * @return whether change support is enabled by this config source, by defaults returns {@code false}
      */
-    default void onChange(Consumer<Map<String, String>> changedNodesConsumer) {
-
+    default boolean onChange(Function<Map<String, String>, Boolean> changedNodesFunction) {
+        return false;
     }
 }
