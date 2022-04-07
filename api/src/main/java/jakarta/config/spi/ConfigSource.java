@@ -82,7 +82,8 @@ public interface ConfigSource {
      * The map provided to the consumer must only contain changed keys.
      *
      * @param changedNodesFunction function for changed nodes (key/value pairs), returns whether we are interested in further
-     *                             events ({@code true} to continue receiving change events)
+     *                             events ({@code true} to continue receiving change events); to remove a node, the binding
+     *                             should contain {@code null} as a value
      * @return whether change support is enabled by this config source, by defaults returns {@code false}
      */
     default boolean onChange(Function<Map<String, String>, Boolean> changedNodesFunction) {
