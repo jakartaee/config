@@ -1,0 +1,90 @@
+= Mutability
+
+Certain config sources support mutation of values in time.
+
+
+Examples of sources that can change values (mutable in following text):
+- File config sources (file overwritten)
+- Database config sources
+- System properties (property changed)
+
+Examples of sources that cannot change values (immutable in following text):
+- Classpath config sources (classpath resources are loaded once)
+- Environment variables
+
+When a mutable config source "mutates", we have the following options:
+
+- ignore the change and use initial values (switching to immutable behavior)
+- accept the change and modify configuration state (details below)
+
+== Scope
+
+=== Goals
+
+- define behavior for mutable config sources
+- define SPI to allow notification of a change in a config source
+- define API to allow notification of a change in config tree
+- define ways to disable mutability features for a specific source
+
+=== Non-goals
+
+- prescribe mutability support for any config source
+- define strategies for change discovery (polling, events)
+
+
+== Specification
+
+=== Behavior of mutable config sources
+
+When config reads the first value from a mutable config source, the config source must ensure that all subsequent values obtained from this source are from the same version of the source.
+
+In case the config source cannot ensure such behavior, behavior will be undefined and atomicity of configuration would be compromised.
+
+Examples:
+- File source could read the whole file, and serve values from memory
+- System properties source could create a copy of the map and serve values from the copy
+
+TODO: we may switch to support reading multiple values from a source at once, which would relax this a bit, but increase complexity of other features
+
+TCK:
+- if file config source is required by spec (e.g. to read jakarta-config.properties from current dir), validate that change to the file will not result in the config changing
+- use system properties config source and validate that a changed system property will not result in the config changing
+- use a custom mutable config source and validate that change will not result in the config changing and that a change would trigger the required events
+
+=== SPI
+
+A config source provides information about its mutability support through an SPI method `ConfigSource.isMutable()`.
+See javadoc for details.
+
+This method exists for optimization of configuration tree, where the config implementation can differentiate sources that are immutable (and in case all sources are immutable, it can use a single tree with no change support).
+
+In addition, for mutable config sources, the method `ConfigSource.onChange(Consumer<Map<String, String>> changedNodesConsumer)` would be called by config implementation to receive mutations.
+
+TODO: we may switch from Map to a TreeNode API once we finalize tree support in config sources (and if we decide to use tree structure instead of flat structure on config source SPI).
+
+=== API
+
+Config provides change support to user through method `Config.onChange(Consumer<Config> changeConsumer)`.
+
+The config implementation must call the method with updated values provided from the mutated config source.
+The config implementation must invoke such methods only after all changed keys from a config source are processed (to provide atomicity of changes as long as they come from a single config source).
+
+The config implementation must compare the whole (known) tree for changes, to ensure references are correctly notified as well (in case user listens on changes for `server.host` that has value set to `${my-host}` and key `my-host` is modified, change listeners for `server.host` must be triggered).
+
+```
+   Config server = config.get("server");
+   server.onChange(it -> changeServer(it));
+```
+
+When in an environment that supports injection and managed beans (such as CDI), the behavior of the `onChange` method is undefined and may have unexpected side effects.
+Other means of delivering events should be used in such environments (will be specified in CDI integration section of Config specification).
+
+TODO: add a section to CDI integration:
+- we need a new event - this must be defined in a way that will NOT introduce dependency on CDI specification - programmatic API is forbidden in CDI for change handling (implications on threads used, and problematic lifecycle of beans, e.g. when `@RequestScoped` bean would call method
+`onChange`, it would be delivered outside of the scope
+
+=== Controlling mutability of a source
+
+The following configuration keys must be honored by mutable sources if defined in that source:
+
+- `jakarta.config.mutable`, boolean - if set to `false`, this source must be immutable even if the `ConfigSource` supports mutability; setting value to `true` should have no impact on `ConifgSource` behavior (e.g. if it is mutable, the result would be mutable, if it is immutable, the result would still be immutable)

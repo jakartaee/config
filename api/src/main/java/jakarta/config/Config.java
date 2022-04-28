@@ -18,8 +18,10 @@
  */
 package jakarta.config;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.Converter;
@@ -117,6 +119,24 @@ public interface Config {
      *          or if this node does not have value
      */
     <T> Optional<List<T>> asList(Class<T> type);
+
+    /**
+     * Register a change consumer for this config node. The consumer would only be called if a change in configuration impacts
+     * the current node or its sub-nodes.
+     * <p>
+     * Example 1: If this node is {@code server.host} and {@code server.host} is modified, the consumer would be triggered,
+     * in case {@code server.port} is modified, the consumer would not be triggered.
+     * <p>
+     * Example 2: If this node is {@code server} and either {@code server.host} or {@code server.port} is modified, the
+     * consumer would be triggered.
+     *
+     * @param changeConsumer processor of changes, the config provided to the function is the same node as the current node,
+     *                       but with values from the changed config source, the collection provided is the set of node
+     *                       names that were modified (if this node is {@code server} and {@code server.host} was modified,
+     *                       the set would contain the String {@code host}; the function returns {@code true} if further
+     *                       events should be delivered, {@code false} to stop receiving change events
+     */
+    void onChange(BiFunction<Config, Collection<String>, Boolean> changeConsumer);
 
     /**
      * Metadata related to a config instance.
