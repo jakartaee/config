@@ -71,6 +71,13 @@ The config implementation must invoke such methods only after all changed keys f
 
 The config implementation must compare the whole (known) tree for changes, to ensure references are correctly notified as well (in case user listens on changes for `server.host` that has value set to `${my-host}` and key `my-host` is modified, change listeners for `server.host` must be triggered).
 
+The config implementation must ensure the change consumer is called for each configuration change that occurs after the method `onChange` is called.
+Call to `onChange` method will invoke the `changeConsumer` each time the configuration node (or its sub-node) is changed after the invocation.
+
+Whether changes that occurred prior to the call of `onChange` method are delivered is left to the implementation.
+Whether a single change event is delivered or multiple change events are delivered for a sequence of changes is left to the implementation, it must guarantee the order of changes is correct.
+(We may skip change "3" if change "4" is considered immediate by the implementation, but change "4" must be delivered after change "2", to ensure the last event delivers the current valid configuration value).
+
 ```
    Config server = config.get("server");
    server.onChange(it -> changeServer(it));

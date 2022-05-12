@@ -129,6 +129,10 @@ public interface Config {
      * <p>
      * Example 2: If this node is {@code server} and either {@code server.host} or {@code server.port} is modified, the
      * consumer would be triggered.
+     * <p>
+     * Change consumer is retained by configuration regardless of changes in the underlying sources. Invoking this method
+     * on a different instance of config (including a new version of this config instance) will result in duplicate change
+     * events delivered to the change consumer.
      *
      * @param changeConsumer processor of changes, the config provided to the function is the same node as the current node,
      *                       but with values from the changed config source, the collection provided is the set of node
