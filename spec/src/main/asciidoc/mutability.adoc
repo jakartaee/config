@@ -76,7 +76,10 @@ Call to `onChange` method will invoke the `changeConsumer` each time the configu
 
 Whether changes that occurred prior to the call of `onChange` method are delivered is left to the implementation.
 Whether a single change event is delivered or multiple change events are delivered for a sequence of changes is left to the implementation, it must guarantee the order of changes is correct.
-(We may skip change "3" if change "4" is considered immediate by the implementation, but change "4" must be delivered after change "2", to ensure the last event delivers the current valid configuration value).
+(implementation may skip interim changes, but last change must be always delivered, to ensure the last event delivers the current valid configuration value(s)).
+
+In case the change consumer throws an exception, implementation must retain the consumer.
+Implementation may attempt to notify the user through a log statement or similar mechanism.
 
 ```
    Config server = config.get("server");
