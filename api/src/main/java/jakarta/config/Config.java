@@ -129,12 +129,19 @@ public interface Config {
      * <p>
      * Example 2: If this node is {@code server} and either {@code server.host} or {@code server.port} is modified, the
      * consumer would be triggered.
+     * <p>
+     * Change consumer is retained by configuration regardless of changes in the underlying sources. Invoking this method
+     * on a different instance of config (including a new version of this config instance) will result in duplicate change
+     * events delivered to the change consumer.
      *
      * @param changeConsumer processor of changes, the config provided to the function is the same node as the current node,
      *                       but with values from the changed config source, the collection provided is the set of node
      *                       names that were modified (if this node is {@code server} and {@code server.host} was modified,
      *                       the set would contain the String {@code host}; the function returns {@code true} if further
-     *                       events should be delivered, {@code false} to stop receiving change events
+     *                       events should be delivered, {@code false} to stop receiving change events; in case an exception
+     *                       is thrown from the processor, the subscription is retained and further changes will be sent to
+     *                       the processor
+     * @throws java.lang.NullPointerException in case the changeConsumer is null
      */
     void onChange(BiFunction<Config, Collection<String>, Boolean> changeConsumer);
 
