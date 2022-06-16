@@ -1,7 +1,7 @@
 = Property Expression
 
 The property expression is in the format of ${a.property}. When resoving the property expression, the value of `a.property` will be used.
-With the property expression, it enables a property refer to another property.
+With the property expression, it enables a property refer to another property. The property evaluation should occur within the scope of the Config object. 
 
 == An example
 
@@ -9,42 +9,13 @@ Consider the following example:
 
 [source,properties]
 ----
-server.url=http://${server.host}:${server.port}/hello
+server.url=http://${server.host}:9080/hello
 server.host=my.org
-server.port=9080
 ----
 
 When looking up `server.url`, the property value will be resoved to `http://my.org:9080/hello`.
 
-== Nested property expression
-
-The property expression can be nested such as the following:
-
-[source,properties]
-----
-server.url=http://${${foo}.${bar}}/hello
-foo=wonder
-bar=how
-wonder.how=nested
-----
-When looking up `server.url`, the property value will be resoved to `http://nested/hello`.
-
-On resolving the nested expression, the inner property expression must be performed first.
-
-== Assign a default value to property expression
-
-Sometimes, the property expression cannot be resolved due to the unexisting config property. 
-Therefore, it is useful to supply a default value for the configuration expression in the format of `${a.property:value}`. The value after `:` will be the default value.
-
-[source,properties]
-----
-server.url=http://${hostname:localhost}:${port:9080}/hello
-----
-
-On resolving `server.url`, since the properties `hostname` and `port` are not defined, the supplied default values will be used. 
-The value of `server.url` will be `http://localhost:9080/hello`.
-
-== Miscellaneous
+Nested property expression, such as ${item[${i}]}, are illegal.
 
 A property expression might lead to infinite look by refering to itself. The implementation must detect this and report an error.
 In the following example, `hostname` refers to itself and creates an indefinite loop. The implementation must be able to exit the evaluation and report an error.
@@ -54,23 +25,29 @@ In the following example, `hostname` refers to itself and creates an indefinite 
 server.url=http://${hostname}:${port}/hello
 hostname=${hostname}
 ----
+== Literal expression
 
-Sometimes, a configuration value might contain ${...} but wants to bypass the property expansion. In order to escape the property expansion, a `\` should be used to preserve the value of `${...}`.
-
-In the following example, the value of `server.url` will be `http://${hostname}:${port}/hello`.
+A literal-expression does not use the ${expr} constructs, and simply evaluates to the text of the expression, of type String. 
+In more details, a configuration value might contain ${...} but wants to bypass the property expansion. The escape characters `\$` can be used to escape what would otherwise be treated as a property expression. Given the literal-expressions:
+    `\${exprA}` 
 
 [source,properties]
 ----
 server.url=http://\${hostname}:\${port}/hello
-hostname=${hostname}
+hostname=myhost
 ----
+In the above example, the value of `server.url` will be `http://${hostname}:${port}/hello`.
 
-Similarly, sometimes `:` is part of a property expression. In order to preserv `:`, `\` will also be used to preserve the `:` instead of treating it as the default value delimiter.
+== Composite expressions
 
-In the following example, the value of `server.url` will be `http://my.host:9080/hello`, as `${my\:host}` is resolved to the value of the property `my:host`.
+With composite expressions, config expressions are evaluated from left to right, coerced to Strings, and concatenated with any intervening literal-expressions.
+
+For example, the composite expression "${hostname}:${port}" is composed of three parts: config expression "${hostname}", literal-expression ":", and config expression "${port}".
 
 [source,properties]
 ----
-server.url=http://${my\:host}:9080/hello
-my:host=my.host
+server.url=http://${hostname}:${port}/hello
+hostname=localhost
+port=9080
 ----
+In the above example, the value of `server.url` will be `http://localhost:9080/hello`.
