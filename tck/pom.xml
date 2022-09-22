@@ -32,33 +32,6 @@
     <name>Jakarta Config TCK</name>
     <description>Jakarta Config :: TCK</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>jakarta.config</groupId>
-            <artifactId>jakarta.config-api</artifactId>
-            <scope>provided</scope>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.inject</groupId>
-            <artifactId>jakarta.inject-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.testng</groupId>
-            <artifactId>arquillian-testng-container</artifactId>
-        </dependency>
-    </dependencies>
+    
 
 </project>
