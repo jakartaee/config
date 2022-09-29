@@ -23,12 +23,5 @@
  * TODO: We should add intro how config is created once API is clarified
  */
 module jakarta.config.api {
-    requires jakarta.annotation;
-    requires static jakarta.inject;
-
-    exports jakarta.config;
-    exports jakarta.config.inject;
-    exports jakarta.config.spi;
-
-    uses jakarta.config.spi.ConfigProviderResolver;
-}
+    
+    }
