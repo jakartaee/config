@@ -49,7 +49,7 @@
 
         <version.java>11</version.java>
 
-        <version.arquillian>1.7.0.Alpha12</version.arquillian>
+        <version.arquillian>1.7.0.Alpha13</version.arquillian>
         <version.asciidoctorj>2.5.3</version.asciidoctorj>
         <version.asciidoctorj.pdf>2.3.0</version.asciidoctorj.pdf>
         <version.hamcrest>1.3</version.hamcrest>
