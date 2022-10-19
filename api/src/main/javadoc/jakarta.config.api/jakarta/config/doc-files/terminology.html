@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Terminology</title>
+  </head>
+  <body>
+    <h1>Terminology</h1>
+    <dl>
+
+      <dt><a name="absent">Absent</a></dt>
+
+      <dd>Describes a method invocation's return value as being
+        missing.  An absent return value is often, but not always,
+        represented by <code>null</code>,
+        an <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html#empty()">empty <code>Optional</code></a>,
+        or the throwing of
+        an <a href="../NoSuchObjectException.html">appropriate
+        exception</a>.  The opposite of an <em>absent</em> value is
+        a <a href="#present"><em>present</em></a> value.</dd>
+
+      <dt><a name="determinate">Determinate</a></dt>
+
+      <dd>Describes a method invocation's return value as being wholly
+        determined by the invocation's arguments, <em>i.e.</em>  if
+        the method is invoked with the same arguments multiple times,
+        each such invocation will return a value that is equal to the
+        return value of any other invocation with arguments equal to
+        the invocation's arguments.  A method invocation's return
+        value that is not wholly determined by the invocation's
+        arguments is said to be <em>indeterminate</em>.</dd>
+
+      <dt><a name="load">Load</a></dt>
+
+      <dd>To <a href="#selection"><em>select</em></a> and instantiate
+        exactly one <a href="#present"><em>present</em></a> and
+        maximally <a href="#suitability"><em>suitable</em></a>
+        configuration-related object for a given load request.</dd>
+
+      <dt><a name="loadrequest">Load Request</a></dt>
+
+      <dd>A notional request to <a href="#load"><em>load</em></a> a
+        (<a href="#suiability"><em>suitable</em></a>
+        and <a href="#present"><em>present</em></a>)
+        configuration-related object.</dd>
+
+      <dt><a name="present">Present</a></dt>
+
+      <dd>Describes a method invocation's return value as existing.
+        The opposite of a <em>present</em> value is
+        an <a href="#absent"><em>absent</em></a> value.</dd>
+
+      <dt><a name="selection">Selection</a></dt>
+
+      <dd>The process of choosing a (<a href="#present"><em>present</em></a>)
+        configuration-related object that is more, or
+        less, <a href="#suitability"><em>suitable</em></a> for a given
+        <a href="#loadrequest"><em>load request</em></a>.</dd>
+
+      <dt><a name="suitability">Suitability</a></dt>
+
+      <dd>The property that any given configuration-related object has
+        that describes its fitness for a
+        given <a href="#loadrequest"><em>load request</em></a>.  The
+        process of finding a suitable configuration-related object for
+        a given load request is known
+        as <a href="#selection"><em>selection</em></a>.  Any given
+        configuration-related object may be more or less suitable than
+        another for any given load request.</dd>
+
+    </dl>
+  </body>
+</html>

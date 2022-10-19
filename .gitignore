@@ -5,6 +5,7 @@
 *.log
 
 # Editors
+*~
 .settings/
 .project
 .classpath
