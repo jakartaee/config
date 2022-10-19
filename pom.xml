@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2021 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -179,7 +179,7 @@
                         <release>${version.java}</release>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
                         <compilerArgs>
-                            <arg>-Xlint:unchecked</arg>
+                            <arg>-Xlint:all</arg>
                             <!--
                             https://issues.apache.org/jira/browse/MCOMPILER-368
                              -->
