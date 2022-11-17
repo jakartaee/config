@@ -11,8 +11,12 @@ A ConfigMapping interface can be injected via the `@Inject`. The following examp
 customer.name=Bob
 customer.age=28
 ----
-Use the following code snippet to retrieve the above configuration.
-[source]
+
+[Usage example]
+
+The following is a usage example for how `@Inject` may be used:
+
+[source, java]
 ----
 @ConfigMapping("customer")
 public interfact MyConfigMapping{
