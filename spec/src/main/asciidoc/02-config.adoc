@@ -19,7 +19,7 @@ The following is a usage example for how `@Inject` may be used:
 [source, java]
 ----
 @ConfigMapping("customer")
-public interfact MyConfigMapping{
+public interface MyConfigMapping{
     String name;
     int age;
 }
