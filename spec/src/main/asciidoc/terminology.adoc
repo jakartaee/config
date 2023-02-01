@@ -2,11 +2,20 @@
 
 [[application]]Application::
 . An executable collection, or packaging, of one or more <<component,components>>, and zero or more
-<<configuration,configurations>> that <<configure,configure>> it.
+<<configuration,configurations>> that <<configure,configure>> it for one or more <<environment,environments>>.
 
 [[author]]Author::
 . (verb) To create a <<configuration,configuration>> in a particular <<configuration-format,configuration format>>.
 . (noun) The creator of a <<configuration,configuration>> in a particular <<configuration-format,configuration format>>.
+
+[[canonical-representation]]Canonical Representation::
+. The textual form of a <<configuration-key,configuration key>> that is considered to be its authoritative,
+<<configuration-format,format>>-independent, textual representation.  The canonical representation of a
+<<configuration-key,configuration key>> is a sequence of one or more
+https://www.unicode.org/charts/charindex.html[Unicode characters] in
+https://www.unicode.org/reports/tr15/#Norm_Forms[Unicode's Normalization Form C (NFC)] where each character is not a
+member of either the https://unicode.org/charts/nameslist/n_0000.html[C0 Controls] or
+https://unicode.org/charts/nameslist/n_0080.html[C1 Controls] https://www.unicode.org/charts/nameslist/[code charts].
 
 [[component]]Component::
 . A Java class, or collection of such classes, or a packaged artifact containing such classes, that, without
@@ -17,10 +26,11 @@
 . A portion, or the entirety, of a <<component,component>>'s or <<application,application>>'s state that is
 <<environment,environment>>-specific.
 . A persistent representation of that state, often in a human-readable <<configuration-format,configuration format>>.
-. A notional, unordered set of <<configuration-entry,configuration entries>> representing the assignment of
+. A notional, unordered set of zero or more <<configuration-entry,configuration entries>> representing the assignment of
 <<configuration-value,configuration values>> for some, or all, <<configuration-key,configuration keys>> in a
 <<configuration-domain,configuration domain>>.
 . A kind of <<configuration-value,configuration value>>.
+. The act of <<configure,configuring>>.
 
 [[configuration-class]]Configuration Class::
 . A Java class, with very specific restrictions, representing possible <<configuration,configurations>>.
@@ -34,7 +44,8 @@
 [[configuration-entry]]Configuration Entry::
 . A <<configuration-format,configuration-format>>-independent pairing of a <<configuration-key,configuration key>> and a
 <<configuration-value,configuration value>> within a <<configuration,configuration>>.
-** A configuration entry belongs to a <<configuration,configuration>> and is uniquely identified within that
++
+NOTE: A configuration entry belongs to a <<configuration,configuration>> and is uniquely identified within that
 <<configuration,configuration>> by its <<configuration-key,configuration key>>.
 
 [[configuration-format]]Configuration Format::
@@ -49,8 +60,24 @@
 [[configuration-object]]Configuration Object::
 . An instance of a <<configuration-class,configuration class>>.
 
+[[configuration-path]]Configuration Path::
+. A logical sequence of <<configuration-key,configuration keys>> that identifies a <<configuration-value,configuration
+value>> within a (possibly nested) <<configuration,configuration>>.
++
+NOTE: A configuration path behaves like a <<configuration-key,configuration key>> in that it ultimately identifies a
+<<configuration-value,configuration value>>.
++
+NOTE: A <<configuration-key,configuration key>> is a (minimal) configuration path.
+
+[[configuration-path-separator]]Configuration Path Separator::
+. A token that separates <<configuration-key,configuration keys>> from one another in a
+<<configuration-path,configuration path>>.
+. A particular <<configuration-format,configuration format's>> representation of such a token.
+
 [[configuration-value]]Configuration Value::
 . A <<configuration-format,configuration-format>>-independent value of a <<configuration-entry,configuration entry>>.
++
+NOTE: A configuration value may be a <<configuration,configuration>>.
 
 [[configure]]Configure::
 . To associate one or more <<configuration,configurations>> with a <<component,component>> or an
@@ -63,3 +90,16 @@
 [[load]]Load::
 . To acquire a <<configuration-object,configuration object>> for a <<component,component>> or
 <<application,application>>.
+
+[[logical-model]]Logical Model::
+. The model of configuration used by this specification that is independent of programming construct and <<configuration-format,configuration format>> concerns.
+. The chapter within this specification describing this model.
+
+[[nested-configuration]]Nested Configuration::
+. In the <<logical-model,logical model>>, a <<configuration,configuration>> that is a
+<<configuration-value,configuration value>> appearing in a <<configuration-entry,configuration entry>>.
+
+[[raw-configuration-value]]Raw Configuration Value::
+. A <<configuration-value,configuration value>> that is not itself a <<configuration,configuration>>.
+
+[[raw-value]]Raw Value:: See <<Raw Configuration Value>>.
