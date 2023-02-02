@@ -1,0 +1,69 @@
+= Configuration Class
+
+This section defines the requirements of a xref:terminology.adoc#configuration-class[configuration class].  A
+configuration class is a Java class that represents a read-only and unchanging view of a
+xref:logical-model.adoc#configuration[logical configuration] in Java.
+
+CAUTION: You are reading a DRAFT specification.  The following is subject to change.
+
+== Requirements
+
+. A configuration class must be an interface.
+
+. A configuration class must not be an annotation interface.
+
+. A configuration class may be a member interface.
+
+. A configuration class must be `public`.
+
+. A configuration class must not be `sealed`.
+
+. A configuration class must not be hidden.
+
+. A configuration class may have any legal name.  (There are no additional restrictions on the class name imposed by
+this specification.)
+
+. A configuration class may extend other interfaces, provided that the resulting specialization adheres to all the
+requirements of this section.
+
+. A configuration class may contain `static` methods and `static` fields.  (There are no additional restrictions on
+`static` members imposed by this specification.)
+
+. A configuration class may declare member classes and interfaces.  (There are no additional restrictions on member
+classes and interfaces imposed by this specification.)
+
+. A configuration class may contain `default` methods.
+
+. A configuration class may contain `private` methods.  (There are no additional restrictions on `private` methods
+imposed by this specification.)
+
+. A configuration class must not declare type parameters.  (Configuration classes must be non-generic interfaces.)
+
+. No `public` instance method of a configuration class may declare parameters.
+
+. No `public` instance method of a configuration class may declare type parameters.
+
+. No `public` instance method of a configuration class may declare that it throws any checked exceptions.
+
+== Semantics
+
+A configuration class represents a read-only and unchanging view of a xref:logical-model.adoc[logical configuration] in
+Java.
+
+=== Overview
+
+Generally and non-normatively:
+
+. The configuration class itself represents a logical xref:terminology.adoc#configuration[configuration].
+
+. A `public` instance method within it represents a logical xref:terminology.adoc#configuration-entry[configuration
+entry] within the configuration, where:
+
+.. The name of the method represents a xref:terminology.adoc#configuration-path[configuration path] consisting of a
+single xref:terminology.adoc#configuration-key[configuration key], and
+
+.. The return type of the method represents the kind of xref:terminology.adoc#configuration-value[configuration value]
+to which the method provides access, and
+
+.. The return type of the method may or may not be another configuration class.
+

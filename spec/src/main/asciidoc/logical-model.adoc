@@ -2,6 +2,8 @@
 
 This section defines the xref:terminology.adoc#logical-model[logical model] of configuration used by this specification.
 
+CAUTION: You are reading a DRAFT specification.  The following is subject to change.
+
 IMPORTANT: All terms and entities discussed in this section are, by definition, independent of programming model and
 xref:terminology.adoc#configuration-format[configuration format] concerns unless otherwise specified.
 

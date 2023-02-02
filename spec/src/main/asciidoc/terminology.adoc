@@ -1,5 +1,10 @@
 = Terminology
 
+This section describes the terminology used in this specification.  Many terms have several definitions depending on
+context.  Links to other sections in this specification are provided.
+
+CAUTION: You are reading a DRAFT specification.  The following is subject to change.
+
 [[application]]Application::
 . An executable collection, or packaging, of one or more <<component,components>>, and zero or more
 <<configuration,configurations>> that <<configure,configure>> it for one or more <<environment,environments>>.
@@ -10,30 +15,35 @@
 
 [[canonical-representation]]Canonical Representation::
 . The textual form of a <<configuration-key,configuration key>> that is considered to be its authoritative,
-<<configuration-format,format>>-independent, textual representation.  The canonical representation of a
+<<configuration-format,format>>-independent, representation.  The canonical representation of a
 <<configuration-key,configuration key>> is a sequence of one or more
 https://www.unicode.org/charts/charindex.html[Unicode characters] in
 https://www.unicode.org/reports/tr15/#Norm_Forms[Unicode's Normalization Form C (NFC)] where each character is not a
 member of either the https://unicode.org/charts/nameslist/n_0000.html[C0 Controls] or
 https://unicode.org/charts/nameslist/n_0080.html[C1 Controls] https://www.unicode.org/charts/nameslist/[code charts].
+See the xref:logical-model.adoc[Logical Model] section.
 
 [[component]]Component::
 . A Java class, or collection of such classes, or a packaged artifact containing such classes, that, without
 <<configuration,configuration>>, may be <<application,application>>- and <<environment,environment>>-independent.
 . The Java source code representation of such an entity.
++
+NOTE: A component is often designed for reuse in many <<application,applications>>.
 
 [[configuration]]Configuration::
 . A portion, or the entirety, of a <<component,component>>'s or <<application,application>>'s state that is
 <<environment,environment>>-specific.
-. A persistent representation of that state, often in a human-readable <<configuration-format,configuration format>>.
-. A notional, unordered set of zero or more <<configuration-entry,configuration entries>> representing the assignment of
-<<configuration-value,configuration values>> for some, or all, <<configuration-key,configuration keys>> in a
-<<configuration-domain,configuration domain>>.
-. A kind of <<configuration-value,configuration value>>.
+. A logical model of such configuration, consisting primarily of <<configuration-entry,configuration entries>>.  See the
+xref:logical-model.adoc[Logical Model] section.
+. A kind of <<logical,logical>> <<configuration-value,configuration value>> within the <<logical-model,logical model>>.  See the
+xref:logical-model.adoc[Logical Model] section.
+. A representation of that state, often persistent, and often in a human-readable <<configuration-format,configuration
+format>>.
 . The act of <<configure,configuring>>.
 
 [[configuration-class]]Configuration Class::
-. A Java class, with very specific restrictions, representing possible <<configuration,configurations>>.
+. A Java class, xref:configuration-class.adoc[with very specific requirements], representing a read-only, unchanging
+view of a (<<logical-model,logical>>) <<configuration,configuration>>.
 
 [[configuration-domain]]Configuration Domain::
 . The set of possible <<configuration-key,configuration keys>> for a given <<component,component>> or
@@ -43,7 +53,8 @@ https://unicode.org/charts/nameslist/n_0080.html[C1 Controls] https://www.unicod
 
 [[configuration-entry]]Configuration Entry::
 . A <<configuration-format,configuration-format>>-independent pairing of a <<configuration-key,configuration key>> and a
-<<configuration-value,configuration value>> within a <<configuration,configuration>>.
+<<configuration-value,configuration value>> within a <<configuration,configuration>>.  See the
+xref:logical-model.adoc[Logical Model] section.
 +
 NOTE: A configuration entry belongs to a <<configuration,configuration>> and is uniquely identified within that
 <<configuration,configuration>> by its <<configuration-key,configuration key>>.
@@ -55,27 +66,23 @@ NOTE: A configuration entry belongs to a <<configuration,configuration>> and is 
 [[configuration-key]]Configuration Key::
 . A <<configuration-format,configuration-format>>-independent identifier that identifies one
 <<configuration-entry,configuration entry>> within a <<configuration,configuration>>, and that names an associated
-<<configuration-value,configuration value>>.
+<<configuration-value,configuration value>>.  See the xref:logical-model.adoc[Logical Model] section.
 
 [[configuration-object]]Configuration Object::
 . An instance of a <<configuration-class,configuration class>>.
 
 [[configuration-path]]Configuration Path::
-. A logical sequence of <<configuration-key,configuration keys>> that identifies a <<configuration-value,configuration
-value>> within a (possibly nested) <<configuration,configuration>>.
-+
-NOTE: A configuration path behaves like a <<configuration-key,configuration key>> in that it ultimately identifies a
-<<configuration-value,configuration value>>.
-+
-NOTE: A <<configuration-key,configuration key>> is a (minimal) configuration path.
+. A <<logical,logical>> sequence of <<configuration-key,configuration keys>> that identifies a <<configuration-value,configuration
+value>> within a (possibly nested) <<configuration,configuration>>.  See the xref:logical-model.adoc[Logical Model] section.
 
 [[configuration-path-separator]]Configuration Path Separator::
-. A token that separates <<configuration-key,configuration keys>> from one another in a
-<<configuration-path,configuration path>>.
+. A <<logical,logical>> token that separates <<configuration-key,configuration keys>> from one another in a
+<<configuration-path,configuration path>>.  See the xref:logical-model.adoc[Logical Model] section.
 . A particular <<configuration-format,configuration format's>> representation of such a token.
 
 [[configuration-value]]Configuration Value::
 . A <<configuration-format,configuration-format>>-independent value of a <<configuration-entry,configuration entry>>.
+See the xref:logical-model.adoc[Logical Model] section.
 +
 NOTE: A configuration value may be a <<configuration,configuration>>.
 
@@ -91,15 +98,20 @@ NOTE: A configuration value may be a <<configuration,configuration>>.
 . To acquire a <<configuration-object,configuration object>> for a <<component,component>> or
 <<application,application>>.
 
+[[logical]]Logical::
+. Divorced from programming model, programming language, format, and representational concerns.
+
 [[logical-model]]Logical Model::
 . The model of configuration used by this specification that is independent of programming construct and <<configuration-format,configuration format>> concerns.
-. The chapter within this specification describing this model.
+. The xref:logical-model.adoc[section within this specification describing this model].
 
 [[nested-configuration]]Nested Configuration::
 . In the <<logical-model,logical model>>, a <<configuration,configuration>> that is a
-<<configuration-value,configuration value>> appearing in a <<configuration-entry,configuration entry>>.
+<<configuration-value,configuration value>> appearing in a <<configuration-entry,configuration entry>>.  See the
+xref:logical-model.adoc[Logical Model] section.
 
 [[raw-configuration-value]]Raw Configuration Value::
-. A <<configuration-value,configuration value>> that is not itself a <<configuration,configuration>>.
+. A <<configuration-value,configuration value>> that is not itself a <<configuration,configuration>>.  See the
+xref:logical-model.adoc[Logical Model] section.
 
 [[raw-value]]Raw Value:: See <<Raw Configuration Value>>.
