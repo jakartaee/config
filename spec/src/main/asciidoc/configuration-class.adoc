@@ -4,7 +4,7 @@ This section defines the requirements of a xref:terminology.adoc#configuration-c
 configuration class is a Java class that represents a read-only and unchanging view of a
 xref:logical-model.adoc#configuration[logical configuration] in Java.
 
-CAUTION: You are reading a DRAFT specification.  The following is subject to change.
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
 == Requirements
 

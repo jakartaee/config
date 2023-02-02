@@ -3,15 +3,23 @@
 This section describes the terminology used in this specification.  Many terms have several definitions depending on
 context.  Links to other sections in this specification are provided.
 
-CAUTION: You are reading a DRAFT specification.  The following is subject to change.
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
 [[application]]Application::
 . An executable collection, or packaging, of one or more <<component,components>>, and zero or more
 <<configuration,configurations>> that <<configure,configure>> it for one or more <<environment,environments>>.
 
+[[application-assembler]]Application Assembler::
+. A role representing a person who packages <<component,components>> into <<application,applications>> for execution in
+an <<environment,environment>>.
++
+NOTE: Many times a person playing the <<component-developer,component developer>> role also plays the
+<<application-assembler,application assembler>> role.
+
 [[author]]Author::
 . (verb) To create a <<configuration,configuration>> in a particular <<configuration-format,configuration format>>.
 . (noun) The creator of a <<configuration,configuration>> in a particular <<configuration-format,configuration format>>.
+See <<configuration-author,Configuration Author>>.
 
 [[canonical-representation]]Canonical Representation::
 . The textual form of a <<configuration-key,configuration key>> that is considered to be its authoritative,
@@ -22,6 +30,8 @@ https://www.unicode.org/reports/tr15/#Norm_Forms[Unicode's Normalization Form C 
 member of either the https://unicode.org/charts/nameslist/n_0000.html[C0 Controls] or
 https://unicode.org/charts/nameslist/n_0080.html[C1 Controls] https://www.unicode.org/charts/nameslist/[code charts].
 See the xref:logical-model.adoc[Logical Model] section.
+. Any authoritative representation defined by this specification of a <<logical,logical>> entity defined by this
+specification.
 
 [[component]]Component::
 . A Java class, or collection of such classes, or a packaged artifact containing such classes, that, without
@@ -30,16 +40,23 @@ See the xref:logical-model.adoc[Logical Model] section.
 +
 NOTE: A component is often designed for reuse in many <<application,applications>>.
 
+[[component-developer]]Component Developer::
+. A role representing a Java developer who writes or is writing <<component,components>>.
+
 [[configuration]]Configuration::
 . A portion, or the entirety, of a <<component,component>>'s or <<application,application>>'s state that is
 <<environment,environment>>-specific.
-. A logical model of such configuration, consisting primarily of <<configuration-entry,configuration entries>>.  See the
-xref:logical-model.adoc[Logical Model] section.
+. A <<logical-model,logical model>> of such a configuration, consisting of zero or more
+<<configuration-entry,configuration entries>>.  See the xref:logical-model.adoc[Logical Model] section.
 . A kind of <<logical,logical>> <<configuration-value,configuration value>> within the <<logical-model,logical model>>.  See the
 xref:logical-model.adoc[Logical Model] section.
 . A representation of that state, often persistent, and often in a human-readable <<configuration-format,configuration
 format>>.
 . The act of <<configure,configuring>>.
+
+[[configuration-author]]Configuration Author::
+. The creator of a <<configuration,configuration>> represented in a particular <<configuration-format,configuration
+format>>.
 
 [[configuration-class]]Configuration Class::
 . A Java class, xref:configuration-class.adoc[with very specific requirements], representing a read-only, unchanging
