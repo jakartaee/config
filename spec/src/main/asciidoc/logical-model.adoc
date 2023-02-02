@@ -9,8 +9,8 @@ xref:terminology.adoc#configuration-format[configuration format] concerns unless
 
 == Configuration
 
-Within the logical model, a xref:terminology.adoc#configuration[configuration] is a logical entity that comprises all of
-the following:
+Within the logical model, a xref:terminology.adoc#configuration[configuration] is a
+xref:terminology.adoc#logical[logical] entity that comprises all of the following:
 
 . Exactly one _root_ or _top-level xref:terminology.adoc#configuration-value[configuration value]_ (the configuration itself)
 . An unordered set of zero or more xref:terminology.adoc#configuration-entry[configuration entries]
@@ -78,7 +78,7 @@ restrictions imposed by that format.
 Within the logical model, a configuration value may be any of the following:
 
 . A xref:terminology.adoc#raw-configuration-value[raw value].  A raw configuration value in the logical model is a
-logical configuration value that is itself not a configuration. The logical model does not currently further define raw
+configuration value that is itself not a configuration. The logical model does not currently further define raw
 configuration values.
 . A configuration. Configurations are a kind of configuration value.
 
@@ -91,7 +91,7 @@ definitions.
 == Configuration Paths
 
 Within the logical model, a xref:terminology.adoc#configuration-path[configuration path] is a logical sequence of zero
-or more configuration keys that identifies either zero or one configuration values in a (possibly
+or more configuration keys that identifies either zero or one configuration value in a (possibly
 xref:terminology.adoc#nested-configuration[nested]) configuration.
 
 Configuration paths are always logically relative to a configuration.

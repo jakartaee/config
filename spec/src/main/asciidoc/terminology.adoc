@@ -5,9 +5,8 @@ context.  Links to other sections in this specification are provided.
 
 CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
-[[absent]]Absence::
-. The property of a <<configuration,configuration>> or <<configuration-object,configuration object>> that describes its
-non-existence.
+[[absence]]Absence::
+. The property of any value that describes its non-existence.
 +
 NOTE: Contrast absence with <<presence,presence>>.
 +
@@ -74,13 +73,17 @@ format>>.
 
 [[configuration-class]]Configuration Class::
 . A Java class, xref:configuration-class.adoc[with very specific requirements], representing a read-only, unchanging
-view of a (<<logical-model,logical>>) <<configuration,configuration>>.
+collection of <<configuration-path,configuration paths>> and Java types representing the kinds of
+<<configuration-value,configuration values>> they may identify.
+. The xref:configuration-class.adoc[section within this specfication describing this concept]
 
 [[configuration-domain]]Configuration Domain::
 . The set of possible <<configuration-key,configuration keys>> for a given <<component,component>> or
 <<application,application>>, regardless of the <<environment,environment>> it may find itself in, and regardless of the
 <<configuration-value,configuration values>> that may be assigned to those keys in a particular
 <<environment,environment>>.
++
+// TODO: This needs to be cleaned up
 
 [[configuration-entry]]Configuration Entry::
 . A <<configuration-format,configuration-format>>-independent pairing of a <<configuration-key,configuration key>> and a
@@ -91,8 +94,8 @@ NOTE: A configuration entry belongs to a <<configuration,configuration>> and is 
 <<configuration,configuration>> by its <<configuration-key,configuration key>>.
 
 [[configuration-format]]Configuration Format::
-. A particular representation of a <<configuration,configuration>>, often persistent, and often in human-readable form.
-. A file format, or MIME type, or the like, designating such a representation.
+. A particular representation kind for <<configuration,configurations>>, often persistent, and often in human-readable form.
+. A file format, media type, MIME type, or the like, designating such a representation.
 
 [[configuration-key]]Configuration Key::
 . A <<configuration-format,configuration-format>>-independent identifier that identifies one
@@ -126,12 +129,15 @@ NOTE: A configuration value may be a <<configuration,configuration>>.
 . Loosely: To tailor a <<component,component>> or <<application,application>> to a given <<environment,environment>>.
 
 [[environment]]Environment::
-. A notional coordinate space in which an <<application,application>> is, or is to be, or has been, executed.
+. A <<logical,logical>> coordinate space in which an <<application,application>> is, or is to be, or has been, executed.
 
 [[implementor]]Implementor::
 . A role representing one who implements this specification.
 . A member of the https://jakarta.ee/specifications/platform/10/jakarta-platform-spec-10.0.html#a162[Jakarta EE Product
 Provider] role set.
+
+[[immutable]]Immutable::
+. Both <<unmodifiable,unmodifiable>> and <<unchanging,unchanging>>.
 
 [[load]]Load::
 . To acquire a <<configuration-object,configuration object>> for a <<component,component>> or
@@ -154,8 +160,7 @@ xref:loading.adoc[Loading] section.
 xref:logical-model.adoc[Logical Model] section.
 
 [[presence]]Presence::
-. The property of a <<configuration,configuration>> or <<configuration-object,configuration object>> that describes its
-non-existence.
+. The property of any value that describes its existence.
 +
 NOTE: Contrast presence with <<absence,absence>>.
 
@@ -165,7 +170,30 @@ xref:logical-model.adoc[Logical Model] section.
 
 [[raw-value]]Raw Value:: See <<Raw Configuration Value>>.
 
+[[resolved-configuration-path]]Resolved Configuration Path::
+. A <<configuration-path,configuration path>> that identifies a <<presence,present>> <<configuration-value,configuration
+value>>.  See <<unresolved-configuration-path,Unresolved Configuration Path>>.
++
+NOTE: Whether the <<presence,presence>> is transient or permanent is not specified.
+
 [[suitability]]Suitability::
 . The property describing a <<configuration-object,configuration object>>'s fitness for a particular <<load-request,load
 request>>.  <<configuration-object,Configuration objects>> may be more or less _suitable_ for a given
 <<load-request,load request>>.
+
+[[unchanging]]Unchanging::
+. Never internally changing; stable.  See <<unmodifiable,Unmodifiable>> and <<immutable,Immutable>>.
++
+NOTE: An unchanging entity may not be <<unmodifiable,unmodifiable>> and so may not be <<immutable,immutable>>.
+
+[[unmodifiable]]Unmodifiable::
+. Incapable of being altered through publicly accessible means. See <<immutable,Immutable>> and
+<<unchanging,Unchanging>>.
++
+NOTE: An unmodifiable entity may not be <<unchanging,unchanging>> and so may not be <<immutable,immutable>>.
+
+[[unresolved-configuration-path]]Unresolved Configuration Path::
+. A <<configuration-path,configuration path>> that identifies an <<absence,absent>> <<configuration-value,configuration
+value>>.  See <<resolved-configuration-path,Resolved Configuration Path>>.
++
+NOTE: Whether the <<absence,absence>> is transient or permanent is not specified.

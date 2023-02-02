@@ -26,6 +26,8 @@ xref:terminology.adoc#component[component] to interact with an implementation of
 xref:terminology.adoc#component[components] and zero or more xref:terminology.adoc#configuration[configuration]s in
 particular xref:terminology.adoc#configuration-format[formats] for one or more
 xref:terminology.adoc#environment[environments].
++
+NOTE: The actor playing this role is often also playing the component developer role.
 
 . An xref:terminology.adoc#implementor[implementor]. An actor playing this role provides an implementation of the
 Jakarta Config specification, and hence also an implementation of the `jakarta.config.Loader` interface.
