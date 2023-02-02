@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,8 +19,10 @@
 package jakarta.config;
 
 /**
- * A {@link ConfigException} thrown when a configuration-related
- * object was not found.
+ * A {@link ConfigException} thrown when a configuration object was not found.
+ *
+ * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
+ * draft specification that is subject to change.</p>
  */
 public class NoSuchObjectException extends ConfigException {
 

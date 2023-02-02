@@ -5,13 +5,24 @@ context.  Links to other sections in this specification are provided.
 
 CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
+[[absent]]Absence::
+. The property of a <<configuration,configuration>> or <<configuration-object,configuration object>> that describes its
+non-existence.
++
+NOTE: Contrast absence with <<presence,presence>>.
++
+NOTE: In Java, and in this specification, absence is often represented by `null`.
+
 [[application]]Application::
 . An executable collection, or packaging, of one or more <<component,components>>, and zero or more
 <<configuration,configurations>> that <<configure,configure>> it for one or more <<environment,environments>>.
 
 [[application-assembler]]Application Assembler::
-. A role representing a person who packages <<component,components>> into <<application,applications>> for execution in
-an <<environment,environment>>.
+. A role representing a person who packages <<component,components>> into <<application,applications>> for deployment
+and/or execution in an <<environment,environment>>.
+. A member of the Jakarta EE Platform's
+https://jakarta.ee/specifications/platform/10/jakarta-platform-spec-10.0.html#application-assembler[Application
+Assembler] role set.
 +
 NOTE: Many times a person playing the <<component-developer,component developer>> role also plays the
 <<application-assembler,application assembler>> role.
@@ -42,6 +53,9 @@ NOTE: A component is often designed for reuse in many <<application,applications
 
 [[component-developer]]Component Developer::
 . A role representing a Java developer who writes or is writing <<component,components>>.
+. A member of the Jakarta EE Platform's
+https://jakarta.ee/specifications/platform/10/jakarta-platform-spec-10.0.html#application-component-provider[Application
+Component Provider] role set.
 
 [[configuration]]Configuration::
 . A portion, or the entirety, of a <<component,component>>'s or <<application,application>>'s state that is
@@ -86,7 +100,10 @@ NOTE: A configuration entry belongs to a <<configuration,configuration>> and is 
 <<configuration-value,configuration value>>.  See the xref:logical-model.adoc[Logical Model] section.
 
 [[configuration-object]]Configuration Object::
-. An instance of a <<configuration-class,configuration class>>.
+. An instance of a <<configuration-class,configuration class>>, especially as supplied by an implementation of the
+`jakarta.config.Loader` interface.
++
+NOTE: Configuration objects may be <<absence,absent>> or <<presence,present>>.
 
 [[configuration-path]]Configuration Path::
 . A <<logical,logical>> sequence of <<configuration-key,configuration keys>> that identifies a <<configuration-value,configuration
@@ -111,9 +128,18 @@ NOTE: A configuration value may be a <<configuration,configuration>>.
 [[environment]]Environment::
 . A notional coordinate space in which an <<application,application>> is, or is to be, or has been, executed.
 
+[[implementor]]Implementor::
+. A role representing one who implements this specification.
+. A member of the https://jakarta.ee/specifications/platform/10/jakarta-platform-spec-10.0.html#a162[Jakarta EE Product
+Provider] role set.
+
 [[load]]Load::
 . To acquire a <<configuration-object,configuration object>> for a <<component,component>> or
 <<application,application>>.
+
+[[load-request]]Load Request::
+. The Java objects necessary to <<load,load>> a <<configuration-object,configuration object>>.  See the
+xref:loading.adoc[Loading] section.
 
 [[logical]]Logical::
 . Divorced from programming model, programming language, format, and representational concerns.
@@ -127,8 +153,19 @@ NOTE: A configuration value may be a <<configuration,configuration>>.
 <<configuration-value,configuration value>> appearing in a <<configuration-entry,configuration entry>>.  See the
 xref:logical-model.adoc[Logical Model] section.
 
+[[presence]]Presence::
+. The property of a <<configuration,configuration>> or <<configuration-object,configuration object>> that describes its
+non-existence.
++
+NOTE: Contrast presence with <<absence,absence>>.
+
 [[raw-configuration-value]]Raw Configuration Value::
 . A <<configuration-value,configuration value>> that is not itself a <<configuration,configuration>>.  See the
 xref:logical-model.adoc[Logical Model] section.
 
 [[raw-value]]Raw Value:: See <<Raw Configuration Value>>.
+
+[[suitability]]Suitability::
+. The property describing a <<configuration-object,configuration object>>'s fitness for a particular <<load-request,load
+request>>.  <<configuration-object,Configuration objects>> may be more or less _suitable_ for a given
+<<load-request,load request>>.

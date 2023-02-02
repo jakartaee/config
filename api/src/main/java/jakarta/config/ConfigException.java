@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,6 +21,9 @@ package jakarta.config;
 /**
  * A {@link RuntimeException} thrown when a problem is encountered in
  * an implementation of the Jakarta Config specfication.
+ *
+  * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
+ * draft specification that is subject to change.</p>
  */
 public class ConfigException extends RuntimeException {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,14 +21,17 @@ package jakarta.config;
 import java.util.ServiceLoader;
 
 /**
- * A loader of configuration-related objects.
+ * A loader of configuration objects.
+ *
+ * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
+ * draft specification that is subject to change.</p>
  *
  * <p>Sample usage:</p>
  *
  * <blockquote><pre>{@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
- *MyConfigurationRelatedObject object = null;
+ *MyConfigurationObject object = null;
  *try {
- *  object = loader.{@linkplain #load(Class) load(MyConfigurationRelatedObject.class)};
+ *  object = loader.{@linkplain #load(Class) load(MyConfigurationObject.class)};
  *} catch ({@linkplain NoSuchObjectException} noSuchObjectException) {
  *  // object is <a href="doc-files/terminology.html#absent">absent</a>
  *} catch ({@linkplain ConfigException} configException) {
@@ -48,11 +51,11 @@ import java.util.ServiceLoader;
 public interface Loader {
 
     /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
+     * Loads a configuration object of the supplied {@code type} and
+     * returns it.
      *
      * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
+     * determined whether any given configuration object is
      * "of the supplied {@code type}" are currently wholly
      * undefined.</p>
      *
@@ -92,11 +95,11 @@ public interface Loader {
     public <T> T load(Class<T> type);
 
     /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
+     * Loads a configuration object of the supplied {@code type} and
+     * returns it.
      *
      * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
+     * determined whether any given configuration object is
      * "of the supplied {@code type}" are currently wholly
      * undefined.</p>
      *

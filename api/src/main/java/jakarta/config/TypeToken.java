@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,6 +31,9 @@ import java.util.Objects;
  * A holder of a modeled {@link Type} that embodies <a
  * href="http://gafter.blogspot.com/2006/12/super-type-tokens.html"
  * target="_parent">Gafter's gadget</a>.
+ *
+ * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
+ * draft specification that is subject to change.</p>
  *
  * <p>To use this class, create a new instance of an anonymous
  * subclass of it, and then call {@link #type() type()} on it.  For
