@@ -164,6 +164,7 @@ xref:loading.adoc[Loading] section.
 
 [[logical]]Logical::
 . Divorced from programming model, programming language, format, and representational concerns.
+. Entirely abstract; notional.
 
 [[logical-model]]Logical Model::
 . The model of configuration used by this specification that is independent of programming construct and <<configuration-format,configuration format>> concerns.

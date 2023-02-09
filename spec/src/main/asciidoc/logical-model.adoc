@@ -94,19 +94,25 @@ Within the logical model, a xref:terminology.adoc#configuration-path[configurati
 or more configuration keys that identifies either zero or one configuration value in a (possibly
 xref:terminology.adoc#nested-configuration[nested]) configuration.
 
-Configuration paths are always logically relative to a configuration.
+A configuration path is always logically relative to zero or one configuration.
 
 A configuration path with zero configuration keys is said to be empty.
 
-An empty configuration path always identifies the configuration to which it is relative, and nothing else.
+An empty configuration path always identifies the configuration, if any, to which it is relative, and nothing else.
 
 NOTE: This specification does not currently define or address any notion of a logical "path space" within which any
 given configuration path might logically reside. Such a concept might be used later to prevent inadvertent clashes.
 
+A configuration path that identifies a xref:terminology.adoc#presence[present] configuration value is said to be
+xref:terminology.adoc#resolved-configuration-path[resolved].
+
+A configuration path that identifies an xref:terminology.adoc#absence[absent] configuration value is said to be
+xref:terminology.adoc#unresolved-configuration-path[unresolved].
+
 Two configuration paths that contain logically equal configuration keys in the same order are considered to be logically
 equal.
 
-Such logically equal configuration paths are entirely interchangeable.
+Such logically equal configuration paths are entirely xref:terminology.adoc#interchangeable[interchangeable].
 
 === Configuration Path Separators
 

@@ -103,10 +103,10 @@ interface Server {
 [source,java]
 ----
 class Service {
-    Config config;
+    Loader loader;
 
     void service() {
-        Server server = config.getMapping(Server.class);
+        Server server = loader.load(Server.class);
     }
 }
 ----

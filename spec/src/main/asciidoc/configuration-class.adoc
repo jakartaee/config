@@ -1,35 +1,39 @@
 = Configuration Class
+:jls: https://docs.oracle.com/javase/specs/jls/se19/html
 
 This section defines the requirements of a xref:terminology.adoc#configuration-class[configuration class].
 
 CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
-A configuration class is a Java class conforming to requirements described below that represents:
+A configuration class is a Java class conforming to all of the requirements described below that represents:
 
-. an xref:terminology.adoc#immutable[immutable] and xref:terminology.adoc#unchanging[unchanging] collection of
+. an xref:terminology.adoc#immutable[immutable] and xref:terminology.adoc#unchanging[unchanging] set of
 xref:terminology.adoc#configuration-path[configuration paths] and
-. Java types representing the kinds of xref:terminology.adoc#configuration-value[configuration values] they may
-identify.
 
-NOTE: Because a configuration class represents a collection of configuration paths, it also represents a portion of a
+. Java types representing the kinds of representations of xref:terminology.adoc#configuration-value[configuration
+values] they may xref:terminology.adoc#resolved-configuration-path[resolve] to.
+
+NOTE: Because a configuration class represents a set of configuration paths, it also represents a portion of a
 xref:terminology.adoc#configuration-domain[configuration domain].
 
 A configuration class comprises part of a xref:terminology.adoc#load-request[load request].  See the
 xref:loading.adoc[Loading] section for more details.
 
+Configuration classes may be defined by a xref:terminoloy.adoc#component-developer[component developer].
+
 == Structural Requirements
 
 The following are the structural requirements of configuration classes.
 
-.Structural Requirements
-. A configuration class must be an interface.
+. A configuration class must be an {jls}/jls-9.html[interface].
 
-. A configuration class must not declare type parameters.  (A configuration class must be a non-generic interface.)
+. A configuration class must not declare type parameters, or non-portable behavior results.  (A configuration class must
+be a non-generic interface.)
 
-. A configuration class must not be an annotation interface.
+. A configuration class must not be an {jls}/jls-9.html#jls-9.6[annotation interface].
 
-. A configuration class may be a member interface.  (There are no additional restrictions on the nesting kind of a
-configuration class imposed by this specification.)
+. A configuration class may be a {jls}/jls-8.html#jls-8.5[member interface].  (There are no additional restrictions on
+the nesting kind of a configuration class imposed by this specification.)
 
 . A configuration class must be `public`.
 
@@ -54,7 +58,8 @@ classes and interfaces imposed by this specification.)
 . A configuration class may contain `private` methods.  (There are no additional restrictions on `private` methods
 imposed by this specification.)
 
-. A `public`, non-`default` instance method of a configuration class must not declare type parameters.
+. A `public`, non-`default` instance method of a configuration class must not declare type parameters, or non-portable
+behavior results.
 
 . A `public` instance method of a configuration class may declare parameters.
 
@@ -81,7 +86,6 @@ configuration] in Java.
 
 Generally and non-normatively:
 
-.Semantics
 . The configuration class itself represents a collection of configuration paths and Java types representing the
 kinds of configuration values they may identify.
 
@@ -99,6 +103,47 @@ xref:terminology.adoc#configuration-value[configuration value] to which the meth
 
 .. The return type of the method may or may not be another configuration class.
 
+=== Representation of Configuration Paths
+
+The configuration paths represented by a configuration class are determined by its structure as follows:
+
+. By itself (that is, considered apart from its members), a configuration class represents a
+xref:terminology.adoc#configuration[configuration] to which configuration paths it represents are relative.
+
+.. A configuration class with no `public` instance methods represents an empty configuration path that resolves to zero
+configuration values.
+
+. For any `public` instance method declared by a configuration class that meets the
+<<structural-requirements,requirements>>:
+
+.. The method's name constitutes a representation of a single-element configuration path, relative to the configuration
+represented by its declaring class, consisting of a single configuration key whose
+xref:terminology.adoc#canonical-representation[canonical representation] is the method name.
+
+.. The method's return value constitutes a representation of the configuration value the configuration path may
+xref:terminology.adoc#resolved-configuration-path[resolve] to.  It may represent either:
+
+... A xref:terminology.adoc#raw-configuration-value[raw configuration value] represented as a particular Java type, or
+
+... A configuration represented as its configuration class
++
+NOTE: If a `public` instance method declared by a configuration class returns an instance of that very configuration
+class, non-portable behavior results.  (Cycles are not permitted.)
+
++
+[NOTE]
+====
+In this revision of the specification, (a) representation of xref:terminology.adoc#raw-configuration-value[raw
+configuration values] and (b) conversion of values from their representation in a particular
+xref:terminology.adoc#configuration-format[configuration format] to a partiuclar Java type has not yet been specified.
+====
+
++
+.. A `public` instance method that returns a configuration object represents a two-element configuration path, relative
+to the configuration represented by its declaring class, that comprises, in order:
+... The configuration key represented by the method, and
+... The configuration key represented by the configuration class' {jls}/jls-6.html#jls-6.5.5.1[simple name]
+
 == Implementation Requirements
 
 When an xref:terminology.adoc#implementor[implementor] implements a configuration class, all of the following are true
@@ -107,7 +152,8 @@ of the resulting implementation, and therefore of its instances
 
 .Implementation Requirements
 . An implementation of a `public`, non-`default` instance method specified by a configuration class must not return
-`null`.
+`null`, or non-portable behavior results.
 
 . Any two invocations of an implementation of a `public`, non-`default` instance method specified by a configuration
-class will return xref:terminology.adoc#interchangeable[interchangeable] values.
+class must return xref:terminology.adoc#interchangeable[interchangeable] values.
+
