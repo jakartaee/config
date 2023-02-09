@@ -131,6 +131,13 @@ NOTE: A configuration value may be a <<configuration,configuration>>.
 [[environment]]Environment::
 . A <<logical,logical>> coordinate space in which an <<application,application>> is, or is to be, or has been, executed.
 
+[[identical]]Identical::
+. Two or more things are identical if they refer to exactly one and the same referent.
++
+NOTE: One thing is identical with itself.
++
+NOTE: In Java, `==` describes this relation.  See <<interchangeable,Interchangeable>>.
+
 [[implementor]]Implementor::
 . A role representing one who implements this specification.
 . A member of the https://jakarta.ee/specifications/platform/10/jakarta-platform-spec-10.0.html#a162[Jakarta EE Product
@@ -138,6 +145,13 @@ Provider] role set.
 
 [[immutable]]Immutable::
 . Both <<unmodifiable,unmodifiable>> and <<unchanging,unchanging>>.
+
+[[interchangeable]]Interchangeable::
+. Two things are interchangeable if (a) they are <<identical,identical>>, or (b) one may be used instead of the other
+with no changes in semantics.
++
+NOTE: In Java, for example, two equal primitive values are interchangeable, but not identical. See
+<<identical,Identical>>.
 
 [[load]]Load::
 . To acquire a <<configuration-object,configuration object>> for a <<component,component>> or
@@ -172,7 +186,8 @@ xref:logical-model.adoc[Logical Model] section.
 
 [[resolved-configuration-path]]Resolved Configuration Path::
 . A <<configuration-path,configuration path>> that identifies a <<presence,present>> <<configuration-value,configuration
-value>>.  See <<unresolved-configuration-path,Unresolved Configuration Path>>.
+value>> within a <<configuration-entry,configuration entry>>.  See <<unresolved-configuration-path,Unresolved
+Configuration Path>>.
 +
 NOTE: Whether the <<presence,presence>> is transient or permanent is not specified.
 

@@ -4,22 +4,32 @@ This section defines the requirements of a xref:terminology.adoc#configuration-c
 
 CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
-A configuration class is a Java class that represents:
+A configuration class is a Java class conforming to requirements described below that represents:
 
-. an immutable and unchanging collection of xref:terminology.adoc#configuration-path[configuration paths] and
+. an xref:terminology.adoc#immutable[immutable] and xref:terminology.adoc#unchanging[unchanging] collection of
+xref:terminology.adoc#configuration-path[configuration paths] and
 . Java types representing the kinds of xref:terminology.adoc#configuration-value[configuration values] they may
 identify.
 
 NOTE: Because a configuration class represents a collection of configuration paths, it also represents a portion of a
 xref:terminology.adoc#configuration-domain[configuration domain].
 
+A configuration class comprises part of a xref:terminology.adoc#load-request[load request].  See the
+xref:loading.adoc[Loading] section for more details.
+
 == Structural Requirements
 
+The following are the structural requirements of configuration classes.
+
+.Structural Requirements
 . A configuration class must be an interface.
+
+. A configuration class must not declare type parameters.  (A configuration class must be a non-generic interface.)
 
 . A configuration class must not be an annotation interface.
 
-. A configuration class may be a member interface.
+. A configuration class may be a member interface.  (There are no additional restrictions on the nesting kind of a
+configuration class imposed by this specification.)
 
 . A configuration class must be `public`.
 
@@ -44,50 +54,60 @@ classes and interfaces imposed by this specification.)
 . A configuration class may contain `private` methods.  (There are no additional restrictions on `private` methods
 imposed by this specification.)
 
-. A configuration class must not declare type parameters.  (Configuration classes must be non-generic interfaces.)
+. A `public`, non-`default` instance method of a configuration class must not declare type parameters.
 
-. No `public` instance method of a configuration class may declare parameters.
+. A `public` instance method of a configuration class may declare parameters.
 
-. No `public` instance method of a configuration class may declare type parameters.
+.. If a `public`, non-`default` instance method of a configuration class declares parameters, and the configuration
+class is supplied as part of a load request, a Jakarta Config implementation may choose to either:
 
-. No `public` instance method of a configuration class may declare that it throws any checked exceptions.
+... Implement the method somehow, provided that it fulfils all other structural requirements, or
+
+... Implement the method such that it throws either:
+
+.... a `jakarta.config.NoSuchObjectException`, or
+
+.... a `java.lang.UnsupportedOperationException`
+
+NOTE: A given Jakarta Config implementation may choose to support configuration classes that do not meet all of these
+requirements, but such a class may not be fully portable between Jakarta Config implementations.
 
 == Semantics
 
-A configuration class represents a read-only and unchanging view of a xref:logical-model.adoc[logical configuration] in
-Java.
+A configuration class represents an xref:terminology.adoc#immutable[immutable] view of a xref:logical-model.adoc[logical
+configuration] in Java.
 
 === Overview
 
 Generally and non-normatively:
 
+.Semantics
 . The configuration class itself represents a collection of configuration paths and Java types representing the
 kinds of configuration values they may identify.
-+
-// TODO: Given a configuration class, Foo, and a public instance method, String bar(), does this correspond to the
-// logical configuration path ["Foo", "bar"]?  Or to the logical configuration path ["bar"]?  Or...?
 
-. A `public` instance method within it represents a logical xref:terminology.adoc#configuration-entry[configuration
-entry] within the configuration, where:
+. A `public`, non-`default` instance method within it represents a logical
+xref:terminology.adoc#configuration-path[configuration path] hopefully
+xref:terminology.adoc#resolved-configuration-path[resolving] to a configuration value
+xref:terminology.adoc#present[present] within the configuration, where:
 
-.. The name of the method represents a xref:terminology.adoc#configuration-path[configuration path] consisting of a
-single xref:terminology.adoc#configuration-key[configuration key], and
+.. The name of the method represents a (possibly xref:terminology.adoc#unresolved-configuration-path[unresolved])
+xref:terminology.adoc#configuration-path[configuration path] consisting of a single
+xref:terminology.adoc#configuration-key[configuration key], and
 
-.. The return type of the method represents the kind of xref:terminology.adoc#configuration-value[configuration value]
-to which the method provides access, and
+.. The return type of the method represents the kind of (hopefully xref:terminology.adoc#present[present])
+xref:terminology.adoc#configuration-value[configuration value] to which the method may provide access, and
 
 .. The return type of the method may or may not be another configuration class.
 
-=== Implementation
+== Implementation Requirements
 
 When an xref:terminology.adoc#implementor[implementor] implements a configuration class, all of the following are true
 of the resulting implementation, and therefore of its instances
 (xref:terminology.adoc#configuration-object[configuration objects]):
 
-. No `public` instance method specified by a configuration class will return `null`.
+.Implementation Requirements
+. An implementation of a `public`, non-`default` instance method specified by a configuration class must not return
+`null`.
 
-. All invocations of a `public` instance method specified by a configuration class will return interchangeable values.
-+
-// TODO: Suppose a method like Glorp foo() returns a user type (Glorp). Suppose you call it twice. For user types, an
-// implementation must therefore return identical values. For true Java value objects, it might return only equal ones.
-// Maybe that's as good as we're going to get.
+. Any two invocations of an implementation of a `public`, non-`default` instance method specified by a configuration
+class will return xref:terminology.adoc#interchangeable[interchangeable] values.
