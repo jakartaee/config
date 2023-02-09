@@ -127,3 +127,8 @@ The logical model does not currently further define configuration path separator
 
 This specification reserves the right to further define configuration paths and configuration path separators in future
 revisions.
+
+== Conceptual Diagram
+
+image::Logical Model.png[]
+
