@@ -138,11 +138,54 @@ configuration values] and (b) conversion of values from their representation in 
 xref:terminology.adoc#configuration-format[configuration format] to a partiuclar Java type has not yet been specified.
 ====
 
-+
-.. A `public` instance method that returns a configuration object represents a two-element configuration path, relative
-to the configuration represented by its declaring class, that comprises, in order:
-... The configuration key represented by the method, and
-... The configuration key represented by the configuration class' {jls}/jls-6.html#jls-6.5.5.1[simple name]
+==== Examples
+
+[source,java]
+----
+public interface MyComponent { // <1>
+
+    public String name(); // <2>
+
+    public int size(); // <3>
+
+    public Subassembly subassembly(); // <4>
+
+    public interface Subassembly { // <5>
+
+        public java.util.List<Integer> partNumbers(); // <6> <7>
+
+    }
+
+}
+----
+<1> This configuration class, considered apart from its members, represents a configuration to which configuration paths
+it represents are relative.
+
+<2> This method, `name()`, represents a single-element configuration path, comprising a single configuration key whose
+xref:terminology#canonical-representation[canonical representation] is `name`, relative to the configuration represented
+by its declaring class, that (hopefully) resolves to a `String`-typed representation of a configuration value.
+
+<3> This method, `size()`, represents a single-element configuration path, comprising a single configuration key whose
+canonical representation is `size`, relative to the configuration represented by its declaring class, that (hopefully)
+resolves to an `int`-typed representation of a configuration value.
+
+<4> This method, `subassembly()`, represents a single-element configuration path, comprising a single configuration key
+whose canonical representation is `subassembly`, relative to the configuration represented by its declaring class, that
+(hopefully) resolves to a `Subassembly`-typed representation of a configuration value that here happens to be a (nested)
+configuration.
+
+<5> This configuration class, considered apart from its members, and apart from its declaring class, represents a
+configuration to which configuration paths it represents are relative.
+
+<6> This method, `partNumbers()`, considered on its own, represents a single-element configuration path, comprising a
+single configuration key whose canonical representation is `partNumbers`, relative to the configuration represented by
+its declaring class, that (hopefully) resolves to a `List<Integer>`-typed representation of a configuration value.
+
+<7> An invocation of the `subassembly()` method on an instance of `MyComponent` chained with an invocation of
+`partNumbers()` on its return value (i.e. `myComponentInstance.subassembly().partNumbers()`) represents a two-element
+configuration path, comprising exactly two configuration keys whose canonical representations are, in order, exactly
+those previously described (namely `subassembly` and `partNumbers`), relative to the configuration represented by the
+`MyComponent` class, that (hopefuly) resolves to a `List<Integer>`-typed representation of a configuration value.
 
 == Implementation Requirements
 
