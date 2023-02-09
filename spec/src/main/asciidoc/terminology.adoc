@@ -10,7 +10,8 @@ CAUTION: You are reading an incomplete DRAFT specification.  The following is su
 +
 NOTE: Contrast absence with <<presence,presence>>.
 +
-NOTE: In Java, and in this specification, absence is often represented by `null`.
+NOTE: In Java, and in this specification, absence is often represented by `null` or
+`jakarta.config.NoSuchObjectException`.
 
 [[application]]Application::
 . An executable collection, or packaging, of one or more <<component,components>>, and zero or more
@@ -33,8 +34,8 @@ See <<configuration-author,Configuration Author>>.
 
 [[canonical-representation]]Canonical Representation::
 . The textual form of a <<configuration-key,configuration key>> that is considered to be its authoritative,
-<<configuration-format,format>>-independent, representation.  The canonical representation of a
-<<configuration-key,configuration key>> is a sequence of one or more
+<<configuration-format,format>>-independent, representation.
+.. The canonical representation of a <<configuration-key,configuration key>> is a sequence of one or more
 https://www.unicode.org/charts/charindex.html[Unicode characters] in
 https://www.unicode.org/reports/tr15/#Norm_Forms[Unicode's Normalization Form C (NFC)] where each character is not a
 member of either the https://unicode.org/charts/nameslist/n_0000.html[C0 Controls] or
@@ -72,10 +73,10 @@ format>>.
 format>>.
 
 [[configuration-class]]Configuration Class::
-. A Java class, xref:configuration-class.adoc[with very specific requirements], representing a read-only, unchanging
+. A Java class, xref:configuration-class.adoc[with very specific requirements], representing an <<immutable,immutable>>
 collection of <<configuration-path,configuration paths>> and Java types representing the kinds of
 <<configuration-value,configuration values>> they may identify.
-. The xref:configuration-class.adoc[section within this specfication describing this concept]
+. The xref:configuration-class.adoc[section within this specfication describing this concept].
 
 [[configuration-domain]]Configuration Domain::
 . The set of possible <<configuration-key,configuration keys>> for a given <<component,component>> or
