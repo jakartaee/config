@@ -4,15 +4,15 @@ This section defines the operation of _xref:terminology.adoc#load[loading]_.  Lo
 using Java code that acquires a xref:terminology.adoc#configuration-object[configuration object] from an implementation
 of the Jakarta Config specification.
 
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
+
 == Overview
 
 A xref:terminology.adoc#component-developer[component developer] writes Java code that interacts with an implementation
 of the Jakarta Config specification's `jakarta.config.Loader` interface to load a configuration object.  She supplies
 the `Loader` with the Java objects that comprise a xref:terminology.adoc#load-request[load request].  The `Loader`
-implementation responds by returning a xref:terminology.adoc#suitability[suitable]configuration object, or throwing a
+implementation responds by returning a xref:terminology.adoc#suitability[suitable] configuration object, or throwing a
 `jakarta.config.NoSuchObject` exception to indicate its xref:terminology.adoc#absence[absence].
-
-CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
 == Actors and Roles
 
@@ -31,4 +31,27 @@ NOTE: The actor playing this role is often also playing the component developer 
 
 . An xref:terminology.adoc#implementor[implementor]. An actor playing this role provides an implementation of the
 Jakarta Config specification, and hence also an implementation of the `jakarta.config.Loader` interface.
+
+== Outline
+
+. *A component developer acquires a `jakarta.config.Loader` instance.* For example:
++
+[source,java]
+----
+import jakarta.config.Loader;
+
+Loader loader = Loader.bootstrap(); // <1>
+----
+<1> The `static` `bootstrap()` method bootstraps the sole `Loader` instance.
+
+. *She loads a configuration object.* For example:
++
+[source,java]
+----
+MyConfigurationObject co = loader.load(MyConfigurationObject.class); // <1>
+----
+<1> The `MyConfigurationObject.class` argument is a _xref:terminology.adoc#configuration-class[configuration class]_ and
+here represents a _xref:terminology.adoc#load-request[load request]_.
+
+. *The implementor's `jakarta.config.Loader` implementation builds the object and returns it.*
 

@@ -1,4 +1,7 @@
-== Structure and format
+= Structure and format
+
+WARNING: This section's contents have been subsumed by the xref:logical-model.adoc[Logical Model section] and possibly
+other sections. This section will be removed.
 
 === Terms
 
