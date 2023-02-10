@@ -5,10 +5,10 @@ This section defines the requirements of a xref:terminology.adoc#configuration-c
 
 CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
 
-A configuration class is a Java class conforming to all of the requirements described below that represents:
+A configuration class is a Java class, conforming to all of the requirements described below, that represents:
 
 . an xref:terminology.adoc#immutable[immutable] and xref:terminology.adoc#unchanging[unchanging] set of
-xref:terminology.adoc#configuration-path[configuration paths] and
+xref:terminology.adoc#configuration-path[configuration paths], and
 
 . Java types representing the kinds of representations of xref:terminology.adoc#configuration-value[configuration
 values] they may xref:terminology.adoc#resolved-configuration-path[resolve] to.
@@ -19,11 +19,12 @@ xref:terminology.adoc#configuration-domain[configuration domain].
 A configuration class comprises part of a xref:terminology.adoc#load-request[load request].  See the
 xref:loading.adoc[Loading] section for more details.
 
-Configuration classes may be defined by a xref:terminoloy.adoc#component-developer[component developer].
+Configuration classes may be defined by a xref:terminoloy.adoc#component-developer[component developer] to represent
+all, or portions, of her component's configuration.
 
 == Structural Requirements
 
-The following are the structural requirements of configuration classes.
+The following are the structural requirements of configuration classes:
 
 . A configuration class must be an {jls}/jls-9.html[interface].
 
@@ -108,7 +109,7 @@ xref:terminology.adoc#configuration-value[configuration value] to which the meth
 The configuration paths represented by a configuration class are determined by its structure as follows:
 
 . By itself (that is, considered apart from its members), a configuration class represents a
-xref:terminology.adoc#configuration[configuration] to which configuration paths it represents are relative.
+xref:terminology.adoc#configuration[configuration] to which the configuration paths it represents are relative.
 
 .. A configuration class with no `public` instance methods represents an empty configuration path that resolves to zero
 configuration values.
@@ -135,7 +136,7 @@ class, non-portable behavior results.  (Cycles are not permitted.)
 ====
 In this revision of the specification, (a) representation of xref:terminology.adoc#raw-configuration-value[raw
 configuration values] and (b) conversion of values from their representation in a particular
-xref:terminology.adoc#configuration-format[configuration format] to a partiuclar Java type has not yet been specified.
+xref:terminology.adoc#configuration-format[configuration format] to a partiuclar Java type have not yet been specified.
 ====
 
 ==== Examples
@@ -157,9 +158,19 @@ public interface MyComponent { // <1>
     }
 
 }
+
+public interface Superstructure { // <8>
+
+    public MyComponent mainComponent(); // <9>
+
+    public MyComponent subComponent(); // <10>
+
+    public MyComponent.Subassembly subassembly(); // <11>
+
+}
 ----
-<1> This configuration class, considered apart from its members, represents a configuration to which configuration paths
-it represents are relative.
+<1> This configuration class, considered apart from its members, represents a configuration to which the configuration
+paths it represents are relative.
 
 <2> This method, `name()`, represents a single-element configuration path, comprising a single configuration key whose
 xref:terminology#canonical-representation[canonical representation] is `name`, relative to the configuration represented
@@ -175,7 +186,7 @@ whose canonical representation is `subassembly`, relative to the configuration r
 configuration.
 
 <5> This configuration class, considered apart from its members, and apart from its declaring class, represents a
-configuration to which configuration paths it represents are relative.
+configuration to which the configuration paths it represents are relative.
 
 <6> This method, `partNumbers()`, considered on its own, represents a single-element configuration path, comprising a
 single configuration key whose canonical representation is `partNumbers`, relative to the configuration represented by
@@ -187,13 +198,30 @@ configuration path, comprising exactly two configuration keys whose canonical re
 those previously described (namely `subassembly` and `partNumbers`), relative to the configuration represented by the
 `MyComponent` class, that (hopefuly) resolves to a `List<Integer>`-typed representation of a configuration value.
 
+<8> This configuration class, considered apart from its members, represents a configuration to which the configuration
+paths it represents are relative.
+
+<9> This method, `mainComponent()`, represents a single-element configuration path, comprising a single configuration key
+whose canonical representation is `mainComponent`, relative to the configuration represented by its declaring class, that
+(hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a (nested)
+configuration.
+
+<10> This method, `subComponent()`, represents a single-element configuration path, comprising a single configuration key
+whose canonical representation is `subComponent`, relative to the configuration represented by its declaring class, that
+(hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a (nested)
+configuration.
+
+<11> This method, `subassembly()`, represents a single-element configuration path, comprising a single configuration key
+whose canonical representation is `subassembly`, relative to the configuration represented by its declaring class, that
+(hopefully) resolves to a `Subassembly`-typed representation of a configuration value that here happens to be a (nested)
+configuration.
+
 == Implementation Requirements
 
-When an xref:terminology.adoc#implementor[implementor] implements a configuration class, all of the following are true
-of the resulting implementation, and therefore of its instances
+When an xref:terminology.adoc#implementor[implementor] implements a configuration class, all of the following must be
+true of the resulting implementation, and therefore of its instances
 (xref:terminology.adoc#configuration-object[configuration objects]):
 
-.Implementation Requirements
 . An implementation of a `public`, non-`default` instance method specified by a configuration class must not return
 `null`, or non-portable behavior results.
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2021 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -76,22 +76,28 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <backend>html5</backend>
-                            <outputFile>${project.build.directory}/generated-docs/config-spec-${project.version}.html</outputFile>
+                          <backend>html5</backend>
+                            <!-- outputFile commented out for now while the specification is under development/drafting. -->
+                            <!--
+                                <outputFile>${project.build.directory}/generated-docs/config-spec-${project.version}.html</outputFile>
+                            -->
                             <attributes>
-                                <doctype>book</doctype>
-                                <status>${status}</status>
                                 <data-uri/>
+                                <docinfo>shared</docinfo>
+                                <doctype>book</doctype>
                                 <icons>font</icons>
-                                <toc>left</toc>
-                                <icons>font</icons>
-                                <sectanchors>true</sectanchors>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
-                                <docinfo1>true</docinfo1>
+                                <imagesdir>images</imagesdir>
+                                <sectanchors>true</sectanchors>
+                                <source-highlighter>rouge</source-highlighter>
+                                <status>${status}</status>
+                                <toc>left</toc>
                             </attributes>
                         </configuration>
                     </execution>
+                    <!-- PDF generation commented out for now while the specification is under development/drafting. -->
+                    <!--
                     <execution>
                         <id>asciidoc-to-pdf</id>
                         <phase>generate-resources</phase>
@@ -107,21 +113,25 @@
                                 <doctype>book</doctype>
                                 <status>${status}</status>
                                 <data-uri/>
-                                <icons>font</icons>
+                                <imagesdir>images</imagesdir>
                                 <pagenums/>
                                 <toc/>
                                 <icons>font</icons>
                                 <sectanchors>true</sectanchors>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
-                                <docinfo1>true</docinfo1>
+                                <docinfo>shared</docinfo>
                                 <embedAssets>true</embedAssets>
                             </attributes>
                         </configuration>
                     </execution>
+                    -->
                 </executions>
                 <configuration>
-                    <sourceDocumentName>01-config-spec.adoc</sourceDocumentName>
+                    <!-- sourceDocumentName commented out for now while the specification is under development/drafting. -->
+                    <!--
+                      <sourceDocumentName>01-config-spec.adoc</sourceDocumentName>
+                    -->
                     <sourceHighlighter>coderay</sourceHighlighter>
                     <attributes>
                         <revnumber>${project.version}</revnumber>

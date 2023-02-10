@@ -44,8 +44,6 @@ import java.util.ServiceLoader;
  *
  * @see #load(Class)
  *
- * @see #load(TypeToken)
- *
  * @see <a href="doc-files/terminology.html">Terminology</a>
  */
 public interface Loader {
@@ -82,60 +80,19 @@ public interface Loader {
      * but the requested object was <a
      * href="doc-files/terminology.html#absent">absent</a>
      *
+     * @exception InvalidConfigurationClassException if the supplied
+     * configuration class was structurally invalid
+     *
      * @exception ConfigException if the invocation was sound but the
-     * object could not be loaded for any reason not related to <a
-     * href="doc-files/terminology.html#absent">absence</a>
+     * object could not be loaded for any other reason
      *
      * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
+     * was invalid for any reason other than structural invalidity
      *
      * @exception NullPointerException if the supplied {@code type}
      * was {@code null}
      */
     public <T> T load(Class<T> type);
-
-    /**
-     * Loads a configuration object of the supplied {@code type} and
-     * returns it.
-     *
-     * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration object is
-     * "of the supplied {@code type}" are currently wholly
-     * undefined.</p>
-     *
-     * <p>Implementations of this method must not return {@code
-     * null}.</p>
-     *
-     * <p>Implementations of this method must be idempotent.</p>
-     *
-     * <p>Implementations of this method must be safe for concurrent
-     * use by multiple threads.</p>
-     *
-     * <p>Implementations of this method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value.</p>
-     *
-     * @param <T> the type of object to load
-     *
-     * @param type the type of object to load; must not be {@code null}
-     *
-     * @return the loaded object; never {@code null}
-     *
-     * @exception NoSuchObjectException if the invocation was sound
-     * but the requested object was <a
-     * href="doc-files/terminology.html#absent">absent</a>
-     *
-     * @exception ConfigException if the invocation was sound but the
-     * object could not be loaded for any reason not related to <a
-     * href="doc-files/terminology.html#absent">absence</a>
-     *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
-     *
-     * @exception NullPointerException if the supplied {@code type}
-     * was {@code null}
-     */
-    public <T> T load(TypeToken<T> type);
 
     /**
      * <em>{@linkplain #bootstrap(ClassLoader) Bootstraps}</em> a
@@ -249,9 +206,11 @@ public interface Loader {
             .orElseThrow(NoSuchObjectException::new);
         try {
             return loader.load(Loader.class);
-        } catch (NoSuchObjectException absentValueException) {
+        } catch (NoSuchObjectException | UnsupportedOperationException absentValueOrUnsupportedOperationException) {
             System.getLogger(Loader.class.getName())
-                .log(System.Logger.Level.DEBUG, absentValueException::getMessage, absentValueException);
+                .log(System.Logger.Level.DEBUG,
+                     absentValueOrUnsupportedOperationException::getMessage,
+                     absentValueOrUnsupportedOperationException);
             return loader;
         }
     }

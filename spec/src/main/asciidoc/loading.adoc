@@ -45,7 +45,7 @@ Loader loader = Loader.bootstrap(); // <1>
 <1> The `static` `bootstrap()` method bootstraps a `Loader` instance in simple situations.  This is only one possible
 way of acquiring a `Loader` instance.
 
-. *She loads a configuration object.* For example:
+. *She uses the `jakarta.config.Loader` to load a configuration object.* For example:
 +
 [source,java]
 ----
