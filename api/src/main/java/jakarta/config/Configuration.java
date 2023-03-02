@@ -26,23 +26,12 @@ import java.lang.annotation.Target;
 
 /**
  * <p>
- *     Annotation of configuration-related objects. Defines a {@code value} that represents the property prefix.
- * </p>
- * <p>
- *     Should the {@link ConfigMapping} be used on an interface passed to {@link Loader}, the Loader must use the {@code value}
- *     to load the respective configuration sub-part.
- * </p>
- * <p>
- *     The {@link ConfigMapping} must be used to mark the interface to be handled by the injection support during the injection
- *     requested by the {@code @Inject} annotation.
+ *     The annotation to be used to mark the interface to be handled by the injection support.
  * </p>
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ConfigMapping {
-    /**
-     * @return the base configuration path (prefix or namespace) of the mapping.
-     */
-    String value() default "";
+public @interface Configuration {
+
 }
