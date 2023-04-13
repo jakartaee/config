@@ -1,0 +1,64 @@
+= Loading
+
+This section defines the operations of _xref:terminology.adoc#load[loading]_.  Loading comprises the operations of
+writing and using Java code that acquires a xref:terminology.adoc#configuration-object[configuration object] from an
+implementation of the Jakarta Config specification.
+
+CAUTION: You are reading an incomplete DRAFT specification. The following is subject to change.
+
+== Overview
+
+A xref:terminology.adoc#component-developer[component developer] writes Java code that interacts with an implementation
+of the Jakarta Config specification's `jakarta.config.Loader` interface to load a configuration object.  She supplies
+the `Loader` with the Java objects that comprise a xref:terminology.adoc#load-request[load request].  The `Loader`
+implementation responds by returning a xref:terminology.adoc#suitability[suitable] configuration object, or throwing a
+`jakarta.config.NoSuchObject` exception to indicate its xref:terminology.adoc#absence[absence].
+
+== Actors and Roles
+
+The actors and roles that participate in loading are:
+
+. A xref:terminology.adoc#component-developer[component developer]. An actor playing this role writes Java code in a
+xref:terminology.adoc#component[component] to interact with an implementation of the Jakarta Config specification's
+`jakarta.config.Loader` interface.
+
+. An xref:terminology.adoc#application-assembler[application assembler]. An actor playing this role packages
+xref:terminology.adoc#component[components] and zero or more xref:terminology.adoc#term-configuration[configuration]s in
+particular xref:terminology.adoc#configuration-format[formats] for one or more
+xref:terminology.adoc#environment[environments].
++
+NOTE: The actor playing this role is often also playing the component developer role.
+
+. An xref:terminology.adoc#implementor[implementor]. An actor playing this role provides an implementation of the
+Jakarta Config specification, and hence also an implementation of the `jakarta.config.Loader` interface.
+
+== Outline
+
+. *A component developer acquires a `jakarta.config.Loader` instance.* For example:
++
+[source,java]
+----
+import jakarta.config.Loader;
+
+Loader loader = Loader.bootstrap(); // <1>
+----
+<1> The `static` `bootstrap()` method bootstraps a `Loader` instance in simple situations.  This is only one possible
+way of acquiring a `Loader` instance.
+
+. *She uses the `jakarta.config.Loader` to load a configuration object.* For example:
++
+[source,java]
+----
+MyConfigurationObject co = loader.load(MyConfigurationObject.class); // <1>
+----
+<1> The `MyConfigurationObject.class` argument is a _xref:terminology.adoc#configuration-class[configuration class]_ and
+here represents a _xref:terminology.adoc#load-request[load request]_.
+
+. *The implementor's `jakarta.config.Loader` implementation builds the object and returns it.*
+
+.. If the implementor's `jakarta.config.Loader` implementation determines that the supplied load request either:
+... does not identify a configuration object, or
+... would result in an invalid configuration object
+
++
+…it throws a `jakarta.config.NoSuchObjectException`.

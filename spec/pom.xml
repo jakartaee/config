@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2021 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -34,12 +34,13 @@
     <packaging>pom</packaging>
 
     <properties>
-        <site.output.dir>${project.build.directory}/staging</site.output.dir>
+        <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <maven.site.skip>true</maven.site.skip>
+        <revisiondate>${maven.build.timestamp}</revisiondate>
+        <site.output.dir>${project.build.directory}/staging</site.output.dir>
+        <spec.version>${project.version}</spec.version>
         <!-- status: DRAFT, BETA, etc., or blank for final -->
         <status>DRAFT</status>
-        <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
-        <revisiondate>${maven.build.timestamp}</revisiondate>
     </properties>
 
     <build>
@@ -68,6 +69,18 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
+                <configuration>
+                    <attributes>
+                        <revnumber>${spec.version}</revnumber>
+                        <revremark>${status}</revremark>
+                        <revdate>${revisiondate}</revdate>
+                    </attributes>
+                    <!--
+                        sourceDocumentName commented out for now while the specification is under development/drafting.
+                    -->
+                    <!-- <sourceDocumentName>01-config-spec.adoc</sourceDocumentName> -->
+                    <sourceHighlighter>coderay</sourceHighlighter>
+                </configuration>
                 <executions>
                     <execution>
                         <id>asciidoc-to-html</id>
@@ -76,22 +89,29 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <backend>html5</backend>
-                            <outputFile>${project.build.directory}/generated-docs/config-spec-${project.version}.html</outputFile>
                             <attributes>
-                                <doctype>book</doctype>
-                                <status>${status}</status>
                                 <data-uri/>
+                                <docinfo>shared</docinfo>
+                                <doctype>book</doctype>
                                 <icons>font</icons>
-                                <toc>left</toc>
-                                <icons>font</icons>
-                                <sectanchors>true</sectanchors>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
-                                <docinfo1>true</docinfo1>
+                                <imagesdir>images</imagesdir>
+                                <sectanchors>true</sectanchors>
+                                <status>${status}</status>
+                                <toc>left</toc>
                             </attributes>
+                            <backend>html5</backend>
+                            <!--
+                                outputFile commented out for now while the specification is under development/drafting.
+                            -->
+                            <!-- <outputFile>${project.build.directory}/generated-docs/config-spec-${project.version}.html</outputFile> -->
                         </configuration>
                     </execution>
+                    <!--
+                        PDF generation commented out for now while the specification is under development/drafting.
+                    -->
+                    <!--
                     <execution>
                         <id>asciidoc-to-pdf</id>
                         <phase>generate-resources</phase>
@@ -99,38 +119,29 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <backend>pdf</backend>
-                            <outputFile>${project.build.directory}/generated-docs/config-spec-${project.version}.pdf</outputFile>
                             <attributes>
-                                <pdf-stylesdir>${project.basedir}/src/main/theme</pdf-stylesdir>
-                                <pdf-style>jakartaee</pdf-style>
-                                <doctype>book</doctype>
-                                <status>${status}</status>
                                 <data-uri/>
+                                <docinfo>shared</docinfo>
+                                <doctype>book</doctype>
+                                <embedAssets>true</embedAssets>
                                 <icons>font</icons>
-                                <pagenums/>
-                                <toc/>
                                 <icons>font</icons>
-                                <sectanchors>true</sectanchors>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
-                                <docinfo1>true</docinfo1>
-                                <embedAssets>true</embedAssets>
+                                <imagesdir>images</imagesdir>
+                                <pagenums/>
+                                <pdf-style>jakartaee</pdf-style>
+                                <pdf-stylesdir>${project.basedir}/src/main/theme</pdf-stylesdir>
+                                <sectanchors>true</sectanchors>
+                                <status>${status}</status>
+                                <toc/>
                             </attributes>
+                            <backend>pdf</backend>
+                            <outputFile>${project.build.directory}/generated-docs/config-spec-${project.version}.pdf</outputFile>
                         </configuration>
                     </execution>
+                    -->
                 </executions>
-                <configuration>
-                    <sourceDirectory>src/main/asciidoc</sourceDirectory>
-                    <sourceDocumentName>01-config-spec.adoc</sourceDocumentName>
-                    <attributes>
-                        <revnumber>${project.version}</revnumber>
-                        <revremark>${status}</revremark>
-                        <revdate>${revisiondate}</revdate>
-                        <sourceHighlighter>coderay</sourceHighlighter>
-                        <doctitle>Jakarta Config</doctitle>
-                    </attributes>
-                </configuration>
             </plugin>
         </plugins>
     </build>

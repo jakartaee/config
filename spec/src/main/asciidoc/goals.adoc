@@ -1,0 +1,58 @@
+= Goals
+
+This section describes the <<overall-goals,overall goals>> and <<specific-goals,specific goals>> of this
+specification. The lists of goals are representative, but not exhaustive.
+
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
+
+== Overall Goals
+
+The Jakarta Config Specification has at least the following _overall_ goals, or meta-goals:
+
+. Be rigorous in the use and application of xref:terminology.adoc#terminology[terminology and definitions].
+
+. Minimize the number of concepts and constructs.
+
+. Draw from, and be inspired by, but do not simply copy, existing industry solutions.
+
+. Consider use cases from a variety of stakeholders playing disparate roles.
+
+. Where possible, prefer immutable concepts over mutable ones.
+
+. Where possible, prefer determinate values over indeterminate ones.
+
+. Require as few architectural dependencies as possible.
+
+== Specific Goals
+
+The Jakarta Config Specification has at least the following _specific_ goals:
+
+. Provide a xref:terminology.adoc#term-logical-model[logical model of configuration], independent of
+  xref:terminology.adoc#configuration-format[configuration format] or Java specifics.
+
+.. Ensure that any supported xref:terminology.adoc#configuration-format[configuration formats] can be represented by the
+   logical model.
+
+. Provide a means of representing a xref:terminology.adoc#term-logical-model[logical model of configuration] in Java.
+
+. Make it easy for a Java developer to define a xref:terminology.adoc#term-configuration-class[configuration class].
+
+. Make it easy for a xref:terminology.adoc#component-developer[Java component developer] to acquire such a
+  xref:terminology.adoc#configuration-object[configuration object].
+
+. [[goal-architecture]]Make it possible for a xref:terminology.adoc#implementor[product developer] to configure the
+  lowest architectural level of her product with an implementation of this specification.
++
+NOTE: As an arbitrary example, a Jakarta Components and Dependency Injection implementation should be able to be
+configured using an implementation of Jakarta Config.
+
+. Permit the defining of alternate persistent configurations where appropriate.
++
+NOTE: For example, it probably should be possible for an xref:terminology.adoc#application-assembler[application
+assembler] to supply configuration in various ways, tailored for particular
+xref:terminology.adoc#environment[environments].
+
+. Prevent the defining of alternate persistent configurations where not appropriate.
++
+NOTE: For example, it probably should not be the case that user-supplied configuration should override the security
+configuration of an application server.

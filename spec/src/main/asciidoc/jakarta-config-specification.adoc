@@ -1,0 +1,62 @@
+//
+// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Jakarta Config Specification
+:author: Jakarta Config contributors
+:doctype: book
+:email: config-dev@eclipse.org
+:license: Eclipse Foundation Specification License v1.0
+:sectanchors:
+:sectnumlevels: 4
+:source-highlighter: coderay
+:toc: left
+:toclevels: 4
+ifdef::backend-pdf[]
+:pagenums:
+endif::[]
+
+:sectnums!:
+
+include::license-efsl.adoc[]
+
+:leveloffset: +1
+
+include::preface.adoc[]
+
+include::who-should-read-this-specification.adoc[leveloffset=+1]
+
+include::dependent-specifications.adoc[leveloffset=+1]
+
+:sectnums:
+
+include::introduction.adoc[]
+
+include::goals.adoc[leveloffset=+1]
+
+include::logical-model.adoc[]
+
+include::configuration-class.adoc[]
+
+include::loading.adoc[]
+
+include::terminology.adoc[]
+
+include::unaddressed-issues.adoc[]
+
+:leveloffset: -1

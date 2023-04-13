@@ -1,0 +1,11 @@
+= Preface
+
+This document is the Jakarta Config Specification, version {revnumber}.
+
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
+
+== Linguistic Conventions
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT
+RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in
+link:https://www.ietf.org/rfc/rfc2119.html[RFC2119, "Key words for use in RFCs to Indicate Requirement Levels"].

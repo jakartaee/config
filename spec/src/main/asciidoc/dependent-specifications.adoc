@@ -1,0 +1,23 @@
+= Dependent Specifications
+:jakartaee-specs: https://jakarta.ee/specifications
+
+This section lists other specifications the Jakarta Config Specification depends on.
+
+CAUTION: You are reading an incomplete DRAFT specification. The following is subject to change.
+
+== Dependent Jakarta EE Specifications
+
+The Jakarta Config Specification depends on the following Jakarta EE specifications:
+
+* link:https://jakarta.ee/specifications/dependency-injection/2.0/apidocs/jakarta/inject/package-summary.html#package.description[Jakarta Dependency Injection]
++
+NOTE: The Jakarta Config Specification does not depend on the
+link:{jakartaee-specs}/cdi/4.0/jakarta-cdi-spec-4.0.html[Jakarta Contexts and Dependency Injection Specification]
+because of its xref:goals.adoc#goal-architecture[architectural positioning] within the Jakarta EE Platform.
+
+== Other Dependent Specifications
+
+The Jakarta Config Specification depends on the following non-Jakarta EE specifications:
+
+* Unicode 15.0.0, specifically link:https://www.unicode.org/reports/tr15/#Norm_Forms[Technical Report 15, Unicode
+  Normalization Forms]

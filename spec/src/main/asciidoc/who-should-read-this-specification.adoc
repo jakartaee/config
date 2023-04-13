@@ -1,0 +1,6 @@
+= Who Should Read This Specification
+
+The intended audiences for this specification include:
+
+* xref:terminology.adoc#implementor[Implementors] of this specification.
+* xref:terminology.adoc#author[Authors] of xref:terminology.adoc#configuration[configuration].

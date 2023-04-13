@@ -1,0 +1,140 @@
+= Logical Model
+
+This section defines the xref:terminology.adoc#term-logical-model[logical model] of configuration used by this
+specification.
+
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
+
+IMPORTANT: All terms and entities discussed in this section are, by definition, independent of programming model and
+xref:terminology.adoc#configuration-format[configuration format] concerns unless otherwise specified.
+
+== Configuration
+
+Within the logical model, a xref:terminology.adoc#term-configuration[configuration] is a
+xref:terminology.adoc#logical[logical] entity that comprises all of the following:
+
+. Exactly one _root_ or _top-level xref:terminology.adoc#configuration-value[configuration value]_ (the configuration itself)
+. An unordered set of zero or more xref:terminology.adoc#configuration-entry[configuration entries]
+
+NOTE: It follows that a configuration is a kind of configuration value.
+
+Each such configuration entry is a logical entity that comprises all of the following:
+
+. Exactly one xref:terminology.adoc#configuration-key[configuration key] unique within its containing configuration
+. Exactly one configuration value identified within its containing configuration by that configuration key
+
+NOTE: It follows that configuration keys are logically comparable and logically unique within a configuration.
+
+NOTE: It follows that configuration entries are logically comparable by key and also logically unique within a
+configuration.
+
+In this way, the logical model forms a tree, of which all nodes and leaves are configuration values.
+
+Uniqueness and other comparison semantics of configuration keys are discussed below.
+
+== Configuration Entries
+
+Within the logical model, a configuration entry is a logical pairing of exactly one configuration key with exactly one
+configuration value within a containing configuration.
+
+A configuration entry is contained by exactly one configuration.
+
+Given a configuration, _c_, and a configuration key, _k_, there can be only one configuration entry bearing _k_ (or
+another key, _k'_, when _k_ compares as equal to _k'_) within _c_.  Equality and comparison semantics of
+configuration keys are discussed below.
+
+== Configuration Keys
+
+Within the logical model, a configuration key serves only as a logical identifier of a configuration value (and by
+extension its sole containing entry) within its containing configuration.
+
+NOTE: It follows that configuration keys must be logically comparable (to define their uniqueness).
+
+=== Canonical Representation
+
+Although logical, a configuration key may always be represented as a sequence of Unicode characters (a string) adhering
+to all of the following requirements:
+
+. The sequence must contain at least one character.
+. The sequence must not contain a character from either the https://unicode.org/charts/nameslist/n_0000.html[Unicode C0
+controls code chart] or the https://unicode.org/charts/nameslist/n_0080.html[Unicode C1 controls code chart].
+. The sequence must be in https://www.unicode.org/reports/tr15/#Norm_Forms[Unicode's Normalization Form C (NFC)].
+
+This representation of a configuration key is known as its
+_xref:terminology.adoc#term-canonical-representation[canonical representation]_.
+
+Two configuration keys compare as logically equal if and only if their canonical representations compare as
+lexicographically equal.
+
+Such logically equal configuration keys are entirely interchangeable.
+
+Any mechanism producing a configuration key's canonical representation must produce a determinate value when supplied
+with inputs it considers equal.
+
+NOTE: The representation of a configuration key in a particular configuration format may have additional (or fewer)
+restrictions imposed by that format.
+
+== Configuration Values
+
+Within the logical model, a configuration value may be any of the following:
+
+. A xref:terminology.adoc#raw-configuration-value[raw value].  A raw configuration value in the logical model is a
+configuration value that is itself not a configuration. The logical model does not currently further define raw
+configuration values.
+. A configuration. Configurations are a kind of configuration value.
+
+NOTE: A configuration value need not be contained in a configuration entry, since it may be a root or top-level
+configuration value.
+
+NOTE: This specification reserves the right to introduce other kinds of configuration values, or to refine existing
+definitions.
+
+== Configuration Paths
+
+Within the logical model, a xref:terminology.adoc#configuration-path[configuration path] is a logical sequence of zero
+or more configuration keys that identifies either zero or one configuration value in a (possibly
+xref:terminology.adoc#nested-configuration[nested]) configuration.
+
+A configuration path is always logically relative to zero or one configuration.
+
+A configuration path with zero configuration keys is said to be empty.
+
+An empty configuration path always identifies the configuration, if any, to which it is relative, and nothing else.
+
+NOTE: This specification does not currently define or address any notion of a logical "path space" within which any
+given configuration path might logically reside. Such a concept might be used later to prevent inadvertent clashes.
+
+A configuration path that identifies a xref:terminology.adoc#presence[present] configuration value is said to be
+xref:terminology.adoc#resolved-configuration-path[resolved].
+
+A configuration path that identifies an xref:terminology.adoc#absence[absent] configuration value is said to be
+xref:terminology.adoc#unresolved-configuration-path[unresolved].
+
+Two configuration paths that contain logically equal configuration keys in the same order are considered to be logically
+equal.
+
+Such logically equal configuration paths are entirely xref:terminology.adoc#interchangeable[interchangeable].
+
+=== Configuration Path Separators
+
+A non-empty configuration path that contains _n_ configuration keys also logically contains _n - 1_ logical
+xref:terminology.adoc#configuration-path-separator[configuration path separators] separating its configuration keys.
+
+Within the logical model, a configuration path separator is a logical token that does not form part of any of the
+configuration keys in the sequence, but serves only to separate them from one another.
+
+Logically, configuration path separators have no meaning other than as separators of configuration keys.  Most notably,
+configuration path separators do not contribute to the size, equality, or comparison semantics of their configuration
+path, or of its configuration keys.
+
+The logical model does not define any canonical representation of a configuration path separator and hence does not
+define any canonical representation of a configuration path.
+
+The logical model does not currently further define configuration path separators.
+
+This specification reserves the right to further define configuration paths and configuration path separators in future
+revisions.
+
+== Conceptual Diagram
+
+image::Logical Model.png[]

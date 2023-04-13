@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,14 +21,17 @@ package jakarta.config;
 import java.util.ServiceLoader;
 
 /**
- * A loader of configuration-related objects.
+ * A loader of configuration objects.
+ *
+ * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
+ * draft specification that is subject to change.</p>
  *
  * <p>Sample usage:</p>
  *
  * <blockquote><pre>{@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
- *MyConfigurationRelatedObject object = null;
+ *MyConfigurationObject object = null;
  *try {
- *  object = loader.{@linkplain #load(Class) load(MyConfigurationRelatedObject.class)};
+ *  object = loader.{@linkplain #load(Class) load(MyConfigurationObject.class)};
  *} catch ({@linkplain NoSuchObjectException} noSuchObjectException) {
  *  // object is <a href="doc-files/terminology.html#absent">absent</a>
  *} catch ({@linkplain ConfigException} configException) {
@@ -48,11 +51,11 @@ import java.util.ServiceLoader;
 public interface Loader {
 
     /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
+     * Loads a configuration object of the supplied {@code type} and
+     * returns it.
      *
      * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
+     * determined whether any given configuration object is
      * "of the supplied {@code type}" are currently wholly
      * undefined.</p>
      *
@@ -79,60 +82,21 @@ public interface Loader {
      * but the requested object was <a
      * href="doc-files/terminology.html#absent">absent</a>
      *
+     * @exception InvalidConfigurationClassException if the supplied
+     * configuration class was structurally invalid
+     *
      * @exception ConfigException if the invocation was sound but the
      * object could not be loaded for any reason not related to <a
      * href="doc-files/terminology.html#absent">absence</a>
      *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
+     * @exception IllegalArgumentException if the supplied {@code
+     * type} was invalid for any reason other than structural
+     * invalidity
      *
      * @exception NullPointerException if the supplied {@code type}
      * was {@code null}
      */
     public <T> T load(Class<T> type);
-
-    /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
-     *
-     * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
-     * "of the supplied {@code type}" are currently wholly
-     * undefined.</p>
-     *
-     * <p>Implementations of this method must not return {@code
-     * null}.</p>
-     *
-     * <p>Implementations of this method must be idempotent.</p>
-     *
-     * <p>Implementations of this method must be safe for concurrent
-     * use by multiple threads.</p>
-     *
-     * <p>Implementations of this method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value.</p>
-     *
-     * @param <T> the type of object to load
-     *
-     * @param type the type of object to load; must not be {@code null}
-     *
-     * @return the loaded object; never {@code null}
-     *
-     * @exception NoSuchObjectException if the invocation was sound
-     * but the requested object was <a
-     * href="doc-files/terminology.html#absent">absent</a>
-     *
-     * @exception ConfigException if the invocation was sound but the
-     * object could not be loaded for any reason not related to <a
-     * href="doc-files/terminology.html#absent">absence</a>
-     *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
-     *
-     * @exception NullPointerException if the supplied {@code type}
-     * was {@code null}
-     */
-    public <T> T load(TypeToken<T> type);
 
     /**
      * <em>{@linkplain #bootstrap(ClassLoader) Bootstraps}</em> a
@@ -246,9 +210,9 @@ public interface Loader {
             .orElseThrow(NoSuchObjectException::new);
         try {
             return loader.load(Loader.class);
-        } catch (NoSuchObjectException absentValueException) {
+        } catch (NoSuchObjectException | UnsupportedOperationException e) {
             System.getLogger(Loader.class.getName())
-                .log(System.Logger.Level.DEBUG, absentValueException::getMessage, absentValueException);
+                .log(System.Logger.Level.DEBUG, e::getMessage, e);
             return loader;
         }
     }

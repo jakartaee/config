@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,49 +19,49 @@
 package jakarta.config;
 
 /**
- * A {@link ConfigException} thrown when a configuration object was
- * not found.
+ * A {@link ConfigException} thrown when a configuration class was
+ * found to be invalid.
  *
  * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
  * draft specification that is subject to change.</p>
  */
-public class NoSuchObjectException extends ConfigException {
+public class InvalidConfigurationClassException extends ConfigException {
 
     /**
-     * Creates a new {@link NoSuchObjectException}.
+     * Creates a new {@link InvalidConfigurationClassException}.
      */
-    public NoSuchObjectException() {
+    public InvalidConfigurationClassException() {
         super();
     }
 
     /**
-     * Creates a new {@link NoSuchObjectException}.
+     * Creates a new {@link InvalidConfigurationClassException}.
      *
      * @param message a detail message; may be {@code null}
      */
-    public NoSuchObjectException(String message) {
+    public InvalidConfigurationClassException(String message) {
         super(message);
     }
 
     /**
-     * Creates a new {@link NoSuchObjectException}.
+     * Creates a new {@link InvalidConfigurationClassException}.
      *
      * @param cause the {@link Throwable} responsible for this {@link
-     * NoSuchObjectException}'s existence; may be {@code null}
+     * InvalidConfigurationClassException}'s existence; may be {@code null}
      */
-    public NoSuchObjectException(Throwable cause) {
+    public InvalidConfigurationClassException(Throwable cause) {
         super(cause);
     }
 
     /**
-     * Creates a new {@link NoSuchObjectException}.
+     * Creates a new {@link InvalidConfigurationClassException}.
      *
      * @param message a detail message; may be {@code null}
      *
      * @param cause the {@link Throwable} responsible for this {@link
-     * NoSuchObjectException}'s existence; may be {@code null}
+     * InvalidConfigurationClassException}'s existence; may be {@code null}
      */
-    public NoSuchObjectException(String message, Throwable cause) {
+    public InvalidConfigurationClassException(String message, Throwable cause) {
         super(message, cause);
     }
 
