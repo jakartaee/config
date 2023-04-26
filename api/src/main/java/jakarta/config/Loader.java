@@ -23,6 +23,9 @@ import java.util.ServiceLoader;
 /**
  * A loader of configuration-related objects.
  *
+ * <p><strong>\u26A0 Caution:</strong> you are reading an incomplete
+ * draft specification that is subject to change.</p>
+ *
  * <p>Sample usage:</p>
  *
  * <blockquote><pre>{@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
@@ -40,8 +43,6 @@ import java.util.ServiceLoader;
  * @see #bootstrap(ClassLoader)
  *
  * @see #load(Class)
- *
- * @see #load(TypeToken)
  *
  * @see <a href="doc-files/terminology.html">Terminology</a>
  */
@@ -90,49 +91,6 @@ public interface Loader {
      * was {@code null}
      */
     public <T> T load(Class<T> type);
-
-    /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
-     *
-     * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
-     * "of the supplied {@code type}" are currently wholly
-     * undefined.</p>
-     *
-     * <p>Implementations of this method must not return {@code
-     * null}.</p>
-     *
-     * <p>Implementations of this method must be idempotent.</p>
-     *
-     * <p>Implementations of this method must be safe for concurrent
-     * use by multiple threads.</p>
-     *
-     * <p>Implementations of this method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value.</p>
-     *
-     * @param <T> the type of object to load
-     *
-     * @param type the type of object to load; must not be {@code null}
-     *
-     * @return the loaded object; never {@code null}
-     *
-     * @exception NoSuchObjectException if the invocation was sound
-     * but the requested object was <a
-     * href="doc-files/terminology.html#absent">absent</a>
-     *
-     * @exception ConfigException if the invocation was sound but the
-     * object could not be loaded for any reason not related to <a
-     * href="doc-files/terminology.html#absent">absence</a>
-     *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
-     *
-     * @exception NullPointerException if the supplied {@code type}
-     * was {@code null}
-     */
-    public <T> T load(TypeToken<T> type);
 
     /**
      * <em>{@linkplain #bootstrap(ClassLoader) Bootstraps}</em> a
