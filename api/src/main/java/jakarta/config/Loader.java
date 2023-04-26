@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,6 +18,7 @@
  */
 package jakarta.config;
 
+import java.util.List;
 import java.util.ServiceLoader;
 
 /**
@@ -31,30 +32,36 @@ import java.util.ServiceLoader;
  * <blockquote><pre>{@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
  *MyConfigurationRelatedObject object = null;
  *try {
- *  object = loader.{@linkplain #load(Class) load(MyConfigurationRelatedObject.class)};
+ *  object = loader.{@linkplain #load(List, Class) load(List.of("x", "y"), MyConfigurationRelatedObject.class)};
  *} catch ({@linkplain NoSuchObjectException} noSuchObjectException) {
  *  // object is <a href="doc-files/terminology.html#absent">absent</a>
  *} catch ({@linkplain ConfigException} configException) {
- *  // a {@linkplain #load(Class) loading}-related error occurred
+ *  // a {@linkplain #load(List, Class) loading}-related error occurred
  *}</pre></blockquote>
  *
  * @see #bootstrap()
  *
  * @see #bootstrap(ClassLoader)
  *
- * @see #load(Class)
+ * @see #load(List, Class)
  *
  * @see <a href="doc-files/terminology.html">Terminology</a>
  */
 public interface Loader {
 
     /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
+     * Loads a configuration object of the supplied {@code
+     * configurationClass}, conceptually located within an
+     * application's configuration at the supplied {@code
+     * configurationPath}, and returns it.
      *
      * <p><strong>Note:</strong> The rules governing how it is
      * determined whether any given configuration-related object is
-     * "of the supplied {@code type}" are currently wholly
+     * "of the supplied {@code configurationClass}" are currently
+     * wholly undefined.</p>
+     *
+     * <p><strong>Note:</strong> All namespace concerns around the
+     * supplied {@code configurationPath} are currently wholly
      * undefined.</p>
      *
      * <p>Implementations of this method must not return {@code
@@ -71,26 +78,39 @@ public interface Loader {
      *
      * @param <T> the type of object to load
      *
-     * @param type the type of object to load; must not be {@code
-     * null}
+     * @param configurationPath a {@link List} of {@link String}s
+     * forming a configuration path, where each element is a canonical
+     * representation of a configuration key; must not be {@code null}
      *
-     * @return the loaded object; never {@code null}
+     * @param configurationClass the configuration class defining the
+     * configuraiton object to load; must not be {@code null}
+     *
+     * @return the loaded configuration object; never {@code null}
      *
      * @exception NoSuchObjectException if the invocation was sound
      * but the requested object was <a
-     * href="doc-files/terminology.html#absent">absent</a>
+     * href="doc-files/terminology.html#absent">absent</a>. This may
+     * happen for a variety of reasons, including that the supplied
+     * configuration path does not resolve in a given application in
+     * which the caller of this method finds itself.
+     *
+     * @exception InvalidConfigurationClassException if the supplied
+     * {@code configurationClass} did not conform to the requirements
+     * of a configuration class as defined in the Jakarta Config
+     * specification
+     *
+     * @exception IllegalArgumentException if the suplied {@code configurationClass}
+     * was invalid for some other reason
      *
      * @exception ConfigException if the invocation was sound but the
      * object could not be loaded for any reason not related to <a
      * href="doc-files/terminology.html#absent">absence</a>
      *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
-     *
-     * @exception NullPointerException if the supplied {@code type}
-     * was {@code null}
+     * @exception NullPointerException if either of the supplied
+     * {@code configurationPath} or {@code configurationClass}
+     * arguments was {@code null}
      */
-    public <T> T load(Class<T> type);
+    public <T> T load(List<String> configurationPath, Class<T> configurationClass);
 
     /**
      * <em>{@linkplain #bootstrap(ClassLoader) Bootstraps}</em> a
@@ -120,7 +140,7 @@ public interface Loader {
      * ClassLoader)} or {@link ServiceLoader#findFirst()} problem
      *
      * @exception ConfigException if bootstrapping failed because of a
-     * {@link Loader#load(Class)} problem
+     * {@link Loader#load(List, Class)} problem
      *
      * @see #bootstrap(ClassLoader)
      */
@@ -144,7 +164,7 @@ public interface Loader {
      *  .{@linkplain java.util.ServiceLoader#findFirst() findFirst()}
      *  .{@linkplain java.util.Optional#orElseThrow() orElseThrow}({@linkplain NoSuchObjectException#NoSuchObjectException() NoSuchObjectException::new});</pre></blockquote></li>
      *
-     * <li>The {@link #load(Class)} method is invoked on the resulting
+     * <li>The {@link #load(List, Class)} method is invoked on the resulting
      * {@link Loader} with {@link Loader Loader.class} as its sole
      * argument.
      *
@@ -196,14 +216,14 @@ public interface Loader {
      * ClassLoader)} or {@link ServiceLoader#findFirst()} problem
      *
      * @exception ConfigException if bootstrapping failed because of a
-     * {@link Loader#load(Class)} problem
+     * {@link Loader#load(List, Class)} problem
      */
     public static Loader bootstrap(ClassLoader classLoader) {
         Loader loader = ServiceLoader.load(Loader.class, classLoader)
             .findFirst()
             .orElseThrow(NoSuchObjectException::new);
         try {
-            return loader.load(Loader.class);
+            return loader.load(List.of(), Loader.class);
         } catch (NoSuchObjectException absentValueException) {
             System.getLogger(Loader.class.getName())
                 .log(System.Logger.Level.DEBUG, absentValueException::getMessage, absentValueException);
