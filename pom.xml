@@ -57,7 +57,7 @@
         <version.jakarta.inject>2.0.1</version.jakarta.inject>
         <version.jruby>9.3.4.0</version.jruby>
         <version.junit>5.9.3</version.junit>
-        <version.testng>7.7.1</version.testng>
+        <version.testng>7.8.0</version.testng>
 
         <version.plugin.compiler>3.11.0</version.plugin.compiler>
         <version.plugin.enforcer>3.1.0</version.plugin.enforcer>
