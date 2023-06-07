@@ -1,0 +1,54 @@
+== Introduction
+
+=== Scope
+
+Jakarta Config ("Specification") is a Java API for working with configurations. It supports externalized configuration allowing applications to use different configurations for different environments (dev, test, prod), and allows reading data from different layered configuration sources such as property files, environment variables, etc.
+
+=== Goals
+
+- Specification must include a programmatic API allowing configuring and using configurations at runtime.
+- Specification must include annotations based API allowing compile-time configuration.
+- Specification must support converters and evaluate switching to Converters specification when it becomes available.
+- Specification must support object-mapping. Solution must respect Java methods visibility principles.
+- Specification must provide integration with CDI and optionally with  dependency injection frameworks.
+- Specification must distinguish empty strings and null values.
+- Specification must support profiles such as dev, test and prod.
+- Specification must support both mutable and immutable configuration sources.
+- Specification must support flat and hierarchical configuration structure.
+- Configuration must explain how to deal with configurations stored in common file formats such as property files, yaml, json.
+
+=== Non-Goals
+
+- Blindly copy MicroProfile Config specification.
+- Blindly copy APIs from any of existing configuration frameworks.
+
+=== Resources
+
+- GitHub repository: https://github.com/eclipse-ee4j/config
+- Jakarta EE Specification Project: https://projects.eclipse.org/projects/ee4j.jakartaconfig
+- Mailing List: https://accounts.eclipse.org/mailing-list/config-dev
+
+=== Conventions
+
+The keywords 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'MAY', and 'OPTIONAL' in this document are to be interpreted as described in https://www.ietf.org/rfc/rfc2119.txt[RFC 2119].
+
+Java code and sample data fragments are formatted as shown below:
+
+[source,java]
+.Example Java Code
+----
+package com.example.hello;
+
+public class Hello {
+    public static void main(String args[]) {
+        System.out.println("Hello World");
+    }
+}
+----
+
+All parts of this specification are normative, except for examples, notes and sections explicitly marked as 'Non-Normative'. Non-normative notes are formatted as shown below:
+
+*Note:* _This is a note._
+
+=== Terminology
+

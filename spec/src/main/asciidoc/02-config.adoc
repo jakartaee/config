@@ -1,9 +1,6 @@
-= Jakarta Config Specification
+== Specification
 
-== Introduction
-
-
-== Support Injection
+=== Support Injection
 A ConfigMapping interface can be injected via the `@Inject`. The following example demonstrates the usage.
 
 [source]

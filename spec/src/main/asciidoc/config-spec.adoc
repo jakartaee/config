@@ -36,4 +36,5 @@ endif::[]
 include::license-efsl.adoc[]
 
 :sectnums:
+include::01-introduction.adoc[]
 include::02-config.adoc[]
