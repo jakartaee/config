@@ -20,11 +20,11 @@ The following is a usage example for how `@Inject` may be used:
 ----
 @ConfigMapping("customer")
 public interface MyConfigMapping{
-    String name;
-    int age;
+    String name();
+    int age();
 }
 
 @Inject MyConfigMapping myConfigMapping;
 ----
 
-In the above example, the values for `myConfigMapping.name` for `myConfigMapping.age` will be `Bob`, `28` correspondingly.
+In the above example, the values for `myConfigMapping.name()` for `myConfigMapping.age()` will be `Bob`, `28` correspondingly.
