@@ -121,12 +121,14 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <sourceDirectory>src/main/asciidoc</sourceDirectory>
                     <sourceDocumentName>01-config-spec.adoc</sourceDocumentName>
-                    <sourceHighlighter>coderay</sourceHighlighter>
                     <attributes>
                         <revnumber>${project.version}</revnumber>
                         <revremark>${status}</revremark>
                         <revdate>${revisiondate}</revdate>
+                        <sourceHighlighter>coderay</sourceHighlighter>
+                        <doctitle>Jakarta Config</doctitle>
                     </attributes>
                 </configuration>
             </plugin>
