@@ -18,7 +18,7 @@
 //
 
 = Jakarta Config Specification
-:author: Jakarta Config contributors
+:author: Contributors to the Jakarta Config Specification (https://github.com/eclipse-ee4j/config/graphs/contributors)
 :doctype: book
 :email: config-dev@eclipse.org
 :license: Eclipse Foundation Specification License v1.0
@@ -28,7 +28,9 @@
 :toc: left
 :toclevels: 4
 ifdef::backend-pdf[]
+:numbered:
 :pagenums:
+:title-logo-image: image:jakarta_ee_logo_schooner_color_stacked_default.png[pdfwidth=4.25in,align=right]
 endif::[]
 
 :sectnums!:
