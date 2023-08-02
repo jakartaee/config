@@ -1,10 +1,10 @@
 = Configuration Interface
 :jls: https://docs.oracle.com/javase/specs/jls/se19/html
 
-This section defines the requirements of a xref:terminology.adoc#term-configuration-class[configuration interface], a Java
-representation of certain xref:terminology.adoc#logical[logical] concepts from the
-xref:terminology.adoc#term-logical-model[logical model] of configuration defined by this specification. Unless
-otherwise specified, this section is normative.
+This section defines the requirements of a xref:terminology.adoc#term-configuration-interface[configuration interface],
+a Java representation of certain xref:terminology.adoc#logical[logical] concepts from the
+xref:terminology.adoc#term-logical-model[logical model] of configuration defined by this specification. Unless otherwise
+specified, this section is normative.
 
 CAUTION: You are reading an incomplete DRAFT specification. The following is subject to change.
 
