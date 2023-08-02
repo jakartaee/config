@@ -11,7 +11,7 @@ removed, possibly without notice, when appropriate.
 == xref:terminology.adoc#persistent-configuration[Persistent configuration] locations
 
 Often known informally as "config sources", these would be competing, potentially conflicting, mechanisms between which
-a xref:terminology.adoc#term-loader[`Loader`] would have to arbitrate.  There will be cases where specifying how these
+a xref:terminology.adoc#loader[`Loader`] would have to arbitrate.  There will be cases where specifying how these
 interact is desired, and cases (typically involving things like application server security) where such facilities must
 be prohibited. To date, this area has not been discussed in a rigorous manner.
 
