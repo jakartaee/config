@@ -1,14 +1,14 @@
-= Configuration Class
+= Configuration Interface
 :jls: https://docs.oracle.com/javase/specs/jls/se19/html
 
-This section defines the requirements of a xref:terminology.adoc#term-configuration-class[configuration class], a Java
+This section defines the requirements of a xref:terminology.adoc#term-configuration-class[configuration interface], a Java
 representation of certain xref:terminology.adoc#logical[logical] concepts from the
 xref:terminology.adoc#term-logical-model[logical model] of configuration defined by this specification. Unless
 otherwise specified, this section is normative.
 
 CAUTION: You are reading an incomplete DRAFT specification. The following is subject to change.
 
-A configuration class is a Java class, conforming to all of the requirements described below, that represents:
+A configuration interface is a Java interface, conforming to all of the requirements described below, that represents:
 
 . an xref:terminology.adoc#immutable[immutable] and xref:terminology.adoc#unchanging[unchanging] set of
 xref:terminology.adoc#configuration-path[configuration paths], and
@@ -16,58 +16,58 @@ xref:terminology.adoc#configuration-path[configuration paths], and
 . Java types representing the kinds of representations of xref:terminology.adoc#configuration-value[configuration
 values] they may xref:terminology.adoc#resolved-configuration-path[resolve] to.
 
-NOTE: Because a configuration class represents a set of configuration paths, it also represents a portion of a
+NOTE: Because a configuration interface represents a set of configuration paths, it also represents a portion of a
 xref:terminology.adoc#configuration-domain[configuration domain].
 
-NOTE: A configuration class also comprises part of a xref:terminology.adoc#load-request[load request]. See the
+NOTE: A configuration interface also comprises part of a xref:terminology.adoc#load-request[load request]. See the
 xref:loading.adoc[Loading] section for more details.
 
-Configuration classes may be defined by a xref:terminoloy.adoc#component-developer[component developer] to represent
+Configuration interfaces may be defined by a xref:terminoloy.adoc#component-developer[component developer] to represent
 all, or portions, of her component's configuration.
 
 == Structural Requirements
 
-The following are the structural requirements of configuration classes:
+The following are the structural requirements of configuration interfaces:
 
-. A configuration class must be an {jls}/jls-9.html[interface].
+. A configuration interface must be a {jls}/jls-9.html[Java interface].
 
-. A configuration class must not declare type parameters, or non-portable behavior results. (A configuration class must
-be a non-generic interface.)
+. A configuration interface must not be an {jls}/jls-9.html#jls-9.6[annotation interface].
 
-. A configuration class must not be an {jls}/jls-9.html#jls-9.6[annotation interface].
+. A configuration interface must not declare type parameters, or non-portable behavior results. (A configuration
+interface must be a non-generic, non-annotation interface.)
 
-. A configuration class may be a {jls}/jls-8.html#jls-8.5[member interface]. (There are no additional restrictions on
-the nesting kind of a configuration class imposed by this specification.)
+. A configuration interface may be a {jls}/jls-8.html#jls-8.5[member interface]. (There are no additional restrictions
+on the nesting kind of a configuration interface imposed by this specification.)
 
-. A configuration class must be `public`.
+. A configuration interface must be `public`.
 
-. A configuration class must not be `sealed`.
+. A configuration interface must not be `sealed`.
 
-. A configuration class must not be hidden.
+. A configuration interface must not be hidden.
 
-. A configuration class may have any legal name. (There are no additional restrictions on the class name imposed by
-this specification.)
+. A configuration interface may have any legal name. (There are no additional restrictions on the interface name imposed
+by this specification.)
 
-. A configuration class may extend other interfaces, provided that the resulting specialization adheres to all the
+. A configuration interface may extend other interfaces, provided that the resulting specialization adheres to all the
 requirements of this section.
 
-. A configuration class may contain `static` methods and `static` fields. (There are no additional restrictions on
+. A configuration interface may contain `static` methods and `static` fields. (There are no additional restrictions on
 `static` members imposed by this specification.)
 
-. A configuration class may declare member classes and interfaces. (There are no additional restrictions on member
+. A configuration interface may declare member classes and interfaces. (There are no additional restrictions on member
 classes and interfaces imposed by this specification.)
 
-. A configuration class may contain `default` methods.
+. A configuration interface may contain `default` methods.
 
-. A configuration class may contain `private` methods. (There are no additional restrictions on `private` methods
+. A configuration interface may contain `private` methods. (There are no additional restrictions on `private` methods
 imposed by this specification.)
 
-. A `public`, non-`default` instance method of a configuration class must not declare type parameters, or non-portable
-behavior results.
+. A `public`, non-`default` instance method of a configuration interface must not declare type parameters, or
+non-portable behavior results.
 
-. A `public` instance method of a configuration class may declare parameters.
+. A `public` instance method of a configuration interface may declare parameters.
 
-.. If a `public`, non-`default` instance method of a configuration class declares parameters, and the configuration
+.. If a `public`, non-`default` instance method of a configuration interface declares parameters, and the configuration
 class is supplied as part of a load request, a Jakarta Config implementation may choose to either:
 
 ... Implement the method somehow, provided that it fulfils all other structural requirements, or
@@ -78,19 +78,19 @@ class is supplied as part of a load request, a Jakarta Config implementation may
 
 .... a `java.lang.UnsupportedOperationException`
 
-NOTE: A given Jakarta Config implementation may choose to support configuration classes that do not meet all of these
+NOTE: A given Jakarta Config implementation may choose to support configuration interfaces that do not meet all of these
 requirements, but such a class may not be fully portable between Jakarta Config implementations.
 
 == Semantics
 
-A configuration class represents an xref:terminology.adoc#immutable[immutable] view of a xref:logical-model.adoc[logical
-configuration] in Java.
+A configuration interface represents an xref:terminology.adoc#immutable[immutable] view of a
+xref:logical-model.adoc[logical configuration] in Java.
 
 === Overview
 
 Generally and non-normatively:
 
-. The configuration class itself represents a collection of configuration paths and Java types representing the
+. The configuration interface itself represents a collection of configuration paths and Java types representing the
 kinds of configuration values they may identify.
 
 . A `public`, non-`default` instance method within it represents a logical
@@ -105,19 +105,19 @@ xref:terminology.adoc#configuration-key[configuration key], and
 .. The return type of the method represents the kind of (hopefully xref:terminology.adoc#presence[present])
 xref:terminology.adoc#configuration-value[configuration value] to which the method may provide access, and
 
-.. The return type of the method may or may not be another configuration class.
+.. The return type of the method may or may not be another configuration interface.
 
 === Representation of Configuration Paths
 
-The configuration paths represented by a configuration class are determined by its structure as follows:
+The configuration paths represented by a configuration interface are determined by its structure as follows:
 
-. By itself (that is, considered apart from its members), a configuration class represents a
+. By itself (that is, considered apart from its members), a configuration interface represents a
 xref:terminology.adoc#term-configuration[configuration] to which the configuration paths it represents are relative.
 
-.. A configuration class with no `public` instance methods represents an empty configuration path that resolves to zero
-configuration values.
+.. A configuration interface with no `public` instance methods represents an empty configuration path that resolves to
+zero configuration values.
 
-. For any `public` instance method declared by a configuration class that meets the
+. For any `public` instance method declared by a configuration interface that meets the
 <<structural-requirements,requirements>>:
 
 .. The method's name constitutes a representation of a single-element configuration path, relative to the configuration
@@ -129,9 +129,9 @@ xref:terminology.adoc#resolved-configuration-path[resolve] to. It may represent 
 
 ... A xref:terminology.adoc#raw-configuration-value[raw configuration value] represented as a particular Java type, or
 
-... A configuration represented as its configuration class
+... A configuration represented as its configuration interface
 +
-NOTE: If a `public` instance method declared by a configuration class returns an instance of that very configuration
+NOTE: If a `public` instance method declared by a configuration interface returns an instance of that very configuration
 class, non-portable behavior results. (Cycles are not permitted.)
 
 +
@@ -176,8 +176,8 @@ public interface Superstructure { // <8>
 
 }
 ----
-<1> This configuration class, considered apart from its members, represents a configuration to which the configuration
-paths it represents are relative.
+<1> This configuration interface, considered apart from its members, represents a configuration to which the
+configuration paths it represents are relative.
 
 <2> This method, `name()`, represents a single-element configuration path, comprising a single configuration key whose
 xref:terminology.adoc#term-canonical-representation[canonical representation] is `name`, relative to the configuration
@@ -193,7 +193,7 @@ whose canonical representation is `subassembly`, relative to the configuration r
 (hopefully) resolves to a `Subassembly`-typed representation of a configuration value that here happens to be a (nested)
 configuration.
 
-<5> This configuration class, considered apart from its members, and apart from its declaring class, represents a
+<5> This configuration interface, considered apart from its members, and apart from its declaring class, represents a
 configuration to which the configuration paths it represents are relative.
 
 <6> This method, `partNumbers()`, considered on its own, represents a single-element configuration path, comprising a
@@ -206,18 +206,18 @@ configuration path, comprising exactly two configuration keys whose canonical re
 those previously described (namely `subassembly` and `partNumbers`), relative to the configuration represented by the
 `MyComponent` class, that (hopefuly) resolves to a `List<Integer>`-typed representation of a configuration value.
 
-<8> This configuration class, considered apart from its members, represents a configuration to which the configuration
-paths it represents are relative.
+<8> This configuration interface, considered apart from its members, represents a configuration to which the
+configuration paths it represents are relative.
 
-<9> This method, `mainComponent()`, represents a single-element configuration path, comprising a single configuration key
-whose canonical representation is `mainComponent`, relative to the configuration represented by its declaring class, that
-(hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a (nested)
-configuration.
+<9> This method, `mainComponent()`, represents a single-element configuration path, comprising a single configuration
+key whose canonical representation is `mainComponent`, relative to the configuration represented by its declaring class,
+that (hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a
+(nested) configuration.
 
-<10> This method, `subComponent()`, represents a single-element configuration path, comprising a single configuration key
-whose canonical representation is `subComponent`, relative to the configuration represented by its declaring class, that
-(hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a (nested)
-configuration.
+<10> This method, `subComponent()`, represents a single-element configuration path, comprising a single configuration
+key whose canonical representation is `subComponent`, relative to the configuration represented by its declaring class,
+that (hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a
+(nested) configuration.
 
 <11> This method, `subassembly()`, represents a single-element configuration path, comprising a single configuration key
 whose canonical representation is `subassembly`, relative to the configuration represented by its declaring class, that
@@ -226,11 +226,11 @@ configuration.
 
 == Implementation Requirements
 
-When an xref:terminology.adoc#implementor[implementor] implements a configuration class, all of the following must be
-true of the resulting implementation, and therefore of its instances
+When an xref:terminology.adoc#implementor[implementor] implements a configuration interface, all of the following must
+be true of the resulting implementation, and therefore of its instances
 (xref:terminology.adoc#configuration-object[configuration objects]):
 
-. An implementation of a `public`, non-`default` instance method specified by a configuration class must not return
+. An implementation of a `public`, non-`default` instance method specified by a configuration interface must not return
 `null`, or non-portable behavior results.
 
 . Any two invocations of an implementation of a `public`, non-`default` instance method specified by a configuration

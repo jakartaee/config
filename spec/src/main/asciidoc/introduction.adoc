@@ -8,7 +8,7 @@ CAUTION: You are reading an incomplete DRAFT specification.  The following is su
 
 The Jakarta Config Specification defines Java APIs and their associated contracts that allow
 xref:terminology.adoc#component-developer[Java component developers] and xref:terminology.adoc#implementor[product
-vendors] to define xref:terminology.adoc#term-configuration-class[configuration classes] and load
+vendors] to define xref:terminology.adoc#term-configuration-interface[configuration interfaces] and load
 xref:terminology.adoc#configuration-object[configuration objects] representing their
 xref:terminology.adoc#component[components'] and products' xref:terminology.adoc#term-configuration[configuration].
 
@@ -19,8 +19,8 @@ This specification addresses at least the following areas:
   specification)
 
 * How this specification's concept of xref:terminology.adoc#term-configuration[configuration] is represented in Java
-  (what a xref:terminology.adoc#term-configuration-class[configuration class] looks like, and how a developer might
-  define one)
+  (what a xref:terminology.adoc#term-configuration-interface[configuration interface] looks like, and how a developer
+  might define one)
 
 * How a xref:terminology.adoc#configuration-object[configuration object] is xref:terminology.adoc#load[loaded] (what
   various xref:terminology.adoc#loader[loaders] must do)
@@ -28,5 +28,5 @@ This specification addresses at least the following areas:
 * How xref:terminology.adoc#persistent-configuration[persistent configuration] is represented external to a component or
   application (what must be true of xref:terminology.adoc#configuration-format[configuration formats])
 
-* How a xref:terminology.adoc#term-configuration-class[configuration class] designates or maps to a portion of persistent
-  configuration
+* How a xref:terminology.adoc#term-configuration-interface[configuration interface] designates or maps to a portion of
+  persistent configuration

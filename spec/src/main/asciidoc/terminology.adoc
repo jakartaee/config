@@ -97,13 +97,13 @@ format>>.
 . The creator of a <<term-configuration,configuration>> represented in a particular <<configuration-format,configuration
 format>>.
 
-[[term-configuration-class]]Configuration Class::
+[[term-configuration-interface]]Configuration Interface::
 
-. A Java class, xref:configuration-class.adoc[with very specific requirements], representing an <<immutable,immutable>>
-collection of <<configuration-path,configuration paths>> and Java types representing the kinds of
-<<configuration-value,configuration values>> they may identify.
+. A Java class, xref:configuration-interface.adoc[with very specific requirements], representing an
+<<immutable,immutable>> collection of <<configuration-path,configuration paths>> and Java types representing the kinds
+of <<configuration-value,configuration values>> they may identify.
 
-. The xref:configuration-class.adoc[section within this specfication describing this concept].
+. The xref:configuration-interface.adoc[section within this specfication describing this concept].
 
 [[configuration-domain]]Configuration Domain::
 
@@ -138,8 +138,8 @@ human-readable form.
 
 [[configuration-object]]Configuration Object::
 
-. An instance of a <<term-configuration-class,configuration class>>, especially as supplied by an implementation of the
-`jakarta.config.Loader` interface.
+. An instance of a <<term-configuration-interface,configuration interface>>, especially as supplied by an implementation
+of the `jakarta.config.Loader` interface.
 +
 NOTE: Configuration objects may be <<absence,absent>> or <<presence,present>>.
 

@@ -8,6 +8,8 @@ CAUTION: You are reading an incomplete DRAFT specification.  The following is su
 CAUTION: This section of the specification is relevant only while the specification is being drafted and will be
 removed, possibly without notice, when appropriate.
 
+CAUTION: This section of the specification may be changed at any point while the specification is being drafted.
+
 == xref:terminology.adoc#persistent-configuration[Persistent configuration] locations
 
 Often known informally as "config sources", these would be competing, potentially conflicting, mechanisms between which
@@ -18,10 +20,3 @@ be prohibited. To date, this area has not been discussed in a rigorous manner.
 There seems to be a general agreement that, as an entirely arbitrary example, environment variables should "override"
 Java System properties in some ill-specified manner. Reconciling this in a determinate fashion with the
 xref:terminology.adoc#term-logical-model[logical model] is non-trivial.
-
-== xref:terminology.adoc#load-request[Load Request] Flexibility
-
-There was an initial compromise struck by the working group to say that the first version of a
-xref:terminology.adoc#load-request[load request] should consist solely of a
-xref:terminology.adoc#configuration-class[configuration class]. Any of a number of thought experiements will show this
-to be wholly unsuitable and this issue will need to be revisited.

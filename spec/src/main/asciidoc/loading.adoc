@@ -51,8 +51,8 @@ way of acquiring a `Loader` instance.
 ----
 MyConfigurationObject co = loader.load(MyConfigurationObject.class); // <1>
 ----
-<1> The `MyConfigurationObject.class` argument is a _xref:terminology.adoc#configuration-class[configuration class]_ and
-here represents a _xref:terminology.adoc#load-request[load request]_.
+<1> The `MyConfigurationObject.class` argument is a _xref:terminology.adoc#configuration-interface[configuration
+interface]_ and here represents a _xref:terminology.adoc#load-request[load request]_.
 
 . *The implementor's `jakarta.config.Loader` implementation builds the object and returns it.*
 

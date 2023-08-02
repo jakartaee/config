@@ -35,7 +35,8 @@ The Jakarta Config Specification has at least the following _specific_ goals:
 
 . Provide a means of representing a xref:terminology.adoc#term-logical-model[logical model of configuration] in Java.
 
-. Make it easy for a Java developer to define a xref:terminology.adoc#term-configuration-class[configuration class].
+. Make it easy for a Java developer to define a xref:terminology.adoc#term-configuration-interface[configuration
+interface].
 
 . Make it easy for a xref:terminology.adoc#component-developer[Java component developer] to acquire such a
   xref:terminology.adoc#configuration-object[configuration object].

@@ -53,7 +53,7 @@ include::goals.adoc[leveloffset=+1]
 
 include::logical-model.adoc[]
 
-include::configuration-class.adoc[]
+include::configuration-interface.adoc[]
 
 include::loading.adoc[]
 
