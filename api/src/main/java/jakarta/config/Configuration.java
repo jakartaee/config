@@ -25,13 +25,32 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>
- *     The annotation to be used to mark the interface to be handled by the injection support.
- * </p>
+ * <p>This annotation is to mark an interface to contain configuration data.</p>
+ *
+ * <p>The <em>configuration interface</em> is <em>resolved</em> with a portion of application's
+ * <em>persistent configuration</em> identified by <em>configuration path</em>.
+ *
+ * <p>The terms <em>configuration interface</em>, <em>configuration key</em>, <em>configuration path</em>,
+ * <em>persistent configuration</em>, <em>resolve</em>, and others are used here as defined in
+ * the Jakarta Config specification.</p>
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Configuration {
 
+    /**
+     * The <em>configuration path</em> identifies where the configuration relevant for the annotated configuration class is found
+     * in a given application's <em>persistent configuration</em>.
+     *
+     * <p>The configuration path uses the dot symbol as a separator.</p>
+     *
+     * <p>For instance, if the <em>persistent configuration</em> contains
+     * <pre>  my.configuration.user=tester</pre>
+     * the <em>configuration path</em> for the configuration portion {@code user=tester} would be {@code my.configuration}.
+     * </p>
+     *
+     * @return a {@link String} representation of a configuration path.
+     */
+    String path() default "";
 }
