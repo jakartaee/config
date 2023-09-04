@@ -23,17 +23,31 @@ import java.util.ServiceLoader;
 /**
  * A loader of configuration-related objects.
  *
- * <p>Sample usage:</p>
+ * <p>The loader <em>resolves</em> configuration data of the provided <em>configuration interface</em> with a portion of
+ * application's <em>persistent configuration</em> identified by <em>configuration path</em>. The portion of the
+ * <em>persistent configuration</em> is identified by <em>configuration path</em>.</p>
  *
- * <blockquote><pre>{@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
+ * <p>In the following example the {@code MyConfigurationRelatedObject} is the <em>configuration interface</em> to be
+ * <em>resolved</em>. An instance of the <em>configuration interface</em> is created by the {@link Loader}:</p>
+ *
+ * <blockquote><pre> {@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
  *MyConfigurationRelatedObject object = null;
  *try {
- *  object = loader.{@linkplain #load(Class) load(MyConfigurationRelatedObject.class)};
+ *  object = loader
+ *             .{@linkplain #path(String) path("my.configuration")}
+ *             .{@linkplain #load(Class) load(MyConfigurationRelatedObject.class)};
  *} catch ({@linkplain NoSuchObjectException} noSuchObjectException) {
  *  // object is <a href="doc-files/terminology.html#absent">absent</a>
  *} catch ({@linkplain ConfigException} configException) {
  *  // a {@linkplain #load(Class) loading}-related error occurred
  *}</pre></blockquote>
+ *
+ * <p>Implementations of the methods in this class must be:</p>
+ * <ul>
+ *     <li>idempotent</li>
+ *     <li>safe for concurrent use by multiple threads</li>
+ *     <li>must not return {@code null}.</il>
+ * </ul>
  *
  * @see #bootstrap()
  *
@@ -42,6 +56,8 @@ import java.util.ServiceLoader;
  * @see #load(Class)
  *
  * @see #load(TypeToken)
+ *
+ * @see #path(String)
  *
  * @see <a href="doc-files/terminology.html">Terminology</a>
  */
@@ -54,15 +70,7 @@ public interface Loader {
      * <p><strong>Note:</strong> The rules governing how it is
      * determined whether any given configuration-related object is
      * "of the supplied {@code type}" are currently wholly
-     * undefined.</p>
-     *
-     * <p>Implementations of this method must not return {@code
-     * null}.</p>
-     *
-     * <p>Implementations of this method must be idempotent.</p>
-     *
-     * <p>Implementations of this method must be safe for concurrent
-     * use by multiple threads.</p>
+     * undefined.</p>    
      *
      * <p>Implementations of this method may or may not return a <a
      * href="doc-files/terminology.html#determinate">determinate</a>
@@ -100,14 +108,6 @@ public interface Loader {
      * "of the supplied {@code type}" are currently wholly
      * undefined.</p>
      *
-     * <p>Implementations of this method must not return {@code
-     * null}.</p>
-     *
-     * <p>Implementations of this method must be idempotent.</p>
-     *
-     * <p>Implementations of this method must be safe for concurrent
-     * use by multiple threads.</p>
-     *
      * <p>Implementations of this method may or may not return a <a
      * href="doc-files/terminology.html#determinate">determinate</a>
      * value.</p>
@@ -133,6 +133,26 @@ public interface Loader {
      * was {@code null}
      */
     public <T> T load(TypeToken<T> type);
+
+    /**
+     * Return a new instance of a {@link Loader} with the <em>configuration path</em> set.
+     *
+     * The <em>configuration path</em> identifies where the configuration relevant for the annotated configuration class is found
+     * in a given application's <em>persistent configuration</em>.
+     *
+     * <p>The configuration path uses the dot symbol as a separator.</p>
+     *
+     * <p>For instance, if the <em>persistent configuration</em> contains
+     * <pre>  my.configuration.user=tester</pre>
+     * the <em>configuration path</em> for the configuration portion {@code user=tester} would be {@code my.configuration}.
+     * </p>
+     *
+     * @param path a configuration path.
+     * @return a new instance of the {@link Loader} class with a configured <em>path</em>.
+     *
+     * @see Configuration#path() Configuration#path
+     */
+    public Loader path(String path);
 
     /**
      * <em>{@linkplain #bootstrap(ClassLoader) Bootstraps}</em> a
@@ -203,13 +223,6 @@ public interface Loader {
      * </li>
      *
      * </ol>
-     *
-     * <p>This method never returns {@code null}.</p>
-     *
-     * <p>This method is idempotent.</p>
-     *
-     * <p>This method is safe for concurrent use by multiple
-     * threads.</p>
      *
      * <p>This method may or may not return a <a
      * href="doc-files/terminology.html#determinate">determinate</a>
