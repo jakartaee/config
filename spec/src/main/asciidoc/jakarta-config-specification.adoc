@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -17,26 +17,48 @@
 // limitations under the License.
 //
 
-= Jakarta Config
-:authors: Contributors to the Jakarta Config Specification (https://github.com/eclipse-ee4j/config/graphs/contributors)
-:email: config-dev@eclipse.org
-:sectanchors:
+= Jakarta Config Specification
+:author: Contributors to the Jakarta Config Specification (https://github.com/eclipse-ee4j/config/graphs/contributors)
 :doctype: book
+:email: config-dev@eclipse.org
 :license: Eclipse Foundation Specification License v1.0
+:sectanchors:
+:sectnumlevels: 4
 :source-highlighter: coderay
 :toc: left
 :toclevels: 4
-:sectnumlevels: 4
 ifdef::backend-pdf[]
-:pagenums:
 :numbered:
+:pagenums:
 :title-logo-image: image:jakarta_ee_logo_schooner_color_stacked_default.png[pdfwidth=4.25in,align=right]
 endif::[]
-ifndef::imagesdir[:imagesdir: images]
 
-// == License
 :sectnums!:
+
 include::license-efsl.adoc[]
 
+:leveloffset: +1
+
+include::preface.adoc[]
+
+include::who-should-read-this-specification.adoc[leveloffset=+1]
+
+include::dependent-specifications.adoc[leveloffset=+1]
+
 :sectnums:
-include::02-config.adoc[]
+
+include::introduction.adoc[]
+
+include::goals.adoc[leveloffset=+1]
+
+include::logical-model.adoc[]
+
+include::configuration-interface.adoc[]
+
+include::loading.adoc[]
+
+include::terminology.adoc[]
+
+include::unaddressed-issues.adoc[]
+
+:leveloffset: -1

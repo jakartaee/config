@@ -1,0 +1,22 @@
+= Unaddressed Issues
+
+This section describes issues that have not yet been addressed in this DRAFT specification. The list of issues is not
+exhaustive. This section is non-normative and subject to removal at any point without prior notice.
+
+CAUTION: You are reading an incomplete DRAFT specification.  The following is subject to change.
+
+CAUTION: This section of the specification is relevant only while the specification is being drafted and will be
+removed, possibly without notice, when appropriate.
+
+CAUTION: This section of the specification may be changed at any point while the specification is being drafted.
+
+== xref:terminology.adoc#persistent-configuration[Persistent configuration] locations
+
+Often known informally as "config sources", these would be competing, potentially conflicting, mechanisms between which
+a xref:terminology.adoc#loader[`Loader`] would have to arbitrate.  There will be cases where specifying how these
+interact is desired, and cases (typically involving things like application server security) where such facilities must
+be prohibited. To date, this area has not been discussed in a rigorous manner.
+
+There seems to be a general agreement that, as an entirely arbitrary example, environment variables should "override"
+Java System properties in some ill-specified manner. Reconciling this in a determinate fashion with the
+xref:terminology.adoc#term-logical-model[logical model] is non-trivial.

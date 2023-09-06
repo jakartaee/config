@@ -1,0 +1,237 @@
+= Configuration Interface
+:jls: https://docs.oracle.com/javase/specs/jls/se19/html
+
+This section defines the requirements of a xref:terminology.adoc#term-configuration-interface[configuration interface],
+a Java representation of certain xref:terminology.adoc#logical[logical] concepts from the
+xref:terminology.adoc#term-logical-model[logical model] of configuration defined by this specification. Unless otherwise
+specified, this section is normative.
+
+CAUTION: You are reading an incomplete DRAFT specification. The following is subject to change.
+
+A configuration interface is a Java interface, conforming to all of the requirements described below, that represents:
+
+. an xref:terminology.adoc#immutable[immutable] and xref:terminology.adoc#unchanging[unchanging] set of
+xref:terminology.adoc#configuration-path[configuration paths], and
+
+. Java types representing the kinds of representations of xref:terminology.adoc#configuration-value[configuration
+values] they may xref:terminology.adoc#resolved-configuration-path[resolve] to.
+
+NOTE: Because a configuration interface represents a set of configuration paths, it also represents a portion of a
+xref:terminology.adoc#configuration-domain[configuration domain].
+
+NOTE: A configuration interface also comprises part of a xref:terminology.adoc#load-request[load request]. See the
+xref:loading.adoc[Loading] section for more details.
+
+Configuration interfaces may be defined by a xref:terminoloy.adoc#component-developer[component developer] to represent
+all, or portions, of her component's configuration.
+
+== Structural Requirements
+
+The following are the structural requirements of configuration interfaces:
+
+. A configuration interface must be a {jls}/jls-9.html[Java interface].
+
+. A configuration interface must not be an {jls}/jls-9.html#jls-9.6[annotation interface].
+
+. A configuration interface must not declare type parameters, or non-portable behavior results. (A configuration
+interface must be a non-generic, non-annotation interface.)
+
+. A configuration interface may be a {jls}/jls-8.html#jls-8.5[member interface]. (There are no additional restrictions
+on the nesting kind of a configuration interface imposed by this specification.)
+
+. A configuration interface must be `public`.
+
+. A configuration interface must not be `sealed`.
+
+. A configuration interface must not be hidden.
+
+. A configuration interface may have any legal name. (There are no additional restrictions on the interface name imposed
+by this specification.)
+
+. A configuration interface may extend other interfaces, provided that the resulting specialization adheres to all the
+requirements of this section.
+
+. A configuration interface may contain `static` methods and `static` fields. (There are no additional restrictions on
+`static` members imposed by this specification.)
+
+. A configuration interface may declare member classes and interfaces. (There are no additional restrictions on member
+classes and interfaces imposed by this specification.)
+
+. A configuration interface may contain `default` methods.
+
+. A configuration interface may contain `private` methods. (There are no additional restrictions on `private` methods
+imposed by this specification.)
+
+. A `public`, non-`default` instance method of a configuration interface must not declare type parameters, or
+non-portable behavior results.
+
+. A `public` instance method of a configuration interface may declare parameters.
+
+.. If a `public`, non-`default` instance method of a configuration interface declares parameters, and the configuration
+class is supplied as part of a load request, a Jakarta Config implementation may choose to either:
+
+... Implement the method somehow, provided that it fulfils all other structural requirements, or
+
+... Implement the method such that it throws either:
+
+.... a `jakarta.config.NoSuchObjectException`, or
+
+.... a `java.lang.UnsupportedOperationException`
+
+NOTE: A given Jakarta Config implementation may choose to support configuration interfaces that do not meet all of these
+requirements, but such a class may not be fully portable between Jakarta Config implementations.
+
+== Semantics
+
+A configuration interface represents an xref:terminology.adoc#immutable[immutable] view of a
+xref:logical-model.adoc[logical configuration] in Java.
+
+=== Overview
+
+Generally and non-normatively:
+
+. The configuration interface itself represents a collection of configuration paths and Java types representing the
+kinds of configuration values they may identify.
+
+. A `public`, non-`default` instance method within it represents a logical
+xref:terminology.adoc#configuration-path[configuration path] hopefully
+xref:terminology.adoc#resolved-configuration-path[resolving] to a configuration value
+xref:terminology.adoc#presence[present] within the configuration, where:
+
+.. The name of the method represents a (possibly xref:terminology.adoc#unresolved-configuration-path[unresolved])
+xref:terminology.adoc#configuration-path[configuration path] consisting of a single
+xref:terminology.adoc#configuration-key[configuration key], and
+
+.. The return type of the method represents the kind of (hopefully xref:terminology.adoc#presence[present])
+xref:terminology.adoc#configuration-value[configuration value] to which the method may provide access, and
+
+.. The return type of the method may or may not be another configuration interface.
+
+=== Representation of Configuration Paths
+
+The configuration paths represented by a configuration interface are determined by its structure as follows:
+
+. By itself (that is, considered apart from its members), a configuration interface represents a
+xref:terminology.adoc#term-configuration[configuration] to which the configuration paths it represents are relative.
+
+.. A configuration interface with no `public` instance methods represents an empty configuration path that resolves to
+zero configuration values.
+
+. For any `public` instance method declared by a configuration interface that meets the
+<<structural-requirements,requirements>>:
+
+.. The method's name constitutes a representation of a single-element configuration path, relative to the configuration
+represented by its declaring class, consisting of a single configuration key whose
+xref:terminology.adoc#term-canonical-representation[canonical representation] is the method name.
+
+.. The method's return value constitutes a representation of the configuration value the configuration path may
+xref:terminology.adoc#resolved-configuration-path[resolve] to. It may represent either:
+
+... A xref:terminology.adoc#raw-configuration-value[raw configuration value] represented as a particular Java type, or
+
+... A configuration represented as its configuration interface
++
+NOTE: If a `public` instance method declared by a configuration interface returns an instance of that very configuration
+class, non-portable behavior results. (Cycles are not permitted.)
+
++
+[NOTE]
+====
+In this revision of the specification, (a) representation of xref:terminology.adoc#raw-configuration-value[raw
+configuration values] and (b) conversion of values from their representation in a particular
+xref:terminology.adoc#configuration-format[configuration format] to a partiuclar Java type have not yet been specified.
+====
+
+==== Examples
+
+This section is non-normative.
+
+NOTE: All terminology in this section is defined in the xref:terminology.adoc#terminology[Terminology] section.
+
+[source,java]
+----
+public interface MyComponent { // <1>
+
+    public String name(); // <2>
+
+    public int size(); // <3>
+
+    public Subassembly subassembly(); // <4>
+
+    public interface Subassembly { // <5>
+
+        public java.util.List<Integer> partNumbers(); // <6> <7>
+
+    }
+
+}
+
+public interface Superstructure { // <8>
+
+    public MyComponent mainComponent(); // <9>
+
+    public MyComponent subComponent(); // <10>
+
+    public MyComponent.Subassembly subassembly(); // <11>
+
+}
+----
+<1> This configuration interface, considered apart from its members, represents a configuration to which the
+configuration paths it represents are relative.
+
+<2> This method, `name()`, represents a single-element configuration path, comprising a single configuration key whose
+xref:terminology.adoc#term-canonical-representation[canonical representation] is `name`, relative to the configuration
+represented by its declaring class, that (hopefully) resolves to a `String`-typed representation of a configuration
+value.
+
+<3> This method, `size()`, represents a single-element configuration path, comprising a single configuration key whose
+canonical representation is `size`, relative to the configuration represented by its declaring class, that (hopefully)
+resolves to an `int`-typed representation of a configuration value.
+
+<4> This method, `subassembly()`, represents a single-element configuration path, comprising a single configuration key
+whose canonical representation is `subassembly`, relative to the configuration represented by its declaring class, that
+(hopefully) resolves to a `Subassembly`-typed representation of a configuration value that here happens to be a (nested)
+configuration.
+
+<5> This configuration interface, considered apart from its members, and apart from its declaring class, represents a
+configuration to which the configuration paths it represents are relative.
+
+<6> This method, `partNumbers()`, considered on its own, represents a single-element configuration path, comprising a
+single configuration key whose canonical representation is `partNumbers`, relative to the configuration represented by
+its declaring class, that (hopefully) resolves to a `List<Integer>`-typed representation of a configuration value.
+
+<7> An invocation of the `subassembly()` method on an instance of `MyComponent` chained with an invocation of
+`partNumbers()` on its return value (i.e. `myComponentInstance.subassembly().partNumbers()`) represents a two-element
+configuration path, comprising exactly two configuration keys whose canonical representations are, in order, exactly
+those previously described (namely `subassembly` and `partNumbers`), relative to the configuration represented by the
+`MyComponent` class, that (hopefuly) resolves to a `List<Integer>`-typed representation of a configuration value.
+
+<8> This configuration interface, considered apart from its members, represents a configuration to which the
+configuration paths it represents are relative.
+
+<9> This method, `mainComponent()`, represents a single-element configuration path, comprising a single configuration
+key whose canonical representation is `mainComponent`, relative to the configuration represented by its declaring class,
+that (hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a
+(nested) configuration.
+
+<10> This method, `subComponent()`, represents a single-element configuration path, comprising a single configuration
+key whose canonical representation is `subComponent`, relative to the configuration represented by its declaring class,
+that (hopefully) resolves to a `MainComponent`-typed representation of a configuration value that here happens to be a
+(nested) configuration.
+
+<11> This method, `subassembly()`, represents a single-element configuration path, comprising a single configuration key
+whose canonical representation is `subassembly`, relative to the configuration represented by its declaring class, that
+(hopefully) resolves to a `Subassembly`-typed representation of a configuration value that here happens to be a (nested)
+configuration.
+
+== Implementation Requirements
+
+When an xref:terminology.adoc#implementor[implementor] implements a configuration interface, all of the following must
+be true of the resulting implementation, and therefore of its instances
+(xref:terminology.adoc#configuration-object[configuration objects]):
+
+. An implementation of a `public`, non-`default` instance method specified by a configuration interface must not return
+`null`, or non-portable behavior results.
+
+. Any two invocations of an implementation of a `public`, non-`default` instance method specified by a configuration
+class must return xref:terminology.adoc#interchangeable[interchangeable] values.
