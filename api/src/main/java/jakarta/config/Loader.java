@@ -27,6 +27,9 @@ import java.util.ServiceLoader;
  * application's <em>persistent configuration</em> identified by <em>configuration path</em>. The portion of the
  * <em>persistent configuration</em> is identified by <em>configuration path</em>.</p>
  *
+ * <p>The loader must support <em>persistent configuration</em> stored in <em>META-INF/jakarta-config.properties</em>
+ * file found on the classpath that follows a format that is recognized by the class {@link java.util.Properties}.</p>
+ *
  * <p>In the following example the {@code MyConfigurationRelatedObject} is the <em>configuration interface</em> to be
  * <em>resolved</em>. An instance of the <em>configuration interface</em> is created by the {@link Loader}:</p>
  *
