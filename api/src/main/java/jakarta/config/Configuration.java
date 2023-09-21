@@ -30,6 +30,8 @@ import java.lang.annotation.Target;
  * <p>The <em>configuration interface</em> is <em>resolved</em> with a portion of application's
  * <em>persistent configuration</em> identified by <em>configuration path</em>.
  *
+ * <p>This configuration annotation is ignored on all nested objects.</p>
+ *
  * <p>The terms <em>configuration interface</em>, <em>configuration key</em>, <em>configuration path</em>,
  * <em>persistent configuration</em>, <em>resolve</em>, and others are used here as defined in
  * the Jakarta Config specification.</p>
