@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2021 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -32,6 +32,36 @@
     <name>Jakarta Config TCK</name>
     <description>Jakarta Config :: TCK</description>
 
-    
+    <properties>
+        <version.cdi>4.0.1</version.cdi>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.config</groupId>
+            <artifactId>jakarta.config-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${version.junit}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${version.junit}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${version.hamcrest}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>${version.cdi}</version>
+        </dependency>
+    </dependencies>
 
 </project>
