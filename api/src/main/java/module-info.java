@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,10 +18,9 @@
  */
 
 /**
- * Jakarta Config.
- *
- * TODO: We should add intro how config is created once API is clarified
+ * Jakarta Config API.
  */
 module jakarta.config.api {
-    
-    }
+    exports jakarta.config;
+    uses jakarta.config.Loader;
+}
