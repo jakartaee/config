@@ -59,7 +59,7 @@
         <version.junit>5.10.1</version.junit>
         <version.testng>7.8.0</version.testng>
 
-        <version.plugin.compiler>3.11.0</version.plugin.compiler>
+        <version.plugin.compiler>3.12.0</version.plugin.compiler>
         <version.plugin.enforcer>3.4.1</version.plugin.enforcer>
         <version.plugin.asciidoctor>2.2.4</version.plugin.asciidoctor>
     </properties>
