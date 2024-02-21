@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package jakarta.config.tck.tests.negative;
+package jakarta.config.tck;
 
 import jakarta.config.ConfigException;
 import jakarta.config.Loader;
@@ -45,5 +45,9 @@ public class NegativeLoaderTest {
         } catch (NoSuchObjectException noSuchObjectException) {
             // pass
         }
+    }
+
+    public static interface NotAnnotatedConfiguration {
+        String key();
     }
 }
