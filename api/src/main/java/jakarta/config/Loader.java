@@ -58,8 +58,6 @@ import java.util.ServiceLoader;
  *
  * @see #load(Class)
  *
- * @see #load(TypeToken)
- *
  * @see #path(String)
  *
  * @see <a href="doc-files/terminology.html">Terminology</a>
@@ -101,41 +99,6 @@ public interface Loader {
      * was {@code null}
      */
     <T> T load(Class<T> type);
-
-    /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
-     *
-     * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
-     * "of the supplied {@code type}" are currently wholly
-     * undefined.</p>
-     *
-     * <p>Implementations of this method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value.</p>
-     *
-     * @param <T> the type of object to load
-     *
-     * @param type the type of object to load; must not be {@code null}
-     *
-     * @return the loaded object; never {@code null}
-     *
-     * @exception NoSuchObjectException if the invocation was sound
-     * but the requested object was <a
-     * href="doc-files/terminology.html#absent">absent</a>
-     *
-     * @exception ConfigException if the invocation was sound but the
-     * object could not be loaded for any reason not related to <a
-     * href="doc-files/terminology.html#absent">absence</a>
-     *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
-     *
-     * @exception NullPointerException if the supplied {@code type}
-     * was {@code null}
-     */
-    <T> T load(TypeToken<T> type);
 
     /**
      * Return a new instance of a {@link Loader} with the <em>configuration path</em> set.
