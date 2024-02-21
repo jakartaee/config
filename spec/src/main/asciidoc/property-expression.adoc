@@ -1,0 +1,53 @@
+= Property Expression
+
+The property expression is in the format of ${a.property}. When resoving the property expression, the value of `a.property` will be used.
+With the property expression, it enables a property refer to another property. The property evaluation should occur within the scope of the Config object. 
+
+== An example
+
+Consider the following example:
+
+[source,properties]
+----
+server.url=http://${server.host}:9080/hello
+server.host=my.org
+----
+
+When looking up `server.url`, the property value will be resoved to `http://my.org:9080/hello`.
+
+Nested property expression, such as ${item[${i}]}, are illegal.
+
+A property expression might lead to infinite look by refering to itself. The implementation must detect this and report an error.
+In the following example, `hostname` refers to itself and creates an indefinite loop. The implementation must be able to exit the evaluation and report an error.
+
+[source,properties]
+----
+server.url=http://${hostname}:${port}/hello
+hostname=${hostname}
+----
+== Literal expression
+
+A literal-expression does not use the ${expr} constructs, and simply evaluates to the text of the expression, of type String. 
+In more details, a configuration value might contain ${...} but wants to bypass the property expansion. The escape characters `\$` can be used to escape what would otherwise be treated as a property expression. Given the literal-expressions:
+    `\${exprA}` 
+
+[source,properties]
+----
+server.url=http://\${hostname}:\${port}/hello
+hostname=myhost
+----
+In the above example, the value of `server.url` will be `http://${hostname}:${port}/hello`.
+
+== Composite expressions
+
+With composite expressions, config expressions are evaluated from left to right, coerced to Strings, and concatenated with any intervening literal-expressions.
+
+For example, the composite expression "${hostname}:${port}" is composed of three parts: config expression "${hostname}", literal-expression ":", and config expression "${port}".
+
+[source,properties]
+----
+server.url=http://${hostname}:${port}/hello
+hostname=localhost
+port=9080
+----
+In the above example, the value of `server.url` will be `http://localhost:9080/hello`.
