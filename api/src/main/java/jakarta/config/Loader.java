@@ -18,6 +18,7 @@
  */
 package jakarta.config;
 
+import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
 /**
@@ -39,7 +40,7 @@ import java.util.ServiceLoader;
  *  object = loader
  *             .{@linkplain #path(String) path("my.configuration")}
  *             .{@linkplain #load(Class) load(MyConfigurationRelatedObject.class)};
- *} catch ({@linkplain NoSuchObjectException} noSuchObjectException) {
+ *} catch ({@linkplain NoSuchElementException} noSuchElementException) {
  *  // object is <a href="doc-files/terminology.html#absent">absent</a>
  *} catch ({@linkplain ConfigException} configException) {
  *  // a {@linkplain #load(Class) loading}-related error occurred
@@ -84,9 +85,7 @@ public interface Loader {
      *
      * @return the loaded object; never {@code null}
      *
-     * @exception NoSuchObjectException if the invocation was sound
-     * but the requested object was <a
-     * href="doc-files/terminology.html#absent">absent</a>
+     * @exception NoSuchElementException if the requested object is not found.
      *
      * @exception ConfigException if the invocation was sound but the
      * object could not be loaded for any reason not related to <a
@@ -150,12 +149,7 @@ public interface Loader {
 
     /**
      * Bootstraps a {@link Loader} instance for subsequent usage.
-     *
-     * <p>The bootstrap process proceeds as follows:</p>
-     *
-     * <ol>
-     *
-     * <li>
+     * <br>
      * A <em>primordial {@link Loader}</em> is located with observable effects equal to those resulting from
      * executing the following code:
      *
@@ -163,22 +157,9 @@ public interface Loader {
      * <pre>
      *  {@linkplain Loader} loader = {@linkplain ServiceLoader}.{@linkplain ServiceLoader#load(Class, ClassLoader) load(Loader.class, classLoader)}
      *  .{@linkplain java.util.ServiceLoader#findFirst() findFirst()}
-     *  .{@linkplain java.util.Optional#orElseThrow() orElseThrow}({@linkplain NoSuchObjectException#NoSuchObjectException() NoSuchObjectException::new});
+     *  .{@linkplain java.util.Optional#orElseThrow() orElseThrow}({@linkplain NoSuchElementException#NoSuchElementException() NoSuchElementException::new});
      * </pre>
      * </blockquote>
-     * </li>
-     *
-     * <li>
-     * The {@link #load(Class)} method is invoked on the resulting {@link Loader} with {@link Loader Loader.class} as
-     * its sole argument.
-     *
-     * <ul>
-     * <li>If the invocation throws a {@link NoSuchObjectException}, the primordial {@link Loader} is returned.</li>
-     * <li>If the invocation returns a {@link Loader}, that {@link Loader} is returned.</li>
-     * </ul>
-     * </li>
-     *
-     * </ol>
      *
      * <p>This method may or may not return a <a href="doc-files/terminology.html#determinate">determinate</a> value
      * depending on the implementation of the {@link Loader} loaded in step 2 above.</p>
@@ -196,20 +177,12 @@ public interface Loader {
      *
      * @return a {@link Loader}; never {@code null}
      *
-     * @exception java.util.ServiceConfigurationError if bootstrapping failed because of a
-     * {@link ServiceLoader#load(Class, ClassLoader)} or {@link ServiceLoader#findFirst()} problem.
-     * @exception ConfigException if bootstrapping failed because of a {@link Loader#load(Class)} problem.
+     * @exception java.util.ServiceConfigurationError if bootstrapping failed because of a {@link ServiceLoader#load(Class, ClassLoader)} problem.
+     * @exception NoSuchElementException if a {@linkplain Loader} is not found.
      */
     static Loader bootstrap(ClassLoader classLoader) {
-        Loader loader = ServiceLoader.load(Loader.class, classLoader)
-            .findFirst()
-            .orElseThrow(NoSuchObjectException::new);
-        try {
-            return loader.load(Loader.class);
-        } catch (NoSuchObjectException absentValueException) {
-            System.getLogger(Loader.class.getName())
-                .log(System.Logger.Level.DEBUG, absentValueException::getMessage, absentValueException);
-            return loader;
-        }
+        return ServiceLoader.load(Loader.class, classLoader)
+                            .findFirst()
+                            .orElseThrow(NoSuchElementException::new);
     }
 }

@@ -21,10 +21,11 @@ package jakarta.config.tck;
 
 import jakarta.config.ConfigException;
 import jakarta.config.Loader;
-import jakarta.config.NoSuchObjectException;
 import jakarta.config.tck.common.AnyConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.NoSuchElementException;
 
 public class NegativeLoaderTest {
     @Test
@@ -42,7 +43,7 @@ public class NegativeLoaderTest {
         try {
             Loader.bootstrap().path("my.config").load(AnyConfiguration.class);
             Assertions.fail("Expected NoSuchObjectException has not been thrown when the configuration object not found");
-        } catch (NoSuchObjectException noSuchObjectException) {
+        } catch (NoSuchElementException noSuchElementException) {
             // pass
         }
     }
