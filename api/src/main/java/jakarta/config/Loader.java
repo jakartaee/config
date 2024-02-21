@@ -49,7 +49,7 @@ import java.util.ServiceLoader;
  * <ul>
  *     <li>idempotent</li>
  *     <li>safe for concurrent use by multiple threads</li>
- *     <li>must not return {@code null}.</il>
+ *     <li>must not return {@code null}.</li>
  * </ul>
  *
  * @see #bootstrap()
@@ -100,7 +100,7 @@ public interface Loader {
      * @exception NullPointerException if the supplied {@code type}
      * was {@code null}
      */
-    public <T> T load(Class<T> type);
+    <T> T load(Class<T> type);
 
     /**
      * Loads a configuration-related object of the supplied {@code
@@ -135,128 +135,109 @@ public interface Loader {
      * @exception NullPointerException if the supplied {@code type}
      * was {@code null}
      */
-    public <T> T load(TypeToken<T> type);
+    <T> T load(TypeToken<T> type);
 
     /**
      * Return a new instance of a {@link Loader} with the <em>configuration path</em> set.
-     *
+     * <br>
      * The <em>configuration path</em> identifies where the configuration relevant for the annotated configuration class is found
      * in a given application's <em>persistent configuration</em>.
      *
      * <p>The configuration path uses the dot symbol as a separator.</p>
      *
-     * <p>For instance, if the <em>persistent configuration</em> contains
+     * <br>
+     * For instance, if the <em>persistent configuration</em> contains
      * <pre>  my.configuration.user=tester</pre>
      * the <em>configuration path</em> for the configuration portion {@code user=tester} would be {@code my.configuration}.
-     * </p>
      *
      * @param path a configuration path.
      * @return a new instance of the {@link Loader} class with a configured <em>path</em>.
      *
      * @see Configuration#path() Configuration#path
      */
-    public Loader path(String path);
+    Loader path(String path);
 
     /**
-     * <em>{@linkplain #bootstrap(ClassLoader) Bootstraps}</em> a
-     * {@link Loader} instance for subsequent usage using the
-     * {@linkplain Thread#getContextClassLoader() context
-     * classloader}.
+     * {@linkplain #bootstrap(ClassLoader) Bootstraps} a {@link Loader} instance for subsequent usage using
+     * the {@linkplain Thread#getContextClassLoader() context classloader}.
      *
      * <p>This method never returns {@code null}.</p>
      *
      * <p>This method is idempotent.</p>
      *
-     * <p>This method is safe for concurrent use by multiple
-     * threads.</p>
+     * <p>This method is safe for concurrent use by multiple threads.</p>
      *
-     * <p>This method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value. See {@link #bootstrap(ClassLoader)} for details.</p>
+     * <p>This method may or may not return a <a href="doc-files/terminology.html#determinate">determinate</a> value.
+     * See {@link #bootstrap(ClassLoader)} for details.</p>
      *
-     * <p>Except as possibly noted above, the observable behavior of
-     * this method is specified to be identical to that of the {@link
-     * #bootstrap(ClassLoader)} method.</p>
+     * <p>Except as possibly noted above, the observable behavior of this method is specified to be identical to that
+     * of the {@link #bootstrap(ClassLoader)} method.</p>
      *
      * @return a {@link Loader}; never {@code null}
      *
-     * @exception java.util.ServiceConfigurationError if bootstrapping
-     * failed because of a {@link ServiceLoader#load(Class,
-     * ClassLoader)} or {@link ServiceLoader#findFirst()} problem
-     *
-     * @exception ConfigException if bootstrapping failed because of a
-     * {@link Loader#load(Class)} problem
+     * @exception java.util.ServiceConfigurationError if bootstrapping failed because of a
+     * {@link ServiceLoader#load(Class, ClassLoader)} or {@link ServiceLoader#findFirst()} problem.
+     * @exception ConfigException if bootstrapping failed because of a {@link Loader#load(Class)} problem.
      *
      * @see #bootstrap(ClassLoader)
      */
-    public static Loader bootstrap() {
+    static Loader bootstrap() {
         return bootstrap(Thread.currentThread().getContextClassLoader());
     }
 
     /**
-     * <em>Bootstraps</em> a {@link Loader} instance for subsequent
-     * usage.
+     * Bootstraps a {@link Loader} instance for subsequent usage.
      *
      * <p>The bootstrap process proceeds as follows:</p>
      *
      * <ol>
      *
-     * <li>A <em>primordial {@link Loader}</em> is located with
-     * observable effects equal to those resulting from executing the
-     * following code:
+     * <li>
+     * A <em>primordial {@link Loader}</em> is located with observable effects equal to those resulting from
+     * executing the following code:
      *
-     * <blockquote><pre>{@linkplain Loader} loader = {@linkplain ServiceLoader}.{@linkplain ServiceLoader#load(Class, ClassLoader) load(Loader.class, classLoader)}
+     * <blockquote>
+     * <pre>
+     *  {@linkplain Loader} loader = {@linkplain ServiceLoader}.{@linkplain ServiceLoader#load(Class, ClassLoader) load(Loader.class, classLoader)}
      *  .{@linkplain java.util.ServiceLoader#findFirst() findFirst()}
-     *  .{@linkplain java.util.Optional#orElseThrow() orElseThrow}({@linkplain NoSuchObjectException#NoSuchObjectException() NoSuchObjectException::new});</pre></blockquote></li>
+     *  .{@linkplain java.util.Optional#orElseThrow() orElseThrow}({@linkplain NoSuchObjectException#NoSuchObjectException() NoSuchObjectException::new});
+     * </pre>
+     * </blockquote>
+     * </li>
      *
-     * <li>The {@link #load(Class)} method is invoked on the resulting
-     * {@link Loader} with {@link Loader Loader.class} as its sole
-     * argument.
+     * <li>
+     * The {@link #load(Class)} method is invoked on the resulting {@link Loader} with {@link Loader Loader.class} as
+     * its sole argument.
      *
      * <ul>
-     *
-     * <li>If the invocation throws a {@link NoSuchObjectException},
-     * the primordial {@link Loader} is returned.</li>
-     *
-     * <li>If the invocation returns a {@link Loader}, that {@link
-     * Loader} is returned.</li>
-     *
+     * <li>If the invocation throws a {@link NoSuchObjectException}, the primordial {@link Loader} is returned.</li>
+     * <li>If the invocation returns a {@link Loader}, that {@link Loader} is returned.</li>
      * </ul>
-     *
      * </li>
      *
      * </ol>
      *
-     * <p>This method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value depending on the implementation of the {@link Loader}
-     * loaded in step 2 above.</p>
+     * <p>This method may or may not return a <a href="doc-files/terminology.html#determinate">determinate</a> value
+     * depending on the implementation of the {@link Loader} loaded in step 2 above.</p>
      *
-     * <p><strong>Note:</strong> The implementation of this method may
-     * change without notice between any two versions of this
-     * specification.  The requirements described above, however, will
-     * be honored in any minor version of this specification within a
-     * given major version.</p>
+     * <p><strong>Note:</strong> The implementation of this method may change without notice between any two versions
+     * of this specification.  The requirements described above, however, will be honored in any minor version of this
+     * specification within a given major version.</p>
      *
-     * @param classLoader the {@link ClassLoader} used to {@linkplain
-     * ServiceLoader#load(Class, ClassLoader) locate service provider
-     * files}; may be {@code null} to indicate the system classloader
-     * (or bootstrap class loader) in accordance with the contract of
-     * the {@link ServiceLoader#load(Class, ClassLoader)} method;
-     * often is the return value of an invocation of {@link
-     * Thread#getContextClassLoader()
-     * Thread.currentThread().getContextClassLoader()}
+     * @param classLoader the {@link ClassLoader} used
+     *                    to {@linkplain ServiceLoader#load(Class, ClassLoader) locate service provider files};
+     *                    may be {@code null} to indicate the system classloader (or bootstrap class loader) in
+     *                    accordance with the contract of the {@link ServiceLoader#load(Class, ClassLoader)} method;
+     *                    often is the return value of an invocation of
+     *                    {@link Thread#getContextClassLoader() Thread.currentThread().getContextClassLoader()}
      *
      * @return a {@link Loader}; never {@code null}
      *
-     * @exception java.util.ServiceConfigurationError if bootstrapping
-     * failed because of a {@link ServiceLoader#load(Class,
-     * ClassLoader)} or {@link ServiceLoader#findFirst()} problem
-     *
-     * @exception ConfigException if bootstrapping failed because of a
-     * {@link Loader#load(Class)} problem
+     * @exception java.util.ServiceConfigurationError if bootstrapping failed because of a
+     * {@link ServiceLoader#load(Class, ClassLoader)} or {@link ServiceLoader#findFirst()} problem.
+     * @exception ConfigException if bootstrapping failed because of a {@link Loader#load(Class)} problem.
      */
-    public static Loader bootstrap(ClassLoader classLoader) {
+    static Loader bootstrap(ClassLoader classLoader) {
         Loader loader = ServiceLoader.load(Loader.class, classLoader)
             .findFirst()
             .orElseThrow(NoSuchObjectException::new);
@@ -268,5 +249,4 @@ public interface Loader {
             return loader;
         }
     }
-
 }

@@ -47,10 +47,10 @@ public @interface Configuration {
      *
      * <p>The configuration path uses the dot symbol as a separator.</p>
      *
-     * <p>For instance, if the <em>persistent configuration</em> contains
+     * <br>
+     * For instance, if the <em>persistent configuration</em> contains
      * <pre>  my.configuration.user=tester</pre>
      * the <em>configuration path</em> for the configuration portion {@code user=tester} would be {@code my.configuration}.
-     * </p>
      *
      * @return a {@link String} representation of a configuration path.
      */
