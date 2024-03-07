@@ -19,9 +19,9 @@
 
 package jakarta.config.tck.common;
 
-import jakarta.config.Configuration;
+import jakarta.config.ConfigMapping;
 
-@Configuration(path = "my.configuration")
+@ConfigMapping(path = "my.configuration")
 public interface AnyConfiguration {
     String key();
 }
