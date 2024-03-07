@@ -18,6 +18,7 @@
  */
 package jakarta.config;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
@@ -118,6 +119,25 @@ public interface Loader {
      * @see Configuration#path() Configuration#path
      */
     Loader path(String path);
+
+    /**
+     * Return the configuration properties of this {@link Loader} instance for the current <em>configuration path</em>.
+     * <p>
+     * The configuration properties are not guaranteed to be cached by the implementation, and may be expensive to
+     * compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
+     * rather than recomputing them.
+     * <p>
+     * It is implementation-defined whether the returned properties reflect a point-in-time "snapshot", or an
+     * aggregation of multiple point-in-time "snapshots", or a more dynamic view of the available configuration
+     * properties. There is no guarantee about the completeness or currency of the properties returned.
+     * <p>
+     * The resulting {@code Map}, must provide a <em>key=value</em> pair representation of the configuration properties,
+     * where each of the {@code Map key} starts with the current <em>configuration path</em> plus any other path
+     * segments separated by the dot symbol {code .}.
+     *
+     * @return a map containing the properties of this {@link Loader}
+     */
+    Map<String, String> properties();
 
     /**
      * {@linkplain #bootstrap(ClassLoader) Bootstraps} a {@link Loader} instance for subsequent usage using
