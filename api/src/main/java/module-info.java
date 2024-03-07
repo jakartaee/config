@@ -17,10 +17,12 @@
  * limitations under the License.
  */
 
+import jakarta.config.Config;
+
 /**
  * Jakarta Config API.
  */
 module jakarta.config.api {
     exports jakarta.config;
-    uses jakarta.config.Loader;
+    uses Config;
 }

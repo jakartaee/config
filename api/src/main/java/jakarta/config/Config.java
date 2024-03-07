@@ -32,9 +32,9 @@ import java.util.ServiceLoader;
  * file found on the classpath that follows a format that is recognized by the class {@link java.util.Properties}.</p>
  *
  * <p>In the following example the {@code MyConfigurationRelatedObject} is the <em>configuration interface</em> to be
- * <em>resolved</em>. An instance of the <em>configuration interface</em> is created by the {@link Loader}:</p>
+ * <em>resolved</em>. An instance of the <em>configuration interface</em> is created by the {@link Config}:</p>
  *
- * <blockquote><pre> {@linkplain Loader Loader} loader = {@linkplain Loader Loader}.{@linkplain Loader#bootstrap() bootstrap()};
+ * <blockquote><pre> {@linkplain Config Loader} loader = {@linkplain Config Loader}.{@linkplain Config#bootstrap() bootstrap()};
  *MyConfigurationRelatedObject object = null;
  *try {
  *  object = loader
@@ -52,121 +52,71 @@ import java.util.ServiceLoader;
  *     <li>safe for concurrent use by multiple threads</li>
  *     <li>must not return {@code null}.</li>
  * </ul>
- *
- * @see #bootstrap()
- *
- * @see #bootstrap(ClassLoader)
- *
- * @see #load(Class)
- *
- * @see #path(String)
- *
- * @see <a href="doc-files/terminology.html">Terminology</a>
  */
-public interface Loader {
-
+public interface Config {
     /**
-     * Loads a configuration-related object of the supplied {@code
-     * type} and returns it.
-     *
-     * <p><strong>Note:</strong> The rules governing how it is
-     * determined whether any given configuration-related object is
-     * "of the supplied {@code type}" are currently wholly
-     * undefined.</p>    
-     *
-     * <p>Implementations of this method may or may not return a <a
-     * href="doc-files/terminology.html#determinate">determinate</a>
-     * value.</p>
+     * Loads an object of the supplied {@code type} from the current {@link Config} <em>configuration path</em>.
      *
      * @param <T> the type of object to load
-     *
-     * @param type the type of object to load; must not be {@code
-     * null}
-     *
+     * @param type the type of object to load; must not be {@code null}
      * @return the loaded object; never {@code null}
-     *
      * @exception NoSuchElementException if the requested object is not found.
-     *
-     * @exception ConfigException if the invocation was sound but the
-     * object could not be loaded for any reason not related to <a
-     * href="doc-files/terminology.html#absent">absence</a>
-     *
-     * @exception IllegalArgumentException if the suplied {@code type}
-     * was invalid for any reason
-     *
-     * @exception NullPointerException if the supplied {@code type}
-     * was {@code null}
+     * @exception IllegalArgumentException if the supplied {@code type} was invalid for any reason
+     * @exception NullPointerException if the supplied {@code type} was {@code null}
      */
     <T> T load(Class<T> type);
 
     /**
-     * Return a new instance of a {@link Loader} with the <em>configuration path</em> set.
-     * <br>
-     * The <em>configuration path</em> identifies where the configuration relevant for the annotated configuration class is found
-     * in a given application's <em>persistent configuration</em>.
+     * Return a new instance of a {@link Config} with the <em>configuration path</em> set.
      *
-     * <p>The configuration path uses the dot symbol as a separator.</p>
+     * <p>The configuration path uses the dot symbol {@code .} as a separator.</p>
      *
      * <br>
-     * For instance, if the <em>persistent configuration</em> contains
+     * For instance, if the configuration contains
      * <pre>  my.configuration.user=tester</pre>
-     * the <em>configuration path</em> for the configuration portion {@code user=tester} would be {@code my.configuration}.
+     * the <em>configuration path</em> for the configuration name {@code user} is {@code my.configuration}.
      *
-     * @param path a configuration path.
-     * @return a new instance of the {@link Loader} class with a configured <em>path</em>.
-     *
-     * @see Configuration#path() Configuration#path
+     * @param path a configuration path
+     * @return a new instance of the {@link Config} class with a new <em>configuration path</em>
      */
-    Loader path(String path);
+    Config path(String path);
 
     /**
-     * {@linkplain #bootstrap(ClassLoader) Bootstraps} a {@link Loader} instance for subsequent usage using
+     * {@linkplain #bootstrap(ClassLoader) Bootstraps} a {@link Config} instance for subsequent usage using
      * the {@linkplain Thread#getContextClassLoader() context classloader}.
-     *
-     * <p>This method never returns {@code null}.</p>
      *
      * <p>This method is idempotent.</p>
      *
      * <p>This method is safe for concurrent use by multiple threads.</p>
      *
-     * <p>This method may or may not return a <a href="doc-files/terminology.html#determinate">determinate</a> value.
-     * See {@link #bootstrap(ClassLoader)} for details.</p>
-     *
      * <p>Except as possibly noted above, the observable behavior of this method is specified to be identical to that
      * of the {@link #bootstrap(ClassLoader)} method.</p>
      *
-     * @return a {@link Loader}; never {@code null}
+     * @return a {@link Config}; never {@code null}
      *
      * @exception java.util.ServiceConfigurationError if bootstrapping failed because of a
      * {@link ServiceLoader#load(Class, ClassLoader)} or {@link ServiceLoader#findFirst()} problem.
-     * @exception ConfigException if bootstrapping failed because of a {@link Loader#load(Class)} problem.
+     * @exception ConfigException if bootstrapping failed because of a {@link Config#load(Class)} problem.
      *
      * @see #bootstrap(ClassLoader)
      */
-    static Loader bootstrap() {
+    static Config bootstrap() {
         return bootstrap(Thread.currentThread().getContextClassLoader());
     }
 
     /**
-     * Bootstraps a {@link Loader} instance for subsequent usage.
+     * Bootstraps a {@link Config} instance for subsequent usage.
      * <br>
-     * A <em>primordial {@link Loader}</em> is located with observable effects equal to those resulting from
+     * A <em>primordial {@link Config}</em> is located with observable effects equal to those resulting from
      * executing the following code:
      *
      * <blockquote>
      * <pre>
-     *  {@linkplain Loader} loader = {@linkplain ServiceLoader}.{@linkplain ServiceLoader#load(Class, ClassLoader) load(Loader.class, classLoader)}
+     *  {@linkplain Config} loader = {@linkplain ServiceLoader}.{@linkplain ServiceLoader#load(Class, ClassLoader) load(Loader.class, classLoader)}
      *  .{@linkplain java.util.ServiceLoader#findFirst() findFirst()}
      *  .{@linkplain java.util.Optional#orElseThrow() orElseThrow}({@linkplain NoSuchElementException#NoSuchElementException() NoSuchElementException::new});
      * </pre>
      * </blockquote>
-     *
-     * <p>This method may or may not return a <a href="doc-files/terminology.html#determinate">determinate</a> value
-     * depending on the implementation of the {@link Loader} loaded in step 2 above.</p>
-     *
-     * <p><strong>Note:</strong> The implementation of this method may change without notice between any two versions
-     * of this specification.  The requirements described above, however, will be honored in any minor version of this
-     * specification within a given major version.</p>
      *
      * @param classLoader the {@link ClassLoader} used
      *                    to {@linkplain ServiceLoader#load(Class, ClassLoader) locate service provider files};
@@ -175,13 +125,13 @@ public interface Loader {
      *                    often is the return value of an invocation of
      *                    {@link Thread#getContextClassLoader() Thread.currentThread().getContextClassLoader()}
      *
-     * @return a {@link Loader}; never {@code null}
+     * @return a {@link Config}; never {@code null}
      *
      * @exception java.util.ServiceConfigurationError if bootstrapping failed because of a {@link ServiceLoader#load(Class, ClassLoader)} problem.
-     * @exception NoSuchElementException if a {@linkplain Loader} is not found.
+     * @exception NoSuchElementException if a {@linkplain Config} is not found.
      */
-    static Loader bootstrap(ClassLoader classLoader) {
-        return ServiceLoader.load(Loader.class, classLoader)
+    static Config bootstrap(ClassLoader classLoader) {
+        return ServiceLoader.load(Config.class, classLoader)
                             .findFirst()
                             .orElseThrow(NoSuchElementException::new);
     }

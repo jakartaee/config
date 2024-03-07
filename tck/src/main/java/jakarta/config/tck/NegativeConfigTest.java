@@ -20,18 +20,18 @@
 package jakarta.config.tck;
 
 import jakarta.config.ConfigException;
-import jakarta.config.Loader;
+import jakarta.config.Config;
 import jakarta.config.tck.common.AnyConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 
-public class NegativeLoaderTest {
+public class NegativeConfigTest {
     @Test
     public void testFailWhenNotAnnotatedInterface() {
         try {
-            Loader.bootstrap().path("my.configuration").load(NotAnnotatedConfiguration.class);
+            Config.bootstrap().path("my.configuration").load(NotAnnotatedConfiguration.class);
             Assertions.fail("Expected ConfigException has not been thrown when the interface does not contain @Configuration");
         } catch (ConfigException configException) {
             // pass
@@ -41,7 +41,7 @@ public class NegativeLoaderTest {
     @Test
     public void testFailWhenUnknowPath() {
         try {
-            Loader.bootstrap().path("my.config").load(AnyConfiguration.class);
+            Config.bootstrap().path("my.config").load(AnyConfiguration.class);
             Assertions.fail("Expected NoSuchObjectException has not been thrown when the configuration object not found");
         } catch (NoSuchElementException noSuchElementException) {
             // pass
