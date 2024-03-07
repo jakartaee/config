@@ -17,78 +17,23 @@
  * limitations under the License.
  */
 
-package jakarta.config.tck.tests;
+package jakarta.config.tck;
 
+import jakarta.config.Loader;
 import jakarta.config.tck.common.AnyConfiguration;
 import jakarta.config.tck.common.JakartaConfigValues;
 import jakarta.config.tck.common.My;
 import jakarta.config.tck.common.Other;
 import jakarta.config.tck.common.TopLevelConfig;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.se.SeContainer;
-import jakarta.enterprise.inject.se.SeContainerInitializer;
-import jakarta.enterprise.inject.spi.BeanManager;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class InjectionTest {
-    private static BeanManager beanManager;
-    protected static SeContainer container;
-
-    @BeforeAll
-    public static void setUp() {
-        SeContainerInitializer containerInitializer = SeContainerInitializer.newInstance();
-        container = containerInitializer.initialize();
-        beanManager = container.getBeanManager();
-    }
-
-    @AfterAll
-    public static void tearDown() throws Exception {
-        if (container != null && container.isRunning()) {
-            container.close();
-        }
-    }
-
-    @ApplicationScoped
-    public static class ConfigurationApplication {
-        @Inject
-        TopLevelConfig topLevelConfig;
-
-        @Inject
-        My my;
-
-        @Inject
-        Other other;
-
-        @Inject
-        AnyConfiguration anyConfiguration;
-
-        public TopLevelConfig getTopLevelConfig() {
-            return topLevelConfig;
-        }
-
-        public My getMy() {
-            return my;
-        }
-
-        public Other getOther() {
-            return other;
-        }
-
-        public AnyConfiguration getAnyConfiguration() {
-            return anyConfiguration;
-        }
-    }
-
+public class LoaderTest {
     @Test
     public void testTopLevelConfig() {
-        TopLevelConfig configuration = CDI.current().select(ConfigurationApplication.class).get().getTopLevelConfig();
+        TopLevelConfig configuration = Loader.bootstrap().load(TopLevelConfig.class);
         assertThat(configuration.my().username(), equalTo(JakartaConfigValues.myUserName));
         assertThat(configuration.my().password(), equalTo(JakartaConfigValues.myPassword));
         assertThat(configuration.my().configuration().key(), equalTo(JakartaConfigValues.myConfigurationKey));
@@ -97,7 +42,7 @@ public class InjectionTest {
 
     @Test
     public void testSecondLevelMyInterface() {
-        My configuration = CDI.current().select(ConfigurationApplication.class).get().getMy();
+        My configuration = Loader.bootstrap().load(My.class);
         assertThat(configuration.username(), equalTo(JakartaConfigValues.myUserName));
         assertThat(configuration.password(), equalTo(JakartaConfigValues.myPassword));
         assertThat(configuration.configuration().key(), equalTo(JakartaConfigValues.myConfigurationKey));
@@ -105,14 +50,25 @@ public class InjectionTest {
 
     @Test
     public void testSecondLevelOtherInterface() {
-        Other configuration = CDI.current().select(ConfigurationApplication.class).get().getOther();
+        Other configuration = Loader.bootstrap().load(Other.class);
         assertThat(configuration.configuration().key(), equalTo(JakartaConfigValues.otherConfigurationKey));
     }
 
     @Test
+    public void testOverridePathSecondLevelOtherInterface() {
+        Other configuration = Loader.bootstrap().path("my").load(Other.class);
+        assertThat(configuration.configuration().key(), equalTo(JakartaConfigValues.myConfigurationKey));
+    }
+
+    @Test
     public void testThirdLevelAnyConfigurationInterface() {
-        AnyConfiguration configuration = CDI.current().select(ConfigurationApplication.class).get().getAnyConfiguration();
+        AnyConfiguration configuration = Loader.bootstrap().load(AnyConfiguration.class);
         assertThat(configuration.key(), equalTo(JakartaConfigValues.myConfigurationKey));
     }
 
+    @Test
+    public void testOverridePathThirdLevelAnyConfigurationInterface() {
+        AnyConfiguration configuration = Loader.bootstrap().path("other.configuration").load(AnyConfiguration.class);
+        assertThat(configuration.key(), equalTo(JakartaConfigValues.otherConfigurationKey));
+    }
 }

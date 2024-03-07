@@ -33,10 +33,6 @@
     <description>Jakarta Config :: TCK</description>
     <version>1.0.0-SNAPSHOT</version>
 
-    <properties>
-        <version.cdi>4.0.1</version.cdi>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>jakarta.config</groupId>
@@ -46,22 +42,10 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${version.junit}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${version.junit}</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
-            <version>${version.hamcrest}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <version>${version.cdi}</version>
         </dependency>
     </dependencies>
 
