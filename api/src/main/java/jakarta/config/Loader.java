@@ -115,7 +115,7 @@ public interface Loader {
      * @param path a configuration path.
      * @return a new instance of the {@link Loader} class with a configured <em>path</em>.
      *
-     * @see Configuration#path() Configuration#path
+     * @see ConfigMapping#path() Configuration#path
      */
     Loader path(String path);
 
