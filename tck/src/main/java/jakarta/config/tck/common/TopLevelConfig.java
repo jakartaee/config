@@ -19,9 +19,9 @@
 
 package jakarta.config.tck.common;
 
-import jakarta.config.Configuration;
+import jakarta.config.ConfigMapping;
 
-@Configuration
+@ConfigMapping
 public interface TopLevelConfig {
     My my();
     Other other();

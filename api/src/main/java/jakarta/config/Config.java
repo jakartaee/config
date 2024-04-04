@@ -78,6 +78,8 @@ public interface Config {
      *
      * @param path a configuration path
      * @return a new instance of the {@link Config} class with a new <em>configuration path</em>
+     *
+     * @see ConfigMapping#path() Configuration#path
      */
     Config path(String path);
 

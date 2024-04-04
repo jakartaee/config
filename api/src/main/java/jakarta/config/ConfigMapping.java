@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Configuration {
+public @interface ConfigMapping {
 
     /**
      * The <em>configuration path</em> identifies where the configuration relevant for the annotated configuration class is found
