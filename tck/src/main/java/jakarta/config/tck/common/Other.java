@@ -21,7 +21,7 @@ package jakarta.config.tck.common;
 
 import jakarta.config.ConfigMapping;
 
-@ConfigMapping(path = "other")
+@ConfigMapping("other")
 public interface Other {
     AnyConfiguration configuration();
 }

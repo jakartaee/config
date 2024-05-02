@@ -69,19 +69,32 @@ public interface Config {
     /**
      * Return a new instance of a {@link Config} with the <em>configuration path</em> set.
      *
-     * <p>The configuration path uses the dot symbol {@code .} as a separator.</p>
+     * <p>The <em>configuration</em> path may contain one or more elements. A <em>configuration path</em> element
+     * only includes the single name of the {@link Config} child hierarchy.</p>
      *
      * <br>
-     * For instance, if the configuration contains
-     * <pre>  my.configuration.user=tester</pre>
-     * the <em>configuration path</em> for the configuration name {@code user} is {@code my.configuration}.
+     * For instance, if the configuration contains a <code>properties</code> file with:
+     * <pre>my.configuration.user=tester</pre>
+     * the <em>configuration path</em> for the configuration name <code>user</code> is <code>my</code> and
+     * <code>configuration</code>.
      *
-     * @param path a configuration path
-     * @return a new instance of the {@link Config} class with a new <em>configuration path</em>
-     *
-     * @see ConfigMapping#path() Configuration#path
+     * @param paths a <code>String</code> array of configuration paths
+     * @return a new instance of the {@link Config} class with the new <em>configuration path</em>
      */
-    Config path(String path);
+    Config path(String... paths);
+
+    /**
+     * Return a new instance of a {@link Config} with the <em>configuration path</em> set.
+     *
+     * <p>The <em>configuration path</em> is the single name of the {@link Config} child hierarchy.</p>
+     *
+     * @param path a <code>String</code> of a configuration path
+     * @return a new instance of the {@link Config} class with the new <em>configuration path</em>
+     * @see Config#path(String...)
+     */
+    default Config path(String path) {
+        return path(new String[] {path});
+    }
 
     /**
      * {@linkplain #bootstrap(ClassLoader) Bootstraps} a {@link Config} instance for subsequent usage using

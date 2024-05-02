@@ -21,7 +21,7 @@ package jakarta.config.tck.common;
 
 import jakarta.config.ConfigMapping;
 
-@ConfigMapping(path="my")
+@ConfigMapping("my")
 public interface My {
     String username();
     String password();

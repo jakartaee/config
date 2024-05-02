@@ -25,34 +25,95 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>This annotation is to mark an interface to contain configuration data.</p>
+ * Marks an interface type as capable of mapping a configuration hierarchy.
  *
- * <p>The <em>configuration interface</em> is <em>resolved</em> with a portion of application's
- * <em>persistent configuration</em> identified by <em>configuration path</em>.
+ * <p>Config Mapping allows mapping configuration entries to complex object types (usually user defined).
  *
- * <p>This configuration annotation is ignored on all nested objects.</p>
+ * <ul>
+ *     <li>A configuration path uniquely identifies object member</li>
+ *     <li>A configuration value maps to the object member value type</li>
+ * </ul>
  *
- * <p>The terms <em>configuration interface</em>, <em>configuration key</em>, <em>configuration path</em>,
- * <em>persistent configuration</em>, <em>resolve</em>, and others are used here as defined in
- * the Jakarta Config specification.</p>
+ * <p>A complex object type uses the following rules to map configuration values to their member values:</p>
+ *
+ * <ul>
+ *     <li>A configuration path is built by taking the object type path and the mapping member name</li>
+ *     <li>The member name is converted to its kebab-case format</li>
+ *     <li>If the member name is a getter, the member name is taken from its property name equivalent, and then converted to its kebab-case format</li>
+ *     <li>The configuration value is automatically converted to the member type</li>
+ *     <li>The configuration path is required to exist with a valid configuration value or the mapping will fail</li>
+ * </ul>
+ *
+ * <h2>Example</h2>
+ * <pre>
+ * &#064;ConfigMapping("server")
+ * interface Server {
+ *     String host();
+ *     int port();
+ *     int ioThreads();
+ *     List&lt;Endpoint&gt; endpoints();
+ *     Optional&lt;Ssl&gt; ssl();
+ *     Map&lt;String, String&gt; form();
+ *
+ *     interface Ssl {
+ *         int port();
+ *         String certificate();
+ *         List&lt;String&gt; protocols();
+ *     }
+ *
+ *     interface Endpoint {
+ *         String path();
+ *         List&lt;String&gt; methods();
+ *     }
+ * }
+ * </pre>
+ *
+ * <p>The {@link ConfigMapping} members will be populated with the configuration found in the configuration paths:</p>
+ *
+ * <ul>
+ *     <li><code>Server#host</code> in <code>server</code>, <code>host</code></li>
+ *     <li><code>Server#port</code> in <code>server</code>, <code>port</code></li>
+ *     <li><code>Server#ioThreads</code> in <code>server</code>, <code>io-threads</code></li>
+ *     <li>
+ *         <code>Server#endpoints()</code> in <code>server</code>, <code>endpoints</code>
+ *         <ul>
+ *             <li>Endpoint#path in <code>server</code>, <code>endpoints</code>, <code>path</code></li>
+ *             <li>Endpoint#methods in <code>server</code>, <code>endpoints</code>, <code>methods</code></li>
+ *         </ul>
+ *     </li>
+ *     <li>
+ *         <code>Server#ssl</code> in <code>server</code>, <code>ssl</code>
+ *         <ul>
+ *             <li>Ssl#port in <code>server</code>, <code>ssl</code>, <code>port</code></li>
+ *             <li>Ssl#certificate in <code>server</code>, <code>ssl</code>, <code>certificate</code></li>
+ *             <li>Ssl#protocols in <code>server</code>, <code>ssl</code>, <code>protocols</code></li>
+ *         </ul>
+ *     </li>
+ *     <li><code>Server#form</code> in <code>server</code>, <code>form</code></li>
+ * </ul>
+ *
+ * <h2>Usage</h2>
+ *
+ * <p>A {@link ConfigMapping} annotated interface must be retrieved with {@link Config#load(Class)}:</p>
+ *
+ * <pre>
+ *     Config config = Config.bootstrap();
+ *     Server server = config.load(Server.class);
+ * </pre>
+ *
+ * @see Config#load(Class)
+ * @see ConfigName
+ * @see ConfigDefault
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ConfigMapping {
-
     /**
-     * The <em>configuration path</em> identifies where the configuration relevant for the annotated configuration class is found
-     * in a given application's <em>persistent configuration</em>.
+     * The <em>configuration</em> path may contain one or more elements. A <em>configuration path</em> element
+     * only includes the single name of the {@link Config} child hierarchy.
      *
-     * <p>The configuration path uses the dot symbol as a separator.</p>
-     *
-     * <br>
-     * For instance, if the <em>persistent configuration</em> contains
-     * <pre>  my.configuration.user=tester</pre>
-     * the <em>configuration path</em> for the configuration portion {@code user=tester} would be {@code my.configuration}.
-     *
-     * @return a {@link String} representation of a configuration path.
+     * @return a <code>String</code> array of configuration paths
      */
-    String path() default "";
+    String[] value() default {};
 }
