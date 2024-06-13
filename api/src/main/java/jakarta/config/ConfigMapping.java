@@ -55,4 +55,34 @@ public @interface ConfigMapping {
      * @return a {@link String} representation of a configuration path.
      */
     String path() default "";
+
+    /**
+     * Override the configuration member name.
+     */
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.METHOD })
+    @interface Name {
+        /**
+         * The name of the configuration member name. Must not be empty.
+         *
+         * @return the configuration member name
+         */
+        String value();
+    }
+
+    /**
+     * Specify the default value of a configuration member.
+     */
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.METHOD })
+    @interface Default {
+        /**
+         * The default value of the member.
+         *
+         * @return the default value as a string
+         */
+        String value();
+    }
 }
