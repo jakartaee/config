@@ -31,7 +31,7 @@ public class NegativeConfigTest {
     @Test
     public void testFailWhenNotAnnotatedInterface() {
         try {
-            Config.bootstrap().path("my.configuration").load(NotAnnotatedConfiguration.class);
+            Config.bootstrap().path("my", "configuration").load(NotAnnotatedConfiguration.class);
             Assertions.fail("Expected ConfigException has not been thrown when the interface does not contain @Configuration");
         } catch (ConfigException configException) {
             // pass
@@ -41,7 +41,7 @@ public class NegativeConfigTest {
     @Test
     public void testFailWhenUnknowPath() {
         try {
-            Config.bootstrap().path("my.config").load(AnyConfiguration.class);
+            Config.bootstrap().path("my", "config").load(AnyConfiguration.class);
             Assertions.fail("Expected NoSuchObjectException has not been thrown when the configuration object not found");
         } catch (NoSuchElementException noSuchElementException) {
             // pass

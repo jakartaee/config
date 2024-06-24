@@ -68,7 +68,7 @@ public class ConfigTest {
 
     @Test
     public void testOverridePathThirdLevelAnyConfigurationInterface() {
-        AnyConfiguration configuration = Config.bootstrap().path("other.configuration").load(AnyConfiguration.class);
+        AnyConfiguration configuration = Config.bootstrap().path("other", "configuration").load(AnyConfiguration.class);
         assertThat(configuration.key(), equalTo(JakartaConfigValues.otherConfigurationKey));
     }
 }
