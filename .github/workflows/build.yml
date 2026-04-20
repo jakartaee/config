@@ -32,7 +32,7 @@ jobs:
         name: build with jdk ${{matrix.java}}
 
         steps:
-            -   uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+            -   uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
                 name: checkout
                 with:
                     ref: ${{ github.event.pull_request.merge_commit_sha }}
